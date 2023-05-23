@@ -1,4 +1,3 @@
-move repos to github
 Auditable
 SoftDeletable
 Migrations
