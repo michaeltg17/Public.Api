@@ -1,9 +1,0 @@
-Auditable
-SoftDeletable
-Migrations
-Logging: Dapper logging vs profiler
-Pagination + typical grid
-Extensions
-Git branches
-Swagger + controllers docs
-CQRS sql server, azure tables
