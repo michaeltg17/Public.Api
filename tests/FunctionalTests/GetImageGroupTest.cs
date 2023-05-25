@@ -23,7 +23,7 @@ namespace FunctionalTests
             request.AddParameter("id", group!.Id);
             group = await client.GetAsync<ImageGroup>(request);
 
-            //Then2
+            //Then
             var image = group!.Images.First();
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
 
