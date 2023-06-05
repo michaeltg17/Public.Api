@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCutting", "src\CrossCu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Logging", "src\Dapper.Logging\Dapper.Logging.csproj", "{D4D4E481-687F-40B7-BD6D-7827E8410C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.AzureTables", "src\Persistence.AzureTables\Persistence.AzureTables.csproj", "{92BBD2DE-FE1E-4B01-A156-5E638C1837FD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,10 +81,6 @@ Global
 		{D4D4E481-687F-40B7-BD6D-7827E8410C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4D4E481-687F-40B7-BD6D-7827E8410C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4D4E481-687F-40B7-BD6D-7827E8410C90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92BBD2DE-FE1E-4B01-A156-5E638C1837FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92BBD2DE-FE1E-4B01-A156-5E638C1837FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92BBD2DE-FE1E-4B01-A156-5E638C1837FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92BBD2DE-FE1E-4B01-A156-5E638C1837FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,7 +95,6 @@ Global
 		{EE2D1B90-6E56-453F-881A-9AB4B6666846} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
 		{4A133811-13E4-4889-A99E-02B0E92FC1F2} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
 		{D4D4E481-687F-40B7-BD6D-7827E8410C90} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
-		{92BBD2DE-FE1E-4B01-A156-5E638C1837FD} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36654296-38F7-46E8-87D6-C9A3BFFE12A8}
