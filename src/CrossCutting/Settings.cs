@@ -15,8 +15,5 @@ namespace Application
 
         [Required]
         public string SqlServerConnectionString { get; set; } = default!;
-
-        [Required]
-        public string SqlServerDapperConnectionString { get; set; } = default!;
     }
 }
