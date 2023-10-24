@@ -1,17 +1,18 @@
 ﻿using Application;
 using Domain.Models;
+using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistance.EntityFrameworkCore
 {
-    public class DbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<Image> Images => Set<Image>();
         public DbSet<ImageGroup> ImageGroups => Set<ImageGroup>();
 
         readonly ISettings settings;
 
-        public DbContext(ISettings settings)
+        public AppDbContext(ISettings settings)
         {
             this.settings = settings;
         }
@@ -25,5 +26,7 @@ namespace Persistance.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
         }
+
+        public Task<T> Get<T>(IQuery<T> query) => query.Execute(Database.GetDbConnection());
     }
 }

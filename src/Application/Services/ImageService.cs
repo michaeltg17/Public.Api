@@ -4,58 +4,45 @@ using System.IO;
 using System.Collections.Generic;
 using System;
 using Persistence.Queries;
-using Persistence;
 using Michael.Net.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Persistance.EntityFrameworkCore;
 
 namespace Application.Services
 {
     public class ImageService : IImageService
     {
-        readonly IUnitOfWork unitOfWork;
+        readonly AppDbContext dbContext;
         readonly IObjectStorage objectStorage;
-        readonly IRepository repository;
 
-        public ImageService(
-            IUnitOfWork unitOfWork,
-            IObjectStorage objectStorage,
-            IRepository repository)
+        public ImageService(IObjectStorage objectStorage, AppDbContext appDbContext)
         {
-            this.unitOfWork = unitOfWork;
+            this.dbContext = appDbContext;
             this.objectStorage = objectStorage;
-            this.repository = repository;
         }
 
         public async Task<Image> GetImage(int id)
         {
-            return await repository.GetOrThrow<Image>(id);
+            return await dbContext.Images.SingleAsync(x => x.Id == id);
         }
 
         public async Task<ImageGroup> GetImageGroup(int id)
         {
-            return await repository.Get(new GetImageGroupWithImagesQuery(id));
+            return await dbContext.Get(new GetImageGroupWithImagesQuery(id));
         }
 
         public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> openReadStream)
         {
-            using var transaction = await unitOfWork.BeginTransaction();
-
             var images = await SaveImageWithMultipleResolutions(fullFileName, openReadStream);
 
             var imageGroup = new ImageGroup()
             {
                 Name = Path.GetFileNameWithoutExtension(fullFileName),
-                Images = new List<Image>()
+                Images = images
             };
-            await repository.Insert(imageGroup);
+            await dbContext.AddAsync(imageGroup);
 
-            foreach (var image in images)
-            {
-                image.ImageGroupId = imageGroup.Id;
-                await repository.Insert(image);
-                imageGroup.Images.Add(image);
-            }
-
-            transaction.Complete();
+            await dbContext.SaveChangesAsync();
 
             return imageGroup;
         }

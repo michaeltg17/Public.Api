@@ -1,5 +1,4 @@
-﻿using Michael.Net.Persistance;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Persistance.EntityFrameworkCore
 {
@@ -8,8 +7,6 @@ namespace Persistance.EntityFrameworkCore
         public static IServiceCollection AddPersistanceEntityFrameworkCoreDependencies(this IServiceCollection services)
         {
             services.AddDbContext<DbContext>();
-            services.AddScoped<IRepository, Repository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

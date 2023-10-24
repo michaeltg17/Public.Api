@@ -6,8 +6,8 @@ namespace Domain.Models
     {
         public string Url { get; set; } = default!;
         public long ImageResolutionId {get; set;}
-        [Write(false)] public ImageResolution ImageResolution { get; set; } = default!;
+        public ImageResolution ImageResolution { get; set; } = default!;
         public long ImageGroupId { get; set; }
-        [Write(false)] public ImageGroup ImageGroup { get; set; } = default!;
+        public ImageGroup ImageGroup { get; set; } = default!;
     }
 }
