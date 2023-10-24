@@ -1,6 +1,4 @@
-﻿using Dapper.Contrib.Extensions;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public class Image : Entity
     {

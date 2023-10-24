@@ -3,6 +3,6 @@
     public class ImageGroup : Entity
     {
         public string Name { get; set; } = default!;
-        public List<Image> Images { get; set; } = default!;
+        public IEnumerable<Image> Images { get; set; } = default!;
     }
 }

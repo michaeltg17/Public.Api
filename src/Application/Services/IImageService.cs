@@ -10,6 +10,6 @@ namespace Application.Services
         Task<Image> GetImage(int id);
         Task<ImageGroup> GetImageGroup(int id);
         Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> openReadStream);
-        Task DeleteImageGroup(int id);
+        void DeleteImageGroup(int id);
     }
 }

@@ -33,9 +33,9 @@ namespace ImageSharingPlatform.Controllers
         }
 
         [HttpPost("DeleteImageGroup")]
-        public async Task DeleteImageGroup(int id)
+        public void DeleteImageGroup(int id)
         {
-            await imageService.DeleteImageGroup(id);
+            imageService.DeleteImageGroup(id);
         }
     }
 }

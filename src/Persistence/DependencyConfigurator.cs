@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Persistance.EntityFrameworkCore
+namespace Persistence
 {
     public static class DependencyConfigurator
     {
-        public static IServiceCollection AddPersistanceEntityFrameworkCoreDependencies(this IServiceCollection services)
+        public static IServiceCollection AddPersistanceDependencies(this IServiceCollection services)
         {
-            services.AddDbContext<DbContext>();
+            services.AddDbContext<AppDbContext>();
 
             return services;
         }

@@ -24,7 +24,7 @@ namespace Api
         static void AddApplicationDependencies(IServiceCollection services)
         {
             services.AddApplicationDependencies();
-            services.AddPersistenceDependencies();
+            services.AddPersistanceDependencies();
         }
 
         static void AddMainDependencies(IServiceCollection services)

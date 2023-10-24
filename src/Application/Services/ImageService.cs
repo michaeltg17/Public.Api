@@ -6,7 +6,8 @@ using System;
 using Persistence.Queries;
 using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Persistance.EntityFrameworkCore;
+using Persistence;
+using System.Linq;
 
 namespace Application.Services
 {
@@ -41,7 +42,6 @@ namespace Application.Services
                 Images = images
             };
             await dbContext.AddAsync(imageGroup);
-
             await dbContext.SaveChangesAsync();
 
             return imageGroup;
@@ -62,12 +62,10 @@ namespace Application.Services
 
         async Task<IEnumerable<Image>> SaveImageWithMultipleResolutions(string fullFileName, Func<Stream> openReadStream)
         {
-            var resolutions = await repository.Get<ImageResolution>();
-
             var tasks = new List<Task<Image>>();
             using (var stream = openReadStream())
             {
-                foreach (var resolution in resolutions)
+                foreach (var resolution in dbContext.ImageResolutions)
                 {
                     var memoryStream = new MemoryStream();
                     stream.CopyTo(memoryStream);
@@ -86,9 +84,9 @@ namespace Application.Services
             return $"{Guid.NewGuid()}{extension}";
         }
 
-        public async Task DeleteImageGroup(int id)
+        public void DeleteImageGroup(int id)
         {
-            await repository.Delete<ImageGroup>(id);
+            dbContext.Remove<ImageGroup>(id);
         }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using Application;
 using Domain.Models;
+using Michael.Net.Domain;
 using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistance.EntityFrameworkCore
+namespace Persistence
 {
     public class AppDbContext : DbContext
     {
         public DbSet<Image> Images => Set<Image>();
         public DbSet<ImageGroup> ImageGroups => Set<ImageGroup>();
+        public DbSet<ImageResolution> ImageResolutions => Set<ImageResolution>();
 
         readonly ISettings settings;
 
@@ -28,5 +30,11 @@ namespace Persistance.EntityFrameworkCore
         }
 
         public Task<T> Get<T>(IQuery<T> query) => query.Execute(Database.GetDbConnection());
+
+        public void Remove<T>(int id) where T : class, IEntity, new()
+        {
+            var entity = new T() { Id = id };
+            Remove(entity);
+        }
     }
 }
