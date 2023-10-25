@@ -1,6 +1,7 @@
 ﻿using Application;
 using Domain.Models;
 using Michael.Net.Domain;
+using Michael.Net.Persistance.EntityFrameworkCore.Interceptors;
 using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,9 @@ namespace Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(settings.SqlServerConnectionString);
+            optionsBuilder
+                .UseSqlServer(settings.SqlServerConnectionString)
+                .AddInterceptors(new SetAuditInfoSaveChangesInterceptor());
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
