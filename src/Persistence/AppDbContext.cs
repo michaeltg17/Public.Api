@@ -4,14 +4,16 @@ using Michael.Net.Domain;
 using Michael.Net.Persistance.EntityFrameworkCore.Interceptors;
 using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Models;
 
 namespace Persistence
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Image> Images => Set<Image>();
-        public DbSet<ImageGroup> ImageGroups => Set<ImageGroup>();
-        public DbSet<ImageResolution> ImageResolutions => Set<ImageResolution>();
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<ImageGroup> ImageGroups { get; set; }
+        public virtual DbSet<ImageResolution> ImageResolutions { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         readonly ISettings settings;
 
@@ -29,6 +31,7 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
             base.OnModelCreating(builder);
         }
 

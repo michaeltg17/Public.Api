@@ -4,6 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<UserSecretsId>b26c8021-d708-4165-8556-9cd63335d556</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,12 +14,18 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Michael.Net\src\Michael.Net\Michael.Net.csproj" />
 		<ProjectReference Include="..\CrossCutting\CrossCutting.csproj" />
 		<ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Dacpac\" />
+	  <Folder Include="Scaffold\" />
 	</ItemGroup>
 
 </Project>
