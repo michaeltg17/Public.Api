@@ -6,6 +6,6 @@
         public long ImageResolutionId {get; set;}
         public ImageResolution ImageResolution { get; set; } = default!;
         public long ImageGroupId { get; set; }
-        public ImageGroup ImageGroup { get; set; } = default!;
+        public virtual ImageGroup ImageGroup { get; set; } = default!;
     }
 }

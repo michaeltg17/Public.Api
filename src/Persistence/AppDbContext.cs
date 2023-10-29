@@ -4,7 +4,6 @@ using Michael.Net.Domain;
 using Michael.Net.Persistance.EntityFrameworkCore.Interceptors;
 using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Models;
 
 namespace Persistence
 {
@@ -13,7 +12,7 @@ namespace Persistence
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ImageGroup> ImageGroups { get; set; }
         public virtual DbSet<ImageResolution> ImageResolutions { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         readonly ISettings settings;
 
