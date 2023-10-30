@@ -2,7 +2,7 @@
 
 namespace Domain.Models
 {
-    public abstract class Entity : IEntity, IAudited
+    public abstract class Entity : IIdentifiable, IGloballyIdentifiable, IAudited
     {
         public long Id { get; set; }
         public Guid Guid { get; set; }
