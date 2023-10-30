@@ -51,7 +51,7 @@ namespace Application.Services
         {
             var image = new Image
             {
-                ImageResolutionId = resolution.Id,
+                Resolution = resolution.Id,
                 Url = await objectStorage.Upload(fullFileName, stream)
             };
 

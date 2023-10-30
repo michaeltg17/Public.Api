@@ -8,7 +8,6 @@ namespace Persistence.Scaffold.Configurations
         public override void Configure(EntityTypeBuilder<ImageResolution> entity)
         {
             base.Configure(entity);
-            entity.Property(e => e.Name).HasMaxLength(25);
         }
     }
 }
