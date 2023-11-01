@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Michael.Net.Tests", "..\Mic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCutting", "src\CrossCutting\CrossCutting.csproj", "{4A133811-13E4-4889-A99E-02B0E92FC1F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests2", "tests\FunctionalTests2\FunctionalTests2.csproj", "{1E1D240F-F745-4043-AF88-7EB1086A745C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{4A133811-13E4-4889-A99E-02B0E92FC1F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A133811-13E4-4889-A99E-02B0E92FC1F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A133811-13E4-4889-A99E-02B0E92FC1F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E1D240F-F745-4043-AF88-7EB1086A745C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E1D240F-F745-4043-AF88-7EB1086A745C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E1D240F-F745-4043-AF88-7EB1086A745C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E1D240F-F745-4043-AF88-7EB1086A745C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{0F6362F3-FF1D-4547-B959-8FC428F4CE5E} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
 		{5BD3E243-37D7-4F7C-88B5-15C6F451D223} = {533CD522-D13C-4E30-8F02-6178C46C46EC}
 		{4A133811-13E4-4889-A99E-02B0E92FC1F2} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
+		{1E1D240F-F745-4043-AF88-7EB1086A745C} = {533CD522-D13C-4E30-8F02-6178C46C46EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36654296-38F7-46E8-87D6-C9A3BFFE12A8}
