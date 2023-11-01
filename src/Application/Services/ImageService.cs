@@ -16,9 +16,9 @@ namespace Application.Services
         readonly AppDbContext dbContext;
         readonly IObjectStorage objectStorage;
 
-        public ImageService(IObjectStorage objectStorage, AppDbContext appDbContext)
+        public ImageService(IObjectStorage objectStorage, AppDbContext dbContext)
         {
-            this.dbContext = appDbContext;
+            this.dbContext = dbContext;
             this.objectStorage = objectStorage;
         }
 

@@ -8,9 +8,7 @@ namespace Persistence.Scaffold.Configurations
     {
         public virtual void Configure(EntityTypeBuilder<T> entity)
         {
-            //entity.Property(e => e.Guid).HasDefaultValueSql("newid()");
-            //entity.Property(e => e.CreatedOn).HasPrecision(0);
-            //entity.Property(e => e.ModifiedOn).HasPrecision(0);
+            entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
         }
     }
 }

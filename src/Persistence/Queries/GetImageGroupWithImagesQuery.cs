@@ -7,24 +7,24 @@ namespace Persistence.Queries
 {
     public class GetImageGroupWithImagesQuery : IQuery<ImageGroup>
     {
-        readonly long imageGroupId;
+        readonly long id;
 
-        public GetImageGroupWithImagesQuery(long imageGroupId)
+        public GetImageGroupWithImagesQuery(long id)
         {
-            this.imageGroupId = imageGroupId;
+            this.id = id;
         }
 
         public async Task<ImageGroup> Execute(IDbConnection connection)
         {
             var sql =
                 @$"
-                    SELECT * FROM Images WHERE ImageGroupId = @{nameof(imageGroupId)};
-                    SELECT * FROM ImageGroups WHERE Id = @{nameof(imageGroupId)};
+                    SELECT * FROM Images WHERE [Group] = @{nameof(id)};
+                    SELECT * FROM ImageGroups WHERE Id = @{nameof(id)};
                 ";
 
             var grids = await connection.QueryMultipleAsync(
                 sql,
-                new { imageGroupId });
+                new { id });
 
             var images = grids.Read<Image>();
             var imageGroup = grids.ReadSingle<ImageGroup>();
