@@ -2,10 +2,10 @@ using Application;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 using Persistence;
+using Serilog;
 
 namespace Api
 {
@@ -14,6 +14,7 @@ namespace Api
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            AddSerilog(builder);
             AddMainDependencies(builder.Services);
             AddApplicationDependencies(builder.Services);
 
@@ -25,6 +26,20 @@ namespace Api
         {
             services.AddApplicationDependencies();
             services.AddPersistanceDependencies();
+        }
+
+        static void AddSerilog(WebApplicationBuilder builder)
+        {
+            builder.Host.UseSerilog(ApplySerilogConfiguration);
+        }
+
+        public static void ApplySerilogConfiguration(HostBuilderContext context, IServiceProvider services, LoggerConfiguration configuration)
+        {
+            configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext()
+                .WriteTo.Console();
         }
 
         static void AddMainDependencies(IServiceCollection services)
@@ -49,15 +64,6 @@ namespace Api
                 .GetRequiredService<IServer>()
                 .Features
                 .GetRequiredFeature<IServerAddressesFeature>());
-
-            services.AddHttpLogging(logging =>
-            {
-                logging.LoggingFields = 
-                    HttpLoggingFields.RequestPath
-                    | HttpLoggingFields.RequestMethod
-                    | HttpLoggingFields.RequestBody
-                    | HttpLoggingFields.ResponseStatusCode;
-            });
         }
 
         static void ConfigureAndRunApp(WebApplication app)
@@ -72,7 +78,6 @@ namespace Api
             app.UseAuthorization();
             app.UseCors("AllowOrigin");
             app.MapControllers();
-            app.UseHttpLogging();
 
             var settings = app.Services.GetRequiredService<ISettings>();
             app.UseStaticFiles(new StaticFileOptions

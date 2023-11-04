@@ -1,14 +1,16 @@
 ﻿using Api;
 using Domain.Models;
 using FluentAssertions;
+using FunctionalTests2;
 using Michael.Net.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net.Http;
 using System.Net.Http.Json;
 using Xunit;
 
 namespace FunctionalTests
 {
-    public class SaveImageTest : IClassFixture<WebApplicationFactory<Program>>
+    public class SaveImageTest : CustomWebApplicationFactory
     {
         readonly WebApplicationFactory<Program> factory;
 
@@ -23,10 +25,12 @@ namespace FunctionalTests
             // Given
             var client = factory.CreateClient();
             const string imagePath = @"Images\didi.jpeg";
-            var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+            var multipartContent = new MultipartFormDataContent();
+            var byteArrayContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+            multipartContent.Add(byteArrayContent, "file", Path.GetFileName(imagePath));
 
             // When
-            var response = await (await client.PostAsync("SaveImageGroup", fileContent)).FromJson<ImageGroup>();
+            var response = await (await client.PostAsync("SaveImageGroup", multipartContent)).FromJson<ImageGroup>();
 
             // Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
