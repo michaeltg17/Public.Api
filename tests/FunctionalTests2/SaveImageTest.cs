@@ -1,6 +1,7 @@
 ﻿using Api;
 using Domain.Models;
 using FluentAssertions;
+using Michael.Net.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 using Xunit;
@@ -25,12 +26,16 @@ namespace FunctionalTests
             var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
 
             // When
-            var response = await client.PostAsync("SaveImageGroup", fileContent);
+            var response = await (await client.PostAsync("SaveImageGroup", fileContent)).FromJson<ImageGroup>();
 
             // Then
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            //Assert.Equal("text/html; charset=utf-8",
-            //    response.Content.Headers.ContentType.ToString());
+            var uploadedImageBytes = File.ReadAllBytes(imagePath);
+            var image = response!.Images.First();
+
+            using var httpClient = new HttpClient();
+            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image.Url);
+
+            uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }
 
         [Fact]

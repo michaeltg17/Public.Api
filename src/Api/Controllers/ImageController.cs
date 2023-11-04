@@ -20,6 +20,7 @@ namespace ImageSharingPlatform.Controllers
             return await imageService.GetImage(id);
         }
 
+
         [HttpGet("GetImageGroup")]
         public async Task<ImageGroup> GetImageGroup(int id)
         {

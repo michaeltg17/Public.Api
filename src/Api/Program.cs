@@ -13,7 +13,7 @@ namespace Api
     {
         static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder();
+            var builder = WebApplication.CreateBuilder(args);
             AddMainDependencies(builder.Services);
             AddApplicationDependencies(builder.Services);
 
