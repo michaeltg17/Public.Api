@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http;
 using System.Net.Http.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace FunctionalTests
 {
-    public class SaveImageTest : CustomWebApplicationFactory
+    public class SaveImageTest
     {
         readonly WebApplicationFactory<Program> factory;
 
-        public SaveImageTest(WebApplicationFactory<Program> factory)
+        public SaveImageTest(ITestOutputHelper testOutputHelper)
         {
-            this.factory = factory;
+            factory = new CustomWebApplicationFactory(testOutputHelper);
         }
 
         [Fact]

@@ -9,7 +9,7 @@ using Serilog;
 
 namespace Api
 {
-    public partial class Program
+    public class Program
     {
         static void Main(string[] args)
         {

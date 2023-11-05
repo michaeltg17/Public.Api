@@ -2,18 +2,28 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Xunit.Abstractions;
 
 namespace FunctionalTests2
 {
-    public class CustomWebApplicationFactory : WebApplicationFactory<Program>
+    class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
-        protected override IHostBuilder CreateHostBuilder()
+        readonly ITestOutputHelper testOutputHelper;
+
+        public CustomWebApplicationFactory(ITestOutputHelper testOutputHelper)
         {
-            return base.CreateHostBuilder().UseSerilog((context, services, configuration) =>
+            this.testOutputHelper = testOutputHelper;
+        }
+
+        protected override IHost CreateHost(IHostBuilder builder)
+        {
+            builder.UseSerilog((context, services, configuration) =>
             {
                 Program.ApplySerilogConfiguration(context, services, configuration);
-                return configuration.WriteTo.TestOutput(output);
+                configuration.WriteTo.TestOutput(testOutputHelper);
             });
+
+            return base.CreateHost(builder);
         }
     }
 }
