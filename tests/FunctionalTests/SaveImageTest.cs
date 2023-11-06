@@ -5,7 +5,7 @@ using Xunit;
 
 namespace FunctionalTests
 {
-    public class SaveImageTest
+    public class SaveImageTest : ApiTest
     {
         [Fact]
         public async Task GivenImage_WhenSave_IsSaved()
@@ -13,7 +13,7 @@ namespace FunctionalTests
             //Given
             const string imagePath = @"Images\didi.jpeg";
             var client = new RestClient();
-            var request = new RestRequest("https://localhost:7080/SaveImageGroup");
+            var request = new RestRequest(Routes.SaveImageGroup);
             request.AddFile("file", imagePath);
 
             //When

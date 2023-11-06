@@ -5,7 +5,7 @@ using Xunit;
 
 namespace FunctionalTests
 {
-    public class GetImageGroupTest
+    public class GetImageGroupTest : ApiTest
     {
         [Fact]
         public async Task GivenImage_WhenSaveAndGetImageGroup_IsGot()
@@ -14,12 +14,12 @@ namespace FunctionalTests
             const string imagePath = @"Images\didi.jpeg";
 
             var client = new RestClient();
-            var request = new RestRequest("https://localhost:7080/SaveImageGroup");
+            var request = new RestRequest(Routes.SaveImageGroup);
             request.AddFile("file", imagePath);
             var group = await client.PostAsync<ImageGroup>(request);
 
             //When
-            request = new RestRequest("https://localhost:7080/GetImageGroup");
+            request = new RestRequest(Routes.GetImageGroup);
             request.AddParameter("id", group!.Id);
             group = await client.GetAsync<ImageGroup>(request);
 
