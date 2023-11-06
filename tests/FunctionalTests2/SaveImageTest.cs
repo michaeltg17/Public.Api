@@ -11,13 +11,15 @@ using Xunit.Abstractions;
 
 namespace FunctionalTests
 {
+    [Collection("ApiCollection")]
     public class SaveImageTest
     {
         readonly WebApplicationFactory<Program> factory;
 
-        public SaveImageTest(ITestOutputHelper testOutputHelper)
+        public SaveImageTest(ITestOutputHelper testOutputHelper, CustomWebApplicationFactory factory)
         {
-            factory = new CustomWebApplicationFactory(testOutputHelper);
+            factory.TestOutputHelperProvider.Set(testOutputHelper);
+            this.factory = factory;
         }
 
         [Fact]

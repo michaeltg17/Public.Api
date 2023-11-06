@@ -2,17 +2,17 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Xunit.Abstractions;
+using Xunit;
 
 namespace FunctionalTests2
 {
-    class CustomWebApplicationFactory : WebApplicationFactory<Program>
+    public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        readonly ITestOutputHelper testOutputHelper;
+        public readonly TestOutputHelperProvider TestOutputHelperProvider = new();
 
-        public CustomWebApplicationFactory(ITestOutputHelper testOutputHelper)
+        public Task InitializeAsync()
         {
-            this.testOutputHelper = testOutputHelper;
+            return Task.CompletedTask;
         }
 
         protected override IHost CreateHost(IHostBuilder builder)
@@ -20,10 +20,15 @@ namespace FunctionalTests2
             builder.UseSerilog((context, services, configuration) =>
             {
                 Program.ApplySerilogConfiguration(context, services, configuration);
-                configuration.WriteTo.TestOutput(testOutputHelper);
+                configuration.WriteTo.TestOutput(TestOutputHelperProvider.Get());
             });
 
             return base.CreateHost(builder);
+        }
+
+        public Task DisposeAsync()
+        {
+            return base.DisposeAsync().AsTask();
         }
     }
 }
