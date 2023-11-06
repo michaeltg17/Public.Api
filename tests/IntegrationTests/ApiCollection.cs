@@ -1,7 +1,6 @@
-﻿using FunctionalTests2;
-using Xunit;
+﻿using Xunit;
 
-namespace Serilog.Sinks.XUnit.Injectable.Tests.Integration;
+namespace IntegrationTests;
 
 /// <summary>
 /// This class has no code, and is never created. Its purpose is simply
@@ -9,6 +8,6 @@ namespace Serilog.Sinks.XUnit.Injectable.Tests.Integration;
 /// ICollectionFixture interfaces.
 /// </summary>
 [CollectionDefinition("ApiCollection")]
-public class ApiCollection : ICollectionFixture<CustomWebApplicationFactory>
+public class ApiCollection : ICollectionFixture<WebApplicationFactoryFixture>
 {
 }

@@ -1,28 +1,26 @@
 ﻿using Api;
 using Domain.Models;
 using FluentAssertions;
-using FunctionalTests2;
 using Michael.Net.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net.Http;
 using System.Net.Http.Json;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace FunctionalTests
+namespace IntegrationTests
 {
     [Collection("ApiCollection")]
     public class SaveImageTest
     {
         readonly WebApplicationFactory<Program> factory;
 
-        public SaveImageTest(ITestOutputHelper testOutputHelper, CustomWebApplicationFactory factory)
+        public SaveImageTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory)
         {
-            factory.TestOutputHelperProvider.Set(testOutputHelper);
+            factory.TestOutputHelper = testOutputHelper;
             this.factory = factory;
         }
 
-        [Fact]
+        [Fact(Skip = "Needs mock in IObjectStorage")]
         public async Task GivenImage_WhenSave_IsSaved()
         {
             // Given
@@ -57,27 +55,5 @@ namespace FunctionalTests
             // Then
             image.Should().NotBeNull();
         }
-
-        //[Fact]
-        //public async Task GivenImage_WhenSave_IsSaved()
-        //{
-        //    //Given
-        //    const string imagePath = @"Images\didi.jpeg";
-        //    var client = new RestClient();
-        //    var request = new RestRequest("https://localhost:7080/SaveImageGroup");
-        //    request.AddFile("file", imagePath);
-
-        //    //When
-        //    var response = await client.PostAsync<ImageGroup>(request);
-
-        //    //Then
-        //    var uploadedImageBytes = File.ReadAllBytes(imagePath);
-        //    var image = response!.Images.First();
-
-        //    using var httpClient = new HttpClient();
-        //    var downloadedImageBytes = await httpClient.GetByteArrayAsync(image.Url);
-
-        //    uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
-        //}
     }
 }

@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Xunit;
+using Xunit.Abstractions;
 
-namespace FunctionalTests2
+namespace IntegrationTests
 {
-    public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
+    public class WebApplicationFactoryFixture : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        public readonly TestOutputHelperProvider TestOutputHelperProvider = new();
+        public ITestOutputHelper TestOutputHelper { get; set; } = default!;
 
         public Task InitializeAsync()
         {
@@ -20,13 +21,13 @@ namespace FunctionalTests2
             builder.UseSerilog((context, services, configuration) =>
             {
                 Program.ApplySerilogConfiguration(context, services, configuration);
-                configuration.WriteTo.TestOutput(TestOutputHelperProvider.Get());
+                configuration.WriteTo.TestOutput(TestOutputHelper);
             });
 
             return base.CreateHost(builder);
         }
 
-        public Task DisposeAsync()
+        public new Task DisposeAsync()
         {
             return base.DisposeAsync().AsTask();
         }

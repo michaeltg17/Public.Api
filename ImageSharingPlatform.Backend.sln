@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Michael.Net.Tests", "..\Mic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCutting", "src\CrossCutting\CrossCutting.csproj", "{4A133811-13E4-4889-A99E-02B0E92FC1F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests2", "tests\FunctionalTests2\FunctionalTests2.csproj", "{1E1D240F-F745-4043-AF88-7EB1086A745C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "tests\IntegrationTests\IntegrationTests.csproj", "{1E1D240F-F745-4043-AF88-7EB1086A745C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
