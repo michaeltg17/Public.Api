@@ -1,9 +1,0 @@
-services:
-  jenkins: # admin a85733bf96b045909d9a800196394d1c
-    restart: always
-    image: jenkins/jenkins:lts-jdk17
-    ports:
-      - 8080:8080
-      - 50000:50000
-    volumes:
-      - C:\jenkins\jenkins_home:/var/jenkins_home
