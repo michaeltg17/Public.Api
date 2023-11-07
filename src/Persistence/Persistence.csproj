@@ -18,7 +18,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Michael.Net\src\Michael.Net\Michael.Net.csproj" />
 		<ProjectReference Include="..\CrossCutting\CrossCutting.csproj" />
 		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
