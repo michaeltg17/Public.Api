@@ -4,7 +4,7 @@ pool:
 trigger: none
 
 jobs:
-- job: Build and deploy
+- job: BuildAndDeploy
   displayName: "Build and deploy"
   steps:
   - task: DotNetCoreCLI@2
