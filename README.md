@@ -6,7 +6,7 @@ API:
 - N-Layer Architecture
 - Anemic Domain Model
 - Services
-- Dapper
+- Entity Framework Core
 - SQL Server
 
 Tests:
