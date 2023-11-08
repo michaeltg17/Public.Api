@@ -33,8 +33,7 @@ jobs:
       testRunTitle: 'Integration tests'
   - task: Docker@2
     inputs:
-      command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
+      command: 'push'
   - task: DotNetCoreCLI@2
     displayName: "Functional tests"
     inputs:
