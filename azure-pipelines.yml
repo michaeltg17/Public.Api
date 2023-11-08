@@ -24,9 +24,20 @@ jobs:
     inputs:
       command: 'test'
       projects: '**/UnitTests.csproj'
+      testRunTitle: 'Unit tests'
   - task: DotNetCoreCLI@2
     displayName: "Integration tests"
     inputs:
       command: 'test'
       projects: '**/IntegrationTests.csproj'
-      
+      testRunTitle: 'Integration tests'
+  - task: Docker@2
+    inputs:
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+  - task: DotNetCoreCLI@2
+    displayName: "Functional tests"
+    inputs:
+      command: 'test'
+      projects: '**/IntegrationTests.csproj'
+      testRunTitle: 'Functional tests'
