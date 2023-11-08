@@ -1,4 +1,4 @@
-#To be run from src folder
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
@@ -7,14 +7,15 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Api", "r/ImageSharingPlatform.Backend/src/"]
-COPY ["Application", "r/ImageSharingPlatform.Backend/src/"]
-COPY ["CrossCutting", "r/ImageSharingPlatform.Backend/src/"]
-COPY ["Domain/Domain.csproj", "r/ImageSharingPlatform.Backend/src/"]
-COPY ["Persistence/Persistence.csproj", "r/ImageSharingPlatform.Backend/src/"]
-COPY ["../../Michael.Net/src/", "r/Michael.Net/src/"]
-RUN dotnet restore "r/ImageSharingPlatform.Backend/src/Api/Api.csproj"
-WORKDIR "r/ImageSharingPlatform.Backend/src/Api"
+COPY ["Api/Api.csproj", "Api/"]
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["CrossCutting/CrossCutting.csproj", "CrossCutting/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Persistence/Persistence.csproj", "Persistence/"]
+COPY ["Persistence/Persistence.csproj", "Persistence/"]
+RUN dotnet restore "Api/Api.csproj"
+COPY . .
+WORKDIR "/src/Api"
 RUN dotnet build "Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
