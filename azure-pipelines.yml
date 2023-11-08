@@ -1,0 +1,42 @@
+pool:
+  name: default
+
+trigger: none
+
+jobs:
+- job: Build and deploy
+  displayName: "Build and deploy"
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: "Restore"
+    inputs:
+      command: 'restore'
+      projects: '**/*.csproj'
+      feedsToUse: 'select'
+      vstsFeed: 'fa87d356-d9e8-410c-bf26-0078ed3b4646/d6f03ca5-d849-4f99-8de6-b510f6143d44'
+  - task: DotNetCoreCLI@2
+    displayName: "Build"
+    inputs:
+      command: 'build'
+      projects: '**/*.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: "Test"
+    inputs:
+      command: 'test'
+      projects: '**/*.Tests.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: "Pack"
+    inputs:
+      command: 'pack'
+      packagesToPack: '**/Michael.Net.csproj'
+      nobuild: true
+      versioningScheme: 'byEnvVar'
+      versionEnvVar: 'Version'
+  - task: DotNetCoreCLI@2
+    displayName: "Push"
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: 'fa87d356-d9e8-410c-bf26-0078ed3b4646/d6f03ca5-d849-4f99-8de6-b510f6143d44'
+      
