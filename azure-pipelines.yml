@@ -31,9 +31,16 @@ jobs:
       command: 'test'
       projects: '**/IntegrationTests.csproj'
       testRunTitle: 'Integration tests'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      projects: '**/Api.csproj'
+      arguments: '-c Release -o $(Build.ArtifactStagingDirectory)'
   - task: Docker@2
     inputs:
-      command: 'push'
+      command: 'build'
+      Dockerfile: '**/Dockerfile'
+      arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)'
   - task: DotNetCoreCLI@2
     displayName: "Functional tests"
     inputs:
