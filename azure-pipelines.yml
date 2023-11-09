@@ -43,6 +43,7 @@ stages:
             command: 'build'
             Dockerfile: '**/Dockerfile'
             arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)'
+      
         - task: DotNetCoreCLI@2
           displayName: "Functional tests"
           inputs:
