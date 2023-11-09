@@ -15,12 +15,18 @@ namespace Api
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            ConfigureConfiguration(builder);
             AddSerilog(builder);
             AddMainDependencies(builder.Services);
             AddApplicationDependencies(builder.Services);
 
             var app = builder.Build();
             ConfigureAndRunApp(app);
+        }
+
+        static void ConfigureConfiguration(WebApplicationBuilder builder)
+        {
+            builder.Configuration.AddEnvironmentVariables("Api");
         }
 
         static void AddApplicationDependencies(IServiceCollection services)
