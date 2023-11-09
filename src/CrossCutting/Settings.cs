@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application
+namespace CrossCutting
 {
     public class Settings : ISettings
     {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 using Persistence;
 using Serilog;
+using CrossCutting;
 
 namespace Api
 {
@@ -24,6 +25,7 @@ namespace Api
 
         static void AddApplicationDependencies(IServiceCollection services)
         {
+            services.AddCrossCuttingDependencies();
             services.AddApplicationDependencies();
             services.AddPersistanceDependencies();
         }
