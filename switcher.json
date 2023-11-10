@@ -1,0 +1,6 @@
+{
+  "solution": "ImageSharingPlatform.Backend.sln",
+  "mappings": {
+    "Michael.Net": "../Michael.Net\src\Michael.Net\Michael.Net.csproj"
+  }
+}

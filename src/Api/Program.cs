@@ -15,7 +15,6 @@ namespace Api
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            //ConfigureConfiguration(builder);
             AddSerilog(builder);
             AddMainDependencies(builder.Services);
             AddApplicationDependencies(builder.Services);
@@ -23,11 +22,6 @@ namespace Api
             var app = builder.Build();
             ConfigureAndRunApp(app);
         }
-
-        //static void ConfigureConfiguration(WebApplicationBuilder builder)
-        //{
-        //    builder.Configuration.AddEnvironmentVariables(Settings.SectionOrPrefix);
-        //}
 
         static void AddApplicationDependencies(IServiceCollection services)
         {
