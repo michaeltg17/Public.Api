@@ -26,7 +26,7 @@ namespace Api
 
         static void ConfigureConfiguration(WebApplicationBuilder builder)
         {
-            builder.Configuration.AddEnvironmentVariables("Api");
+            builder.Configuration.AddEnvironmentVariables();
         }
 
         static void AddApplicationDependencies(IServiceCollection services)

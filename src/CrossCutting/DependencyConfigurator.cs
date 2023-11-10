@@ -7,13 +7,12 @@ namespace CrossCutting
     {
         public static IServiceCollection AddCrossCuttingDependencies(this IServiceCollection services)
         {
-            const string section = "Application";
-
             services
                 .AddOptions<Settings>()
-                .BindConfiguration(section)
-                .ValidateDataAnnotations()
+                .BindConfiguration(Settings.Section)
                 .ValidateOnStart();
+
+            services.AddSingleton<IValidateOptions<Settings>, SettingsValidator>();
 
             services.AddSingleton<ISettings>(provider => provider.GetRequiredService<IOptions<Settings>>().Value);
 
