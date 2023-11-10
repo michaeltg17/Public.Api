@@ -3,9 +3,9 @@
     public class Settings : ISettings
     {
         /// <summary>
-        /// Prefix for the api settings. In JSON parent level, in ENV Api__X
+        /// Section or prefix for the api settings. In JSON parent level, in ENV Api__X
         /// </summary>
-        public const string Section = "Api";
+        public const string SectionOrPrefix = "Api";
 
         /// <summary>
         /// Path where images will be stored. Directory will be created if not exists.

@@ -9,7 +9,7 @@ namespace CrossCutting
         {
             services
                 .AddOptions<Settings>()
-                .BindConfiguration(Settings.Section)
+                .BindConfiguration(Settings.SectionOrPrefix)
                 .ValidateOnStart();
 
             services.AddSingleton<IValidateOptions<Settings>, SettingsValidator>();
