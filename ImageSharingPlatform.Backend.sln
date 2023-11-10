@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\Persistence\Persistence.csproj", "{0F6362F3-FF1D-4547-B959-8FC428F4CE5E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A053AA92-22EC-4FC8-B550-694C034847B2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionalTests", "tests\FunctionalTests\FunctionalTests.csproj", "{5BD3E243-37D7-4F7C-88B5-15C6F451D223}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B2BE60B5-700F-4BC2-B213-DE9431E13216}"

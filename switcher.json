@@ -1,6 +1,8 @@
 {
   "solution": "ImageSharingPlatform.Backend.sln",
+  "solutionFolder": null,
   "mappings": {
-    "Michael.Net": "../Michael.Net\src\Michael.Net\Michael.Net.csproj"
-  }
+    "Michael.Net": "../Michael.Net/src/Michael.Net/Michael.Net.csproj"
+  },
+  "removeProjects": true
 }
