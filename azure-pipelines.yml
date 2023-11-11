@@ -13,6 +13,6 @@ stages:
             inputs:
               containerRegistry: 'GitHub'
               repository: 'api'
-              command: 'buildAndPush'
+              command: 'build'
               Dockerfile: '**/Dockerfile'
           
