@@ -7,7 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /sln
 
-COPY ./*.sln ./NuGet.config  ./
+COPY ./*.sln ./nuget.config  ./
 
 # Copy the main source project files
 COPY src/*/*.csproj ./
