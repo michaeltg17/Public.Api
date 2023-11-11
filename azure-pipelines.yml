@@ -43,7 +43,11 @@ stages:
             command: 'build'
             Dockerfile: '**/Dockerfile'
             arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)'
-      
+      - task: DockerCompose@0
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          dockerComposeFile: '**/docker-compose.yml'
+          action: 'Run a Docker Compose command'
         - task: DotNetCoreCLI@2
           displayName: "Functional tests"
           inputs:
