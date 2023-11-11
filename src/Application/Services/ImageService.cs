@@ -78,7 +78,7 @@ namespace Application.Services
             return await Task.WhenAll(tasks);
         }
 
-        string BuildName(string fullFileName)
+        static string BuildName(string fullFileName)
         {
             var extension = Path.GetExtension(fullFileName);
             return $"{Guid.NewGuid()}{extension}";
