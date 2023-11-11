@@ -11,8 +11,8 @@ stages:
         steps:
           - task: Docker@2
             inputs:
-              containerRegistry: 'GitHub'
-              repository: 'api'
               command: 'build'
               Dockerfile: '**/Dockerfile'
+              tags: 'latest'
+              arguments: '-t api'
           
