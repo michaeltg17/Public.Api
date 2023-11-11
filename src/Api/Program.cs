@@ -76,7 +76,6 @@ namespace Api
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseCors("AllowOrigin");
             app.MapControllers();
