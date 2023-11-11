@@ -9,6 +9,13 @@ stages:
       - job: BuildAndTests
         displayName: "Build docker image and run tests"
         steps:
+          - task: PowerShell@2
+            displayName: 'docker --version'
+            inputs:
+              targetType: 'inline'
+              script: |
+                docker --version
+                Write-Host "docker --version"
           - task: Docker@2
             inputs:
               containerRegistry: 'GitHub'
