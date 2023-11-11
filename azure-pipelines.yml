@@ -6,54 +6,11 @@ stages:
   - stage: build
     displayName: Build
     jobs:
-      - job: BuildAndDeploy
-        displayName: "Build and deploy"
+      - job: BuildAndTests
+        displayName: "Build docker image and run tests"
         steps:
-        - task: DotNetCoreCLI@2
-          displayName: "Restore"
-          inputs:
-            command: 'restore'
-            projects: '**/*.csproj'
-            feedsToUse: 'select'
-            vstsFeed: 'fa87d356-d9e8-410c-bf26-0078ed3b4646/d6f03ca5-d849-4f99-8de6-b510f6143d44'
-        - task: DotNetCoreCLI@2
-          displayName: "Build"
-          inputs:
-            command: 'build'
-            projects: '**/*.csproj'
-        - task: DotNetCoreCLI@2
-          displayName: "Unit tests"
-          inputs:
-            command: 'test'
-            projects: '**/UnitTests.csproj'
-            testRunTitle: 'Unit tests'
-        - task: DotNetCoreCLI@2
-          displayName: "Integration tests"
-          inputs:
-            command: 'test'
-            projects: '**/IntegrationTests.csproj'
-            testRunTitle: 'Integration tests'
-        - task: DotNetCoreCLI@2
-          inputs:
-            command: 'publish'
-            projects: '**/Api.csproj'
-            arguments: '-c Release -o $(Build.ArtifactStagingDirectory)'
-        - task: Docker@2
-          inputs:
-            command: 'build'
-            Dockerfile: '**/Dockerfile'
-            arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)'
-      - task: DockerCompose@0
-        inputs:
-          containerregistrytype: 'Azure Container Registry'
-          dockerComposeFile: '**/docker-compose.yml'
-          action: 'Run a Docker Compose command'
-        - task: DotNetCoreCLI@2
-          displayName: "Functional tests"
-          inputs:
-            command: 'test'
-            projects: '**/IntegrationTests.csproj'
-            testRunTitle: 'Functional tests'
-  - stage: deploy
-    displayName: Deploy
-    dependsOn: build
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'GitHub'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
