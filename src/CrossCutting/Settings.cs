@@ -1,4 +1,6 @@
-﻿namespace CrossCutting
+﻿using Flurl;
+
+namespace CrossCutting
 {
     public class Settings : ISettings
     {
@@ -7,11 +9,15 @@
         /// </summary>
         public const string SectionOrPrefix = "Api";
 
+        public string Url { get; set; } = default!;
+
         /// <summary>
         /// Path where images will be stored. Directory will be created if not exists.
         /// </summary>
-        public string ImagesPath { get; set; } = default!;
+        public string ImagesStoragePath { get; set; } = default!;
         public string ImagesRequestPath { get; set; } = default!;
         public string SqlServerConnectionString { get; set; } = default!;
+
+        public string ImagesUrl => Flurl.Url.Combine(Url, ImagesRequestPath);
     }
 }

@@ -1,7 +1,4 @@
 using Application;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 using Persistence;
@@ -61,11 +58,6 @@ namespace Api
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
                 );
             });
-
-            services.AddScoped(p => p
-                .GetRequiredService<IServer>()
-                .Features
-                .GetRequiredFeature<IServerAddressesFeature>());
         }
 
         static void ConfigureAndRunApp(WebApplication app)
@@ -84,7 +76,7 @@ namespace Api
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = settings.ImagesRequestPath,
-                FileProvider = new PhysicalFileProvider(settings.ImagesPath)
+                FileProvider = new PhysicalFileProvider(settings.ImagesStoragePath)
             });
 
             app.Run();

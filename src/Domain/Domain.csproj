@@ -5,6 +5,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Michael.Net" Version="1.0.6" />
+    <PackageReference Include="Michael.Net" Version="1.0.7" />
   </ItemGroup>
 </Project>

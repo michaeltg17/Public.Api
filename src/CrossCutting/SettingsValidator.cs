@@ -8,13 +8,16 @@ namespace CrossCutting
         {
             var failures = new List<string>();
 
-            if (string.IsNullOrWhiteSpace(settings.ImagesPath))
-                failures.Add($"The '{nameof(settings.ImagesPath)}' setting is required");
+            if (string.IsNullOrWhiteSpace(settings.Url))
+                failures.Add($"The '{nameof(settings.Url)}' setting is required");
+
+            if (string.IsNullOrWhiteSpace(settings.ImagesStoragePath))
+                failures.Add($"The '{nameof(settings.ImagesStoragePath)}' setting is required");
             else
             {
                 try
                 {
-                    Directory.CreateDirectory(settings.ImagesPath);
+                    Directory.CreateDirectory(settings.ImagesStoragePath);
                 }
                 catch (Exception exception)
                 {
