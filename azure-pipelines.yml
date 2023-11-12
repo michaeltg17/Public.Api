@@ -2,17 +2,13 @@ pool:
   name: default
 
 trigger: none
-stages:
-  - stage: build
-    displayName: Build
-    jobs:
-      - job: BuildAndTests
-        displayName: "Build docker image and run tests"
-        steps:
-          - task: Docker@2
-            inputs:
-              command: 'build'
-              Dockerfile: '**/Dockerfile'
-              tags: 'latest'
-              arguments: '-t api'
+jobs:
+  - job: Build
+    steps:
+      - task: Docker@2
+        inputs:
+          command: 'build'
+          Dockerfile: '**/Dockerfile'
+          tags: 'latest'
+          arguments: '-t api'
           
