@@ -1,6 +1,6 @@
 ﻿{
    "CodeGenerationMode": 3,
-   "ContextClassName": "ImageSharingPlatform.DatabaseContext",
+   "ContextClassName": "Public.DatabaseContext",
    "ContextNamespace": "",
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,

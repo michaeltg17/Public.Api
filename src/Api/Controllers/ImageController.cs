@@ -2,7 +2,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Application.Services;
 
-namespace ImageSharingPlatform.Controllers
+namespace Api.Controllers
 {
     [ApiController]
     public class ImageController : ControllerBase

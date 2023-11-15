@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "ImageSharingPlatform": {
+    "Public.Api": {
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "swagger",
