@@ -16,3 +16,7 @@ Tests:
 - xUnit
 - Moq
 - FluentAssertions
+
+Build/Deploy:
+- Uses docker for build and unit/integration testing
+- Uses another pipeline for deployment (see [Public.Deployment](https://github.com/michaeltg17/Public.Deployment) for details)
