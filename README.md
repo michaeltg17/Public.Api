@@ -19,4 +19,4 @@ Tests:
 
 Build/Deploy:
 - Uses docker for build and unit/integration testing
-- Uses another pipeline for deployment (see Public.Deployment repo for details)
+- Uses another pipeline for deployment (see [Public.Deployment](https://github.com/michaeltg17/Public.Deployment) repo for details)
