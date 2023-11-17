@@ -2,7 +2,8 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /sln
@@ -19,6 +20,7 @@ RUN for file in $(ls *.csproj); do mkdir -p tests/${file%.*}/ && mv $file tests/
 
 RUN dotnet restore
 
+# 
 COPY ./src ./src
 COPY ./tests ./tests
 RUN dotnet build "src/Api/Api.csproj" -c Release -o /app/build
