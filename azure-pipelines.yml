@@ -5,10 +5,55 @@ trigger: none
 jobs:
   - job: Build
     steps:
+      - task: DotNetCoreCLI@2
+        displayName: "Restore"
+        inputs:
+          command: 'restore'
+          projects: '**/*.csproj'
+          feedsToUse: 'select'
+          vstsFeed: 'fa87d356-d9e8-410c-bf26-0078ed3b4646/d6f03ca5-d849-4f99-8de6-b510f6143d44'
+      - task: DotNetCoreCLI@2
+        displayName: "Build"
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Unit tests"
+        inputs:
+          command: 'test'
+          projects: '**/UnitTests.csproj'
+          testRunTitle: 'Unit tests'
+      - task: DotNetCoreCLI@2
+        displayName: "Integration tests"
+        inputs:
+          command: 'test'
+          projects: '**/IntegrationTests.csproj'
+          testRunTitle: 'Integration tests'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'publish'
+          projects: '**/Api.csproj'
+          arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\Api'
+      # - task: Docker@2
+      #   inputs:
+      #     command: 'build'
+      #     Dockerfile: '**/Dockerfile'
+      #     arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'publish'
+          projects: '**/FunctionalTests.csproj'
+          arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\FunctionalTests'
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Build.ArtifactStagingDirectory)'
+          artifact: 'FunctionalTests'
+          publishLocation: 'pipeline'
       - task: Docker@2
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile'
           tags: 'latest'
           arguments: '-t api'
+      
           
