@@ -29,21 +29,20 @@ jobs:
           command: 'test'
           projects: '**/IntegrationTests.csproj'
           testRunTitle: 'Integration tests'
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'publish'
-          projects: '**/Api.csproj'
-          arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\Api'
+      # - task: DotNetCoreCLI@2
+      #   inputs:
+      #     command: 'publish'
+      #     projects: '**/Api.csproj'
+      #     arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\Api'
       # - task: Docker@2
       #   inputs:
       #     command: 'build'
       #     Dockerfile: '**/Dockerfile'
       #     arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)'
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'publish'
-          projects: '**/FunctionalTests.csproj'
-          arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\FunctionalTests'
+      # - task: PublishPipelineArtifact@1
+      #   inputs:
+      #     targetPath: '$(Build.SourcesDirectory)\tests\FunctionalTests\bin\Release\net8.0\'
+      #     publishLocation: 'pipeline'
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Build.ArtifactStagingDirectory)'
