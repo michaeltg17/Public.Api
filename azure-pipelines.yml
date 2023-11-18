@@ -18,18 +18,19 @@ jobs:
           command: 'build'
           projects: '**/*.csproj'
       - task: DotNetCoreCLI@2
-        displayName: "Unit tests"
+        displayName: "Run unit tests"
         inputs:
           command: 'test'
           projects: '**/UnitTests.csproj'
           testRunTitle: 'Unit tests'
       - task: DotNetCoreCLI@2
-        displayName: "Integration tests"
+        displayName: "Run integration tests"
         inputs:
           command: 'test'
           projects: '**/IntegrationTests.csproj'
           testRunTitle: 'Integration tests'
       - task: DotNetCoreCLI@2
+        displayName: "Publish api"
         inputs:
           command: 'publish'
           publishWebProjects: true
@@ -45,17 +46,20 @@ jobs:
       #     Contents: '**'
       #     TargetFolder: '$(Build.ArtifactStagingDirectory)\FunctionalTests'
       - task: DotNetCoreCLI@2
+        displayName: "Publish functional tests"
         inputs:
           command: 'publish'
           publishWebProjects: false
           projects: '**/FunctionalTests.csproj'
           arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\FunctionalTests'
       - task: PublishPipelineArtifact@1
+        displayName: "Publish functional tests artifact"
         inputs:
           targetPath: '$(Build.ArtifactStagingDirectory)\FunctionalTests'
           artifact: 'FunctionalTests'
           publishLocation: 'pipeline'
       - task: Docker@2
+        displayName: "Docker build"
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile'
