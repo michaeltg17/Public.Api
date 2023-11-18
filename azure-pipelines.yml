@@ -22,12 +22,14 @@ jobs:
         inputs:
           command: 'test'
           projects: '**/UnitTests.csproj'
+          arguments: '--collect "Code coverage"'
           testRunTitle: 'Unit tests'
       - task: DotNetCoreCLI@2
         displayName: "Run integration tests"
         inputs:
           command: 'test'
           projects: '**/IntegrationTests.csproj'
+          arguments: '--collect "Code coverage"'
           testRunTitle: 'Integration tests'
       - task: DotNetCoreCLI@2
         displayName: "Publish api"
