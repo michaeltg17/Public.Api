@@ -43,6 +43,11 @@ jobs:
       #   inputs:
       #     targetPath: '$(Build.SourcesDirectory)\tests\FunctionalTests\bin\Release\net8.0\'
       #     publishLocation: 'pipeline'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'publish'
+          projects: '**/FunctionalTests.csproj'
+          arguments: '-c Release -o $(Build.ArtifactStagingDirectory)'
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Build.ArtifactStagingDirectory)'
