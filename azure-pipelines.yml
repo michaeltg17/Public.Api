@@ -22,7 +22,7 @@ jobs:
         inputs:
           command: 'test'
           projects: '**/UnitTests.csproj'
-          arguments: '--collect "Code coverage" --settings:$(Build.SourcesDirectory)tests\codecoverage.runsettings'
+          arguments: '--collect "Code coverage" --settings:$(Build.SourcesDirectory)\tests\codecoverage.runsettings'
           testRunTitle: 'Unit tests'
       - task: DotNetCoreCLI@2
         displayName: "Run integration tests"
