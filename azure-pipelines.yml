@@ -12,31 +12,37 @@ jobs:
           projects: '**/*.csproj'
           feedsToUse: 'select'
           vstsFeed: 'fa87d356-d9e8-410c-bf26-0078ed3b4646/d6f03ca5-d849-4f99-8de6-b510f6143d44'
+
       - task: DotNetCoreCLI@2
         displayName: "Build"
         inputs:
           command: 'build'
           projects: '**/*.csproj'
+
       - task: DotNetCoreCLI@2
-        displayName: "Run unit tests"
+        displayName: "Run unit and integration tests"
         inputs:
           command: 'test'
           projects: '**/UnitTests.csproj'
-          arguments: '--collect "Code coverage" --settings:$(Build.SourcesDirectory)\tests\codecoverage.runsettings'
+          arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" '
           testRunTitle: 'Unit tests'
-      - task: DotNetCoreCLI@2
-        displayName: "Run integration tests"
+
+      - script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory) -reporttypes:"Cobertura"'
+        displayName: 'Command Line Script'
+
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish code coverage from $(build.sourcesdirectory)/Cobertura.xml'
         inputs:
-          command: 'test'
-          projects: '**/IntegrationTests.csproj'
-          arguments: '--collect "Code coverage" --settings:$(Build.SourcesDirectory)\tests\codecoverage.runsettings'
-          testRunTitle: 'Integration tests'
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(build.sourcesdirectory)/Cobertura.xml'
+
       - task: DotNetCoreCLI@2
         displayName: "Publish api"
         inputs:
           command: 'publish'
           publishWebProjects: true
           arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\Api'
+
       # - task: Docker@2
       #   inputs:
       #     command: 'build'
@@ -47,6 +53,7 @@ jobs:
       #     SourceFolder: '**\FunctionalTests\bin\Release\**\'
       #     Contents: '**'
       #     TargetFolder: '$(Build.ArtifactStagingDirectory)\FunctionalTests'
+
       - task: DotNetCoreCLI@2
         displayName: "Publish functional tests"
         inputs:
@@ -54,12 +61,14 @@ jobs:
           publishWebProjects: false
           projects: '**/FunctionalTests.csproj'
           arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\FunctionalTests'
+
       - task: PublishPipelineArtifact@1
         displayName: "Publish functional tests artifact"
         inputs:
           targetPath: '$(Build.ArtifactStagingDirectory)\FunctionalTests'
           artifact: 'FunctionalTests'
           publishLocation: 'pipeline'
+
       - task: Docker@2
         displayName: "Docker build"
         inputs:
