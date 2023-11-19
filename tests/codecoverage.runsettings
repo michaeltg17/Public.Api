@@ -8,6 +8,10 @@
             <ModulePaths>
               <Include>
                 <ModulePath>Api.dll</ModulePath>
+			    <ModulePath>Application.dll</ModulePath>
+				<ModulePath>CrossCutting.dll</ModulePath>
+				<ModulePath>Domain.dll</ModulePath>
+				<ModulePath>Persistence.dll</ModulePath>
               </Include>
             </ModulePaths>
           </CodeCoverage>
