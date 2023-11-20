@@ -27,8 +27,10 @@ jobs:
           arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" '
           testRunTitle: 'Unit tests'
 
-      - script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory) -reporttypes:"Cobertura"'
-        displayName: 'Command Line Script'
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory) -reporttypes:"Cobertura"'
 
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish code coverage from $(build.sourcesdirectory)/Cobertura.xml'
