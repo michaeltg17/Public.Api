@@ -23,9 +23,11 @@ jobs:
         displayName: "Run unit and integration tests"
         inputs:
           command: 'test'
-          projects: '**/UnitTests.csproj'
-          arguments: '-c Release --collect:"XPlat Code Coverage" '
-          testRunTitle: 'Unit tests'
+          projects: |
+            **/UnitTests.csproj
+            **/IntegrationTests.csproj
+          arguments: '-c Release --collect:"XPlat Code Coverage"'
+          testRunTitle: 'Unit and integration tests'
 
       - task: DotNetCoreCLI@2
         displayName: 'dotnet Tool Install "reportgenerator"'
