@@ -13,9 +13,11 @@ API:
 - SQL Server
 
 Tests:
+- Unit, integration and functional tests
 - xUnit
 - Moq
 - FluentAssertions
+- Coverlet + ReportGenerator
 
 Build/Deploy:
 - Uses docker for build and unit/integration testing
