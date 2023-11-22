@@ -59,8 +59,8 @@ jobs:
         displayName: "Create docker image"
         inputs:
           command: 'build'
-          Dockerfile: '**/Dockerfile'
-          arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)\Api'
+          Dockerfile: '**/Dockerfile.publish'
+          arguments: '--build-arg APP=$(Build.ArtifactStagingDirectory)\Api'
 
       - task: DotNetCoreCLI@2
         displayName: "Publish functional tests"
