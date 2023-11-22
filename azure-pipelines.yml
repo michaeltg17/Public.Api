@@ -30,19 +30,20 @@ jobs:
           testRunTitle: 'Tests'
 
       - task: DotNetCoreCLI@2
-        displayName: 'dotnet Tool Install "reportgenerator"'
+        displayName: 'Install code coverage report generator if needed'
         inputs:
           command: custom
           custom: tool
           arguments: 'update dotnet-reportgenerator-globaltool -g'
 
       - task: PowerShell@2
+        displayName: 'Generate code coverage report'
         inputs:
           targetType: 'inline'
           script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory) -reporttypes:"Cobertura"'
 
       - task: PublishCodeCoverageResults@1
-        displayName: 'Publish code coverage from $(build.sourcesdirectory)/Cobertura.xml'
+        displayName: 'Publish code coverage report'
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(build.sourcesdirectory)/Cobertura.xml'
@@ -54,16 +55,12 @@ jobs:
           publishWebProjects: true
           arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\Api'
 
-      # - task: Docker@2
-      #   inputs:
-      #     command: 'build'
-      #     Dockerfile: '**/Dockerfile'
-      #     arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)'
-      # - task: CopyFiles@2
-      #   inputs:
-      #     SourceFolder: '**\FunctionalTests\bin\Release\**\'
-      #     Contents: '**'
-      #     TargetFolder: '$(Build.ArtifactStagingDirectory)\FunctionalTests'
+      - task: Docker@2
+        displayName: "Create docker image"
+        inputs:
+          command: 'build'
+          Dockerfile: '**/Dockerfile'
+          arguments: 'PUBLISH_DIRECTORY=$(Build.ArtifactStagingDirectory)\Api'
 
       - task: DotNetCoreCLI@2
         displayName: "Publish functional tests"
@@ -79,13 +76,3 @@ jobs:
           targetPath: '$(Build.ArtifactStagingDirectory)\FunctionalTests'
           artifact: 'FunctionalTests'
           publishLocation: 'pipeline'
-
-      - task: Docker@2
-        displayName: "Docker build"
-        inputs:
-          command: 'build'
-          Dockerfile: '**/Dockerfile'
-          tags: 'latest'
-          arguments: '-t api'
-      
-          
