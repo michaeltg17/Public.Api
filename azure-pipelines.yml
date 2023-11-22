@@ -24,7 +24,7 @@ jobs:
         inputs:
           command: 'test'
           projects: '**/UnitTests.csproj'
-          arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" '
+          arguments: '-c Release --collect:"XPlat Code Coverage" '
           testRunTitle: 'Unit tests'
 
       - task: DotNetCoreCLI@2
