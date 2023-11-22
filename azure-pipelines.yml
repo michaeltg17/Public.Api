@@ -34,7 +34,7 @@ jobs:
         inputs:
           command: custom
           custom: tool
-          arguments: 'install -g dotnet-reportgenerator-globaltool'
+          arguments: 'update dotnet-reportgenerator-globaltool -g'
 
       - task: PowerShell@2
         inputs:
