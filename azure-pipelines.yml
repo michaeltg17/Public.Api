@@ -4,8 +4,6 @@ pool:
 trigger: none
 jobs:
   - job: Build
-    variables:
-      job_variable1: aa
     steps:
       - task: DotNetCoreCLI@2
         displayName: "Restore"
@@ -31,12 +29,19 @@ jobs:
           arguments: '-c Release --collect:"XPlat Code Coverage"'
           testRunTitle: 'Tests'
 
-      - task: DotNetCoreCLI@2
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Install code coverage report generator if needed'
+      #   inputs:
+      #     command: custom
+      #     custom: tool
+      #     arguments: 'update dotnet-reportgenerator-globaltool -g'
+
+      - task: PowerShell@2
         displayName: 'Install code coverage report generator if needed'
         inputs:
-          command: custom
-          custom: tool
-          arguments: 'update dotnet-reportgenerator-globaltool -g'
+          targetType: 'inline'
+          script: 'dotnet tool install dotnet-reportgenerator-globaltool -g'
+          errorActionPreference: 'continue'
 
       - task: PowerShell@2
         displayName: 'Generate code coverage report'
@@ -57,15 +62,17 @@ jobs:
           publishWebProjects: true
           arguments: '-c Release -o $(Build.ArtifactStagingDirectory)\Api'
           
-      - task: Bash@3
-        displayName: "Build.ArtifactStagingDirectory to posix path"
-        inputs:
-          targetType: 'inline'
-          script: |
-            # Convert the path to POSIX format
-            posix_path=$(echo "$(Build.ArtifactStagingDirectory)" | sed -e 's/\\/\//g' -e 's/:\([^/]\)/\1/g')
-            echo $posix_path
-            echo "##vso[task.setvariable variable=linuxposix_path;]$posix_path"
+      # - task: Bash@3
+      #   displayName: "Build.ArtifactStagingDirectory to posix path"
+      #   inputs:
+      #     targetType: 'inline'
+      #     script: |
+      #       # Convert the path to POSIX format
+      #       posix_path=$(echo "$(Build.ArtifactStagingDirectory)" | sed -e 's/\\/\//g' -e 's/:\([^/]\)/\1/g')
+      #       echo $posix_path
+      #       echo "##vso[task.setvariable variable=linuxposix_path;]$posix_path"
+
+
       - task: Docker@2
         displayName: "Create docker image"
         inputs:
