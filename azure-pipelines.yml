@@ -29,19 +29,11 @@ jobs:
           arguments: '-c Release --collect:"XPlat Code Coverage"'
           testRunTitle: 'Tests'
 
-      # - task: DotNetCoreCLI@2
-      #   displayName: 'Install code coverage report generator if needed'
+      # - task: PowerShell@2
+      #   displayName: 'Install code coverage report generator'
       #   inputs:
-      #     command: custom
-      #     custom: tool
-      #     arguments: 'update dotnet-reportgenerator-globaltool -g'
-
-      - task: PowerShell@2
-        displayName: 'Install code coverage report generator if needed'
-        inputs:
-          targetType: 'inline'
-          script: 'dotnet tool install dotnet-reportgenerator-globaltool -g'
-          errorActionPreference: 'continue'
+      #     targetType: 'inline'
+      #     script: 'dotnet tool install dotnet-reportgenerator-globaltool -g'
 
       - task: PowerShell@2
         displayName: 'Generate code coverage report'
