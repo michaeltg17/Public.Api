@@ -6,7 +6,7 @@
     <UserSecretsId>b26c8021-d708-4165-8556-9cd63335d556</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.21" />
+    <PackageReference Include="Dapper" Version="2.1.24" />
     <PackageReference Include="Michael.Net" Version="1.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
