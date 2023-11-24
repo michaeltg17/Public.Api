@@ -20,7 +20,8 @@ namespace IntegrationTests
             this.factory = factory;
         }
 
-        [Fact(Skip = "Needs mock in IObjectStorage")]
+        //[Fact(Skip = "Needs mock in IObjectStorage")]
+        [Fact]
         public async Task GivenImage_WhenSave_IsSaved()
         {
             // Given
