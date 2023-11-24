@@ -14,11 +14,13 @@ namespace IntegrationTests
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
 
-        readonly MsSqlContainer _sqlServerContainer = new MsSqlBuilder().Build();
+        readonly MsSqlContainer _sqlServerContainer = new MsSqlBuilder()
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+            .Build();
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            return Task.CompletedTask;
+            await _sqlServerContainer.StartAsync();
         }
 
         protected override IHost CreateHost(IHostBuilder builder)
@@ -34,10 +36,15 @@ namespace IntegrationTests
             return base.CreateHost(builder);
         }
 
-        public new Task DisposeAsync()
+        void DeployDacpac()
         {
-            _sqlServerContainer.DisposeAsync();
-            return base.DisposeAsync().AsTask();
+
+        }
+
+        public async new Task DisposeAsync()
+        {
+            await _sqlServerContainer.DisposeAsync();
+            await base.DisposeAsync();
         }
     }
 }
