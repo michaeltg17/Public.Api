@@ -1,6 +1,7 @@
 ﻿using Api;
 using Domain.Models;
 using FluentAssertions;
+using IntegrationTests.Other;
 using Michael.Net.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;

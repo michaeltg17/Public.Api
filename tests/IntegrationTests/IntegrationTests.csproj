@@ -39,7 +39,7 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<Content Include="$(PkgPublic_Database_Dacpac)\Public.Database.dacpac">
-			<Link>Public.Database.dacpac</Link>
+			<Link>Others\Public.Database.dacpac</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>
 		</Content>
