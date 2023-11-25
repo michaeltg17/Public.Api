@@ -1,7 +1,7 @@
 ﻿using Api;
 using Domain.Models;
 using FluentAssertions;
-using IntegrationTests.Other;
+using IntegrationTests.Others;
 using Michael.Net.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
@@ -21,7 +21,6 @@ namespace IntegrationTests
             this.factory = factory;
         }
 
-        //[Fact(Skip = "Needs mock in IObjectStorage")]
         [Fact]
         public async Task GivenImage_WhenSave_IsSaved()
         {
@@ -39,8 +38,7 @@ namespace IntegrationTests
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
             var image = response!.Images.First();
 
-            using var httpClient = new HttpClient();
-            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image.Url);
+            var downloadedImageBytes = await client.GetByteArrayAsync(image.Url);
 
             uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }

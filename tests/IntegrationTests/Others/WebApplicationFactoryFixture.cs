@@ -4,11 +4,8 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Xunit;
 using Xunit.Abstractions;
-using Testcontainers.MsSql;
 using Microsoft.Extensions.DependencyInjection;
 using CrossCutting;
-using Microsoft.SqlServer.Dac;
-using Microsoft.Data.SqlClient;
 
 namespace IntegrationTests.Others
 {
@@ -16,10 +13,11 @@ namespace IntegrationTests.Others
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
 
+        Database Database = default!;
+
         public async Task InitializeAsync()
         {
-            await _sqlServerContainer.StartAsync();
-            DeployDacpac();
+            Database = await Database.Create();
         }
 
         protected override IHost CreateHost(IHostBuilder builder)
@@ -30,14 +28,18 @@ namespace IntegrationTests.Others
                 configuration.WriteTo.TestOutput(TestOutputHelper);
             });
 
-            builder.ConfigureServices(s => s.Configure<Settings>(c => c.SqlServerConnectionString = GetConnectionString()));
+            builder.ConfigureServices(s => s.Configure<Settings>(s => 
+            {
+                s.SqlServerConnectionString = Database.ConnectionString;
+                s.Url = "http://localhost";
+            }));
 
             return base.CreateHost(builder);
         }
 
         public async new Task DisposeAsync()
         {
-            await _sqlServerContainer.DisposeAsync();
+            await Database.DisposeAsync();
             await base.DisposeAsync();
         }
     }
