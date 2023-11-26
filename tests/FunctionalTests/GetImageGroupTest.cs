@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using FluentAssertions;
+using FunctionalTests.Others;
 using RestSharp;
 using Xunit;
 

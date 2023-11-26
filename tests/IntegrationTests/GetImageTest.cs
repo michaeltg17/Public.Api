@@ -10,11 +10,11 @@ using Xunit.Abstractions;
 namespace IntegrationTests
 {
     [Collection("ApiCollection")]
-    public class SaveImageTest
+    public class GetImageTest
     {
         readonly WebApplicationFactory<Program> factory;
 
-        public SaveImageTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory)
+        public GetImageTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory)
         {
             factory.TestOutputHelper = testOutputHelper;
             this.factory = factory;

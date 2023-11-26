@@ -1,11 +1,12 @@
 ﻿using Domain.Models;
 using FluentAssertions;
+using FunctionalTests.Others;
 using RestSharp;
 using Xunit;
 
 namespace FunctionalTests
 {
-    public class SaveImageTest : ApiTest
+    public class SaveImageGroupTest : ApiTest
     {
         [Fact]
         public async Task GivenImage_WhenSave_IsSaved()

@@ -1,4 +1,4 @@
-﻿namespace FunctionalTests
+﻿namespace FunctionalTests.Others
 {
     public abstract class ApiTest
     {
@@ -10,5 +10,6 @@
         public const string SaveImageGroup = ApiUrl + "/SaveImageGroup";
         public const string GetImageGroup = ApiUrl + "/GetImageGroup";
         public const string GetImage = ApiUrl + "/GetImage";
+        public const string DeleteImageGroup = ApiUrl + "/DeleteImageGroup";
     }
 }

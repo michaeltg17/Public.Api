@@ -6,29 +6,32 @@ using Xunit;
 
 namespace FunctionalTests
 {
-    public class GetImageTest : ApiTest
+    public class DeleteImageGroupTest : ApiTest
     {
         [Fact]
-        public async Task GivenImage_WhenSaveAndGet_IsGot()
+        public async Task GivenImageGroup_WhenDelete_IsDeleted()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-
             var client = new RestClient();
             var request = new RestRequest(Routes.SaveImageGroup);
             request.AddFile("file", imagePath);
-            var group = await client.PostAsync<ImageGroup>(request);
+            var response = await client.PostAsync<ImageGroup>(request);
+
+            var request = new RestRequest(Routes.SaveImageGroup);
 
             //When
-            request = new RestRequest(Routes.GetImage);
-            request.AddParameter("id", group!.Images.First().Id);
-            var image = await client.GetAsync<Image>(request);
+            request = new RestRequest(Routes.DeleteImageGroup);
+            request.AddParameter("id", response!.Id);
+            await client.PostAsync(request);
 
             //Then
+
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
+            var image = response!.Images.First();
 
             using var httpClient = new HttpClient();
-            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image!.Url);
+            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image.Url);
 
             uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }
