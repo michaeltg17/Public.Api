@@ -18,7 +18,9 @@ namespace FunctionalTests
             request.AddFile("file", imagePath);
             var response = await client.PostAsync<ImageGroup>(request);
 
-            var request = new RestRequest(Routes.SaveImageGroup);
+            request = new RestRequest(Routes.GetImageGroup);
+            request.AddParameter("id", group!.Id);
+            group = await client.GetAsync<ImageGroup>(request);
 
             //When
             request = new RestRequest(Routes.DeleteImageGroup);
