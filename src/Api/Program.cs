@@ -13,8 +13,7 @@ namespace Api
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            AddSerilog(builder);
-            AddMainDependencies(builder.Services);
+            AddMainDependencies(builder);
             AddApplicationDependencies(builder.Services);
 
             var app = builder.Build();
@@ -42,38 +41,51 @@ namespace Api
                 .WriteTo.Console();
         }
 
-        static void AddMainDependencies(IServiceCollection services)
+        static void AddMainDependencies(WebApplicationBuilder builder)
         {
-            services
+            AddSerilog(builder);
+
+            builder.Services
                 .AddControllers()
                 .AddJsonOptions(c => c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-            services.AddSwaggerGen(options =>
+            AddSwaggerIfDevelopment(builder);
+        }
+
+        static void AddSwaggerIfDevelopment(WebApplicationBuilder builder)
+        {
+            if (builder.Environment.IsDevelopment())
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
+                builder.Services.AddSwaggerGen(options =>
                 {
-                    Version = "v1",
-                    Title = "Public API",
-                    Description = "A showcase API"
+                    options.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Version = "v1",
+                        Title = "Public API",
+                        Description = "A showcase API"
+                    });
                 });
-            });
+            }
         }
 
         static void ConfigureAndRunApp(WebApplication app)
+        {
+            AddSwaggerIfDevelopment(app);
+            app.UseAuthorization();
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.MapControllers();
+            AddObjectStorageFeature(app);
+
+            app.Run();
+        }
+
+        static void AddSwaggerIfDevelopment(WebApplication app)
         {
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseAuthorization();
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.MapControllers();
-
-            AddObjectStorageFeature(app);
-
-            app.Run();
         }
 
         static void AddObjectStorageFeature(WebApplication app)
