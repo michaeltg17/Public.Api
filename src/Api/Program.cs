@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Persistence;
 using Serilog;
 using CrossCutting;
+using Microsoft.OpenApi.Models;
 
 namespace Api
 {
@@ -47,16 +48,14 @@ namespace Api
                 .AddControllers()
                 .AddJsonOptions(c => c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-                
-            services.AddCors(options =>
+            services.AddSwaggerGen(options =>
             {
-                options.AddPolicy
-                (
-                    name: "AllowOrigin",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-                );
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Public API",
+                    Description = "A showcase API"
+                });
             });
         }
 
@@ -69,17 +68,22 @@ namespace Api
             }
 
             app.UseAuthorization();
-            app.UseCors("AllowOrigin");
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.MapControllers();
 
+            AddObjectStorageFeature(app);
+
+            app.Run();
+        }
+
+        static void AddObjectStorageFeature(WebApplication app)
+        {
             var settings = app.Services.GetRequiredService<ISettings>();
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = settings.ImagesRequestPath,
                 FileProvider = new PhysicalFileProvider(settings.ImagesStoragePath)
             });
-
-            app.Run();
         }
     }
 }
