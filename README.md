@@ -6,6 +6,7 @@ Sample API for testing/fun/learning purposes using good architecture and tests
 
 API:
 - ASP.NET Core
+- OpenAPI
 - N-Layer Architecture
 - Anemic Domain Model
 - Services
@@ -20,5 +21,5 @@ Tests:
 - Coverlet + ReportGenerator
 
 Build/Deploy:
-- Uses docker for build and unit/integration testing
-- Uses another pipeline for deployment (see [Public.Deployment](https://github.com/michaeltg17/Public.Deployment) for details)
+- Build + Unit/Integration tests + Coverage + Artifacts
+- Uses another pipeline for deployment + functional tests (see [Public.Deployment](https://github.com/michaeltg17/Public.Deployment) for details)
