@@ -1,11 +1,14 @@
-﻿namespace FunctionalTests.Others
+﻿using Client;
+
+namespace FunctionalTests.Others
 {
-    public static class Routes
+    public abstract class ApiTest
     {
-        public const string ApiUrl = "http://localhost:80";
-        public const string SaveImageGroup = ApiUrl + "/SaveImageGroup";
-        public const string GetImageGroup = ApiUrl + "/GetImageGroup";
-        public const string GetImage = ApiUrl + "/GetImage";
-        public const string DeleteImageGroup = ApiUrl + "/DeleteImageGroup";
+        public ApiClient Client { get; set; }
+
+        public ApiTest() 
+        {
+            Client = new ApiClient(new HttpClient() { BaseAddress = new Uri("https://localhost:5001") });
+        }
     }
 }

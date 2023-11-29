@@ -1,7 +1,5 @@
-﻿using Domain.Models;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FunctionalTests.Others;
-using RestSharp;
 using Xunit;
 
 namespace FunctionalTests
@@ -13,29 +11,16 @@ namespace FunctionalTests
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var client = new RestClient();
-            var request = new RestRequest(Routes.SaveImageGroup);
-            request.AddFile("file", imagePath);
-            var response = await client.PostAsync<ImageGroup>(request);
-
-            request = new RestRequest(Routes.GetImageGroup);
-            request.AddParameter("id", group!.Id);
-            group = await client.GetAsync<ImageGroup>(request);
+            var imageGroup = await Client.SaveImageGroup(imagePath);
+            var imageGroup2 = await Client.GetImageGroup(imageGroup.Id);
+            imageGroup.Should().Be(imageGroup2);
 
             //When
-            request = new RestRequest(Routes.DeleteImageGroup);
-            request.AddParameter("id", response!.Id);
-            await client.PostAsync(request);
+            await Client.DeleteImageGroup(imageGroup.Id);
 
             //Then
-
-            var uploadedImageBytes = File.ReadAllBytes(imagePath);
-            var image = response!.Images.First();
-
-            using var httpClient = new HttpClient();
-            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image.Url);
-
-            uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
+            imageGroup2 = await Client.GetImageGroup(imageGroup.Id);
+            imageGroup2.Should().BeNull();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Michael.Net.Extensions;
+using System.Net.Http.Json;
 
 namespace Client
 {
@@ -12,21 +13,14 @@ namespace Client
             this.client = client;
         }
 
-        Task<ImageGroup?> GetImage(int id)
+        public Task<ImageGroup?> GetImage(long id)
         {
-            var multipartContent = new MultipartFormDataContent();
-            var byteArrayContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
-            multipartContent.Add(byteArrayContent, "file", Path.GetFileName(imagePath));
-
-            // When
-            var response = await(await client.PostAsync("SaveImageGroup", multipartContent)).FromJson<ImageGroup>();
+            return client.GetFromJsonAsync<ImageGroup>($"GetImage?={id}");
         }
 
-        Task<ImageGroup?> GetImageGroup(int id)
+        public Task<ImageGroup?> GetImageGroup(long id)
         {
-            var request = new RestRequest(Routes.GetImageGroup);
-            request.AddParameter("id", id);
-            return Client.GetAsync<ImageGroup>(request);
+            return client.GetFromJsonAsync<ImageGroup>($"GetImageGroup?={id}");
         }
 
         public async Task<ImageGroup> SaveImageGroup(string imagePath)
@@ -39,11 +33,9 @@ namespace Client
             return await response.FromJson<ImageGroup>();
         }
 
-        Task DeleteImageGroup(int id)
+        public async Task DeleteImageGroup(long id)
         {
-            request = new RestRequest(Routes.DeleteImageGroup);
-            request.AddParameter("id", response!.Id);
-            await client.PostAsync(request);
+            await client.PostAsJsonAsync("DeleteImageGroup", id);
         }
     }
 }
