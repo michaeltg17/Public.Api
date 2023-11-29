@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "src\Client\Client.csproj", "{455D2470-B633-4623-99C8-43F7B684642C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{A1BCFCD3-ECA5-4612-BA7E-84B967A0E362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1BCFCD3-ECA5-4612-BA7E-84B967A0E362}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1BCFCD3-ECA5-4612-BA7E-84B967A0E362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455D2470-B633-4623-99C8-43F7B684642C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455D2470-B633-4623-99C8-43F7B684642C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455D2470-B633-4623-99C8-43F7B684642C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455D2470-B633-4623-99C8-43F7B684642C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{4A133811-13E4-4889-A99E-02B0E92FC1F2} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
 		{1E1D240F-F745-4043-AF88-7EB1086A745C} = {533CD522-D13C-4E30-8F02-6178C46C46EC}
 		{A1BCFCD3-ECA5-4612-BA7E-84B967A0E362} = {533CD522-D13C-4E30-8F02-6178C46C46EC}
+		{455D2470-B633-4623-99C8-43F7B684642C} = {B2BE60B5-700F-4BC2-B213-DE9431E13216}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36654296-38F7-46E8-87D6-C9A3BFFE12A8}
