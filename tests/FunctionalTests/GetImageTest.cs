@@ -1,36 +1,28 @@
-﻿//using Domain.Models;
-//using FluentAssertions;
-//using FunctionalTests.Others;
-//using RestSharp;
-//using Xunit;
+﻿using FluentAssertions;
+using FunctionalTests.Others;
+using Xunit;
 
-//namespace FunctionalTests
-//{
-//    public class GetImageTest : ApiTest
-//    {
-//        [Fact]
-//        public async Task GivenImage_WhenSaveAndGet_IsGot()
-//        {
-//            //Given
-//            const string imagePath = @"Images\didi.jpeg";
+namespace FunctionalTests
+{
+    public class GetImageTest : ApiTest
+    {
+        [Fact]
+        public async Task GivenImageGroup_WhenGetImage_IsGot()
+        {
+            //Given
+            const string imagePath = @"Images\didi.jpeg";
+            var imageGroup = await Client.SaveImageGroup(imagePath);
 
-//            var client = new RestClient();
-//            var request = new RestRequest(Routes.SaveImageGroup);
-//            request.AddFile("file", imagePath);
-//            var group = await client.PostAsync<ImageGroup>(request);
+            //When
+            var image = await Client.GetImage(imageGroup.Images.First().Id);
 
-//            //When
-//            request = new RestRequest(Routes.GetImage);
-//            request.AddParameter("id", group!.Images.First().Id);
-//            var image = await client.GetAsync<Image>(request);
+            //Then
+            var uploadedImageBytes = File.ReadAllBytes(imagePath);
 
-//            //Then
-//            var uploadedImageBytes = File.ReadAllBytes(imagePath);
+            using var httpClient = new HttpClient();
+            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image!.Url);
 
-//            using var httpClient = new HttpClient();
-//            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image!.Url);
-
-//            uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
-//        }
-//    }
-//}
+            uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
+        }
+    }
+}

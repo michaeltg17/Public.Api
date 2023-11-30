@@ -13,9 +13,9 @@ namespace Client
             this.client = client;
         }
 
-        public Task<ImageGroup?> GetImage(long id)
+        public Task<Image?> GetImage(long id)
         {
-            return client.GetFromJsonAsync<ImageGroup>($"GetImage?={id}");
+            return client.GetFromJsonAsync<Image>($"GetImage?={id}");
         }
 
         public Task<ImageGroup?> GetImageGroup(long id)
