@@ -6,6 +6,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using CrossCutting;
+using Client;
 
 namespace IntegrationTests.Others
 {

@@ -8,9 +8,10 @@ namespace IntegrationTests.Others
 {
     public class Database : IAsyncDisposable
     {
+        const bool KeepAlive = true;
+
         public string ConnectionString { get; private set; } = default!;
 
-        const bool KeepAlive = true;
         const string DatabaseName = "Database";
         const string ContainerName = "IntegrationTestsSqlServer";
         const int HostPort = 50000;

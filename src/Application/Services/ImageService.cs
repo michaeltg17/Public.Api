@@ -22,12 +22,12 @@ namespace Application.Services
             this.objectStorage = objectStorage;
         }
 
-        public async Task<Image> GetImage(int id)
+        public async Task<Image> GetImage(long id)
         {
             return await dbContext.Images.SingleAsync(x => x.Id == id);
         }
 
-        public async Task<ImageGroup> GetImageGroup(int id)
+        public async Task<ImageGroup> GetImageGroup(long id)
         {
             return await dbContext.Get(new GetImageGroupWithImagesQuery(id));
         }
@@ -84,7 +84,7 @@ namespace Application.Services
             return $"{Guid.NewGuid()}{extension}";
         }
 
-        public void DeleteImageGroup(int id)
+        public void DeleteImageGroup(long id)
         {
             dbContext.Remove<ImageGroup>(id);
         }

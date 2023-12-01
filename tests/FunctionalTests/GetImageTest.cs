@@ -4,23 +4,21 @@ using Xunit;
 
 namespace FunctionalTests
 {
-    public class GetImageTest : ApiTest
+    public class GetImageTest : Test
     {
         [Fact]
         public async Task GivenImageGroup_WhenGetImage_IsGot()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await Client.SaveImageGroup(imagePath);
+            var imageGroup = await apiClient.SaveImageGroup(imagePath);
 
             //When
-            var image = await Client.GetImage(imageGroup.Images.First().Id);
+            var image = await apiClient.GetImage(imageGroup.Images.First().Id);
 
             //Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
-
-            using var httpClient = new HttpClient();
-            var downloadedImageBytes = await httpClient.GetByteArrayAsync(image!.Url);
+            var downloadedImageBytes = await apiClient.HttpClient.GetByteArrayAsync(image!.Url);
 
             uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }

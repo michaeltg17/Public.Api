@@ -4,7 +4,7 @@ using Xunit;
 
 namespace FunctionalTests
 {
-    public class GetImageGroupTest : ApiTest
+    public class GetImageGroupTest : Test
     {
         [Fact]
         public async Task GivenImage_WhenSaveAndGetImageGroup_IsGot()
@@ -13,11 +13,11 @@ namespace FunctionalTests
             const string imagePath = @"Images\didi.jpeg";
 
             //When
-            var imageGroup = await Client.SaveImageGroup(imagePath);
+            var imageGroup = await apiClient.SaveImageGroup(imagePath);
 
             //Then
-            var imageGroup2 = await Client.GetImageGroup(imageGroup.Id);
-            imageGroup.Should().Be(imageGroup2);
+            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
+            imageGroup.Should().BeEquivalentTo(imageGroup2);
         }
     }
 }

@@ -7,9 +7,9 @@ namespace Application.Services
 {
     public interface IImageService
     {
-        Task<Image> GetImage(int id);
-        Task<ImageGroup> GetImageGroup(int id);
+        Task<Image> GetImage(long id);
+        Task<ImageGroup> GetImageGroup(long id);
         Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> openReadStream);
-        void DeleteImageGroup(int id);
+        void DeleteImageGroup(long id);
     }
 }

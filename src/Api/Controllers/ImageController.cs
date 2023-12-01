@@ -15,14 +15,14 @@ namespace Api.Controllers
         }
 
         [HttpGet("GetImage")]
-        public async Task<Image> GetImage(int id)
+        public async Task<Image> GetImage([FromQuery] long id)
         {
             return await imageService.GetImage(id);
         }
 
 
         [HttpGet("GetImageGroup")]
-        public async Task<ImageGroup> GetImageGroup(int id)
+        public async Task<ImageGroup> GetImageGroup([FromQuery] long id)
         {
             return await imageService.GetImageGroup(id);
         }
@@ -33,8 +33,8 @@ namespace Api.Controllers
             return await imageService.SaveImageGroup(file.FileName, () => file.OpenReadStream());
         }
 
-        [HttpPost("DeleteImageGroup")]
-        public void DeleteImageGroup(int id)
+        [HttpDelete("DeleteImageGroup")]
+        public void DeleteImageGroup([FromQuery] long id)
         {
             imageService.DeleteImageGroup(id);
         }

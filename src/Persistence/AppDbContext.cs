@@ -36,7 +36,7 @@ namespace Persistence
 
         public Task<T> Get<T>(IQuery<T> query) => query.Execute(Database.GetDbConnection());
 
-        public void Remove<T>(int id) where T : class, IIdentifiable, new()
+        public void Remove<T>(long id) where T : class, IIdentifiable, new()
         {
             var entity = new T() { Id = id };
             Remove(entity);
