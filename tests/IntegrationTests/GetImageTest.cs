@@ -6,10 +6,8 @@ using Xunit.Abstractions;
 namespace IntegrationTests
 {
     [Collection("ApiCollection")]
-    public class GetImageTest : Test
+    public class GetImageTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
     {
-        public GetImageTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : base(testOutputHelper, factory) {}
-
         [Fact]
         public async Task GivenImage_WhenSave_IsSaved()
         {
