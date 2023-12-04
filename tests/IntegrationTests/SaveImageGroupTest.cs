@@ -21,9 +21,9 @@ namespace IntegrationTests
 
             //Then
             var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
-            imageGroup.Should().BeEquivalentTo(imageGroup2, o => o
-                .ExcludingCollectionProperty(i => i.Images.First().ResolutionNavigation)
-                .WithPropertyAssertion(p => p.CreatedOn, c => c.Subject.Truncate(DateTimeResolution.Second).Should().Be(c.Expectation)));
+            //imageGroup.Should().BeEquivalentTo(imageGroup2, o => o
+            //    .ExcludingCollectionProperty(i => i.Images.First().ResolutionNavigation));
+            imageGroup.Should().BeEquivalentTo(imageGroup2);
         }
     }
 }

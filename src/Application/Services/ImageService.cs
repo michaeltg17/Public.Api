@@ -27,7 +27,15 @@ namespace Application.Services
             return await dbContext.Images.SingleAsync(x => x.Id == id);
         }
 
-        public async Task<ImageGroup> GetImageGroup(long id)
+        public async Task<ImageGroup?> GetImageGroup(long id)
+        {
+            return await dbContext.ImageGroups
+                .Include(g => g.Images)
+                .ThenInclude(x => x.ResolutionNavigation)
+                .SingleAsync(g => g.Id == id);
+        }
+
+        async Task<ImageGroup> GetImageGroupWithDapper(long id)
         {
             return await dbContext.Get(new GetImageGroupWithImagesQuery(id));
         }
