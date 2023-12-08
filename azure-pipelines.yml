@@ -70,7 +70,7 @@ jobs:
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile.publish'
-          arguments: '--build-arg APP=./publish/Api'
+          arguments: '-t api --build-arg APP=./publish/Api'
 
       - task: DotNetCoreCLI@2
         displayName: "Publish functional tests"
