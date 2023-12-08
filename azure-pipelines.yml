@@ -53,6 +53,8 @@ jobs:
           command: 'publish'
           publishWebProjects: true
           arguments: '-c Release -o publish\Api'
+          zipAfterPublish: false
+          modifyOutputPath: false
           
       # - task: Bash@3
       #   displayName: "Build.ArtifactStagingDirectory to posix path"
