@@ -1,11 +1,10 @@
 ﻿using FluentAssertions;
-using IntegrationTests.Others;
 using Michael.Net.Extensions.DateTimeExtensions;
 using Michael.Net.Testing.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace IntegrationTests
+namespace IntegrationTests.Tests
 {
     [Collection("ApiCollection")]
     public class SaveImageGroupTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)

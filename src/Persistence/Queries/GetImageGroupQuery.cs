@@ -5,11 +5,11 @@ using System.Data;
 
 namespace Persistence.Queries
 {
-    public class GetImageGroupWithImagesQuery : IQuery<ImageGroup>
+    public class GetImageGroupQuery : IQuery<ImageGroup>
     {
         readonly long id;
 
-        public GetImageGroupWithImagesQuery(long id)
+        public GetImageGroupQuery(long id)
         {
             this.id = id;
         }

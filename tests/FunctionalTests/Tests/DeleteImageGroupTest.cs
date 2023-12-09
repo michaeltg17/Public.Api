@@ -1,10 +1,9 @@
 ﻿using FluentAssertions;
-using FunctionalTests.Others;
 using Xunit;
 
-namespace FunctionalTests
+namespace FunctionalTests.Tests
 {
-    public class DeleteImageGroupTest : Test
+    public class DeleteImageGroupTest(ISettings settings) : Test(settings)
     {
         [Fact]
         public async Task GivenImageGroup_WhenDelete_IsDeleted()

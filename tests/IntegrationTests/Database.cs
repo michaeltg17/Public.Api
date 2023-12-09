@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Dac;
 using Testcontainers.MsSql;
 
-namespace IntegrationTests.Others
+namespace IntegrationTests
 {
     public class Database : IAsyncDisposable
     {
@@ -39,7 +39,7 @@ namespace IntegrationTests.Others
             var builder = new SqlConnectionStringBuilder()
             {
                 InitialCatalog = DatabaseName,
-                UserID = MsSqlBuilder.DefaultUsername, 
+                UserID = MsSqlBuilder.DefaultUsername,
                 Password = MsSqlBuilder.DefaultPassword,
                 DataSource = "localhost," + HostPort,
                 TrustServerCertificate = true
@@ -86,10 +86,10 @@ namespace IntegrationTests.Others
                 return ValueTask.CompletedTask;
             }
 
-            #pragma warning disable CS0162 // Unreachable code detected
+#pragma warning disable CS0162 // Unreachable code detected
             GC.SuppressFinalize(this);
             return sqlServerContainer.DisposeAsync();
-            #pragma warning restore CS0162 // Unreachable code detected
+#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 }

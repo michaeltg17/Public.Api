@@ -31,13 +31,13 @@ namespace Application.Services
         {
             return await dbContext.ImageGroups
                 .Include(g => g.Images)
-                .ThenInclude(x => x.ResolutionNavigation)
+                .ThenInclude(i => i.ResolutionNavigation)
                 .SingleAsync(g => g.Id == id);
         }
 
         async Task<ImageGroup> GetImageGroupWithDapper(long id)
         {
-            return await dbContext.Get(new GetImageGroupWithImagesQuery(id));
+            return await dbContext.Get(new GetImageGroupQuery(id));
         }
 
         public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> openReadStream)

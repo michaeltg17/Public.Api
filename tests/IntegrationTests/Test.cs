@@ -1,7 +1,7 @@
 ﻿using Client;
 using Xunit.Abstractions;
 
-namespace IntegrationTests.Others
+namespace IntegrationTests
 {
     public abstract class Test
     {

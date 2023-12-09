@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace IntegrationTests.Others;
+namespace IntegrationTests;
 
 /// <summary>
 /// This class has no code, and is never created. Its purpose is simply

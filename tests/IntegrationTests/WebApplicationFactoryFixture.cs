@@ -6,9 +6,8 @@ using Xunit;
 using Xunit.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using CrossCutting;
-using Client;
 
-namespace IntegrationTests.Others
+namespace IntegrationTests
 {
     public class WebApplicationFactoryFixture : WebApplicationFactory<Program>, IAsyncLifetime
     {
@@ -29,7 +28,7 @@ namespace IntegrationTests.Others
                 configuration.WriteTo.TestOutput(TestOutputHelper);
             });
 
-            builder.ConfigureServices(s => s.Configure<Settings>(s => 
+            builder.ConfigureServices(s => s.Configure<Settings>(s =>
             {
                 s.SqlServerConnectionString = Database.ConnectionString;
                 s.Url = "http://localhost";

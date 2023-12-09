@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
-using IntegrationTests.Others;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace IntegrationTests
+namespace IntegrationTests.Tests
 {
     [Collection("ApiCollection")]
     public class GetImageTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
