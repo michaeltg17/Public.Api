@@ -53,6 +53,8 @@ jobs:
           command: 'publish'
           publishWebProjects: true
           arguments: '-c Release -o publish\Api'
+          zipAfterPublish: false
+          modifyOutputPath: false
           
       # - task: Bash@3
       #   displayName: "Build.ArtifactStagingDirectory to posix path"
@@ -70,7 +72,7 @@ jobs:
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile.publish'
-          arguments: '--build-arg APP=./publish/Api'
+          arguments: '-t api --build-arg APP=./publish/Api'
 
       - task: DotNetCoreCLI@2
         displayName: "Publish functional tests"
