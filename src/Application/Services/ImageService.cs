@@ -92,9 +92,10 @@ namespace Application.Services
             return $"{Guid.NewGuid()}{extension}";
         }
 
-        public void DeleteImageGroup(long id)
+        public async Task DeleteImageGroup(long id)
         {
             dbContext.Remove<ImageGroup>(id);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

@@ -14,29 +14,29 @@ namespace Api.Controllers
             this.imageService = imageService;
         }
 
-        [HttpGet("GetImage")]
-        public async Task<Image> GetImage([FromQuery] long id)
+        [HttpGet("Image/{id}")]
+        public async Task<Image> GetImage(long id)
         {
             return await imageService.GetImage(id);
         }
 
 
-        [HttpGet("GetImageGroup")]
-        public async Task<ImageGroup> GetImageGroup([FromQuery] long id)
+        [HttpGet("ImageGroup/{id}")]
+        public async Task<ImageGroup> GetImageGroup(long id)
         {
             return await imageService.GetImageGroup(id);
         }
 
-        [HttpPost("SaveImageGroup")]
+        [HttpPost("ImageGroup")]
         public async Task<ImageGroup> SaveImageGroup(IFormFile file)
         {
             return await imageService.SaveImageGroup(file.FileName, () => file.OpenReadStream());
         }
 
-        [HttpDelete("DeleteImageGroup")]
-        public void DeleteImageGroup([FromQuery] long id)
+        [HttpDelete("ImageGroup/{id}")]
+        public async Task DeleteImageGroup(long id)
         {
-            imageService.DeleteImageGroup(id);
+            await imageService.DeleteImageGroup(id);
         }
     }
 }

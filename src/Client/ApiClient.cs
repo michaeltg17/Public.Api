@@ -15,12 +15,12 @@ namespace Client
 
         public Task<Image?> GetImage(long id)
         {
-            return HttpClient.GetFromJsonAsync<Image>($"GetImage?id={id}");
+            return HttpClient.GetFromJsonAsync<Image>($"Image/{id}");
         }
 
         public Task<ImageGroup?> GetImageGroup(long id)
         {
-            return HttpClient.GetFromJsonAsync<ImageGroup>($"GetImageGroup?id={id}");
+            return HttpClient.GetFromJsonAsync<ImageGroup>($"ImageGroup/{id}");
         }
 
         public async Task<ImageGroup> SaveImageGroup(string imagePath)
@@ -29,13 +29,13 @@ namespace Client
             var byteArrayContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
             multipartContent.Add(byteArrayContent, "file", Path.GetFileName(imagePath));
 
-            var response = await HttpClient.PostAsync("SaveImageGroup", multipartContent);
+            var response = await HttpClient.PostAsync("ImageGroup", multipartContent);
             return await response.FromJson<ImageGroup>();
         }
 
         public async Task DeleteImageGroup(long id)
         {
-            await HttpClient.DeleteAsync($"DeleteImageGroup/{id}");
+            await HttpClient.DeleteAsync($"ImageGroup/{id}");
         }
     }
 }
