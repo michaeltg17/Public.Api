@@ -10,17 +10,17 @@ namespace Client
 
         public ApiClient(HttpClient client)
         {
-            this.HttpClient = client;
+            HttpClient = client;
         }
 
-        public Task<Image?> GetImage(long id)
+        public Task<Image> GetImage(long id)
         {
-            return HttpClient.GetFromJsonAsync<Image>($"Image/{id}");
+            return HttpClient.GetFromJsonAsync<Image>($"Image/{id}")!;
         }
 
-        public Task<ImageGroup?> GetImageGroup(long id)
+        public Task<ImageGroup> GetImageGroup(long id)
         {
-            return HttpClient.GetFromJsonAsync<ImageGroup>($"ImageGroup/{id}");
+            return HttpClient.GetFromJsonAsync<ImageGroup>($"ImageGroup/{id}")!;
         }
 
         public async Task<ImageGroup> SaveImageGroup(string imagePath)

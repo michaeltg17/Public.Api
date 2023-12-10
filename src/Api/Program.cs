@@ -75,8 +75,14 @@ namespace Api
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.MapControllers();
             AddObjectStorageFeature(app);
+            AddMiddlewares(app);
 
             app.Run();
+        }
+
+        static void AddMiddlewares(WebApplication app)
+        {
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
         }
 
         static void AddSwaggerIfDevelopment(WebApplication app)

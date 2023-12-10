@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections.Generic;
-using System;
 using Persistence.Queries;
 using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System.Linq;
+using System;
+using Application.Exceptions;
 
 namespace Application.Services
 {
@@ -24,15 +25,17 @@ namespace Application.Services
 
         public async Task<Image> GetImage(long id)
         {
-            return await dbContext.Images.SingleAsync(x => x.Id == id);
+            return await dbContext.Images.SingleOrDefaultAsync(x => x.Id == id)
+                ?? throw new NotFoundException($"Image with id '{id}' was not found.");
         }
 
-        public async Task<ImageGroup?> GetImageGroup(long id)
+        public async Task<ImageGroup> GetImageGroup(long id)
         {
             return await dbContext.ImageGroups
                 .Include(g => g.Images)
                 .ThenInclude(i => i.ResolutionNavigation)
-                .SingleAsync(g => g.Id == id);
+                .SingleOrDefaultAsync(g => g.Id == id)
+                ?? throw new NotFoundException($"ImageGroup with id '{id}' was not found.");
         }
 
         async Task<ImageGroup> GetImageGroupWithDapper(long id)
