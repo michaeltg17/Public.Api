@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Net;
 using Xunit;
 
 namespace FunctionalTests.Tests
@@ -18,8 +19,8 @@ namespace FunctionalTests.Tests
             await apiClient.DeleteImageGroup(imageGroup.Id);
 
             //Then
-            imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
-            imageGroup2.Should().BeNull();
+            var getImageGroup = async () => await apiClient.GetImageGroup(imageGroup.Id);
+            (await getImageGroup.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
