@@ -1,10 +1,15 @@
-using Application;
+﻿using Application;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 using Persistence;
 using Serilog;
 using CrossCutting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Diagnostics;
+using Application.Exceptions;
+using System.Net;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api
 {
@@ -49,6 +54,8 @@ namespace Api
                 .AddControllers()
                 .AddJsonOptions(c => c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+            builder.Services.AddProblemDetails();
+
             AddSwaggerIfDevelopment(builder);
         }
 
@@ -75,14 +82,47 @@ namespace Api
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.MapControllers();
             AddObjectStorageFeature(app);
-            AddMiddlewares(app);
-
+            AddExceptionHandler(app);
             app.Run();
         }
 
-        static void AddMiddlewares(WebApplication app)
+        static void AddExceptionHandler(WebApplication app)
         {
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseExceptionHandler(config => config.Run(async context =>
+            {
+                context.Response.ContentType = "application/problem+json";
+                var problemDetailsService = context.RequestServices.GetRequiredService<IProblemDetailsService>();
+
+                var exceptionHandlerFeature = context.Features.GetRequiredFeature<IExceptionHandlerFeature>();
+                var exception = exceptionHandlerFeature.Error;
+
+                context.Response.StatusCode = exception switch
+                {
+                    NotFoundException => (int)HttpStatusCode.NotFound,
+                    ApiException => (int)HttpStatusCode.BadRequest,
+                    _ => (int)HttpStatusCode.InternalServerError,
+                };
+
+                var problem = new ProblemDetailsContext
+                {
+                    Exception = exception,
+                    HttpContext = context,
+                    ProblemDetails =
+                    {
+                        Title = exception.GetType().Name,
+                        Detail = exception.Message,
+                        Status = context.Response.StatusCode
+                    }
+                };
+
+                if (app.Environment.IsDevelopment())
+                {
+                    problem.ProblemDetails.Extensions.Add("exception", exception.ToString());
+                }
+
+                var done = await problemDetailsService.TryWriteAsync(problem);
+                if (!done) await context.Response.WriteAsJsonAsync(problem.ProblemDetails);
+            }));
         }
 
         static void AddSwaggerIfDevelopment(WebApplication app)

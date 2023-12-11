@@ -5,21 +5,13 @@ using Application.Services;
 namespace Api.Controllers
 {
     [ApiController]
-    public class ImageController : ControllerBase
+    public class ImageController(IImageService imageService) : ControllerBase
     {
-        readonly IImageService imageService;
-
-        public ImageController(IImageService imageService)
-        {
-            this.imageService = imageService;
-        }
-
         [HttpGet("Image/{id}")]
         public async Task<Image> GetImage(long id)
         {
             return await imageService.GetImage(id);
         }
-
 
         [HttpGet("ImageGroup/{id}")]
         public async Task<ImageGroup> GetImageGroup(long id)
