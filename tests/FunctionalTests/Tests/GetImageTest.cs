@@ -21,5 +21,14 @@ namespace FunctionalTests.Tests
 
             uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }
+
+        [Fact]
+        public async Task GivenUnexistingImageGroup_WhenGetImage_IsGot()
+        {
+            //When
+            var image = await apiClient.GetImage(id: 600);
+
+            //Then
+        }
     }
 }

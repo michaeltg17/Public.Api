@@ -1,11 +1,15 @@
 ﻿using Domain.Models;
 using Michael.Net.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Client
 {
     public class ApiClient
     {
+        static readonly JsonSerializerOptions JsonSerializerOptions = new(JsonSerializerDefaults.Web);
+
         public HttpClient HttpClient { get; }
 
         public ApiClient(HttpClient client)
@@ -13,9 +17,20 @@ namespace Client
             HttpClient = client;
         }
 
-        public Task<Image> GetImage(long id)
+        public async Task<Image> GetImage(long id)
         {
-            return HttpClient.GetFromJsonAsync<Image>($"Image/{id}")!;
+            var response = await HttpClient.GetAsync($"Image/{id}");
+            var content = await response.Content.ReadAsStreamAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return (await JsonSerializer.DeserializeAsync<Image>(content, JsonSerializerOptions))!;
+            }
+            else
+            {
+                var problemDetails = (await JsonSerializer.DeserializeAsync<ProblemDetails>(content, JsonSerializerOptions))!;
+                throw new ApiClientException(problemDetails);
+            }
         }
 
         public Task<ImageGroup> GetImageGroup(long id)

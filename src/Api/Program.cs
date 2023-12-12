@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Diagnostics;
 using Application.Exceptions;
 using System.Net;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Api
 {
