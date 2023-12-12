@@ -17,6 +17,11 @@ namespace Client
             HttpClient = client;
         }
 
+        async Task<T> Get(long id)
+        {
+
+        }
+
         public async Task<Image> GetImage(long id)
         {
             var response = await HttpClient.GetAsync($"Image/{id}");

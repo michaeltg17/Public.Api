@@ -1,4 +1,7 @@
-﻿using FluentAssertions;
+﻿using Client;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Xunit;
 
 namespace FunctionalTests.Tests
@@ -23,12 +26,22 @@ namespace FunctionalTests.Tests
         }
 
         [Fact]
-        public async Task GivenUnexistingImageGroup_WhenGetImage_IsGot()
+        public async Task GivenUnexistingImage_WhenGetImage_ExpectedProblemDetails()
         {
             //When
-            var image = await apiClient.GetImage(id: 600);
+            var getImage = async () => await apiClient.GetImage(id: 600);
 
             //Then
+            var expected = new ProblemDetails
+            {
+                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                Title = "NotFoundException",
+                Status = (int)HttpStatusCode.NotFound,
+                Detail = "Image with id '600' was not found."
+            };
+
+            (await getImage.Should().ThrowAsync<ApiClientException>())
+            .And.ProblemDetails.Should().BeEquivalentTo(expected, options => options.Excluding(p => p.Extensions));
         }
     }
 }

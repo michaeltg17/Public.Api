@@ -116,7 +116,7 @@ namespace Api
 
                 if (app.Environment.IsDevelopment())
                 {
-                    problem.ProblemDetails.Extensions.Add("exception", exception.ToString());
+                    problem.ProblemDetails.Extensions.Add("Exception", exception.ToString());
                 }
 
                 var done = await problemDetailsService.TryWriteAsync(problem);

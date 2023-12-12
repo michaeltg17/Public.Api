@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Client
 {
     public static class ProblemDetailsExtensions
     {
-        public static string ToString(this ProblemDetails problemDetails)
+        static readonly JsonSerializerOptions JsonSerializerOptions = new()
         {
-            return "dddddddddddddd";
+            WriteIndented = true
+        };
+
+        public static string ToJsonString(this ProblemDetails problemDetails)
+        {
+            return JsonSerializer.Serialize(problemDetails, JsonSerializerOptions);
         }
     }
 }
