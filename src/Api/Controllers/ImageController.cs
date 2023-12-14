@@ -20,9 +20,10 @@ namespace Api.Controllers
         }
 
         [HttpPost("ImageGroup")]
-        public async Task<ImageGroup> SaveImageGroup(IFormFile file)
+        public async Task<ActionResult<ImageGroup>> SaveImageGroup(IFormFile file)
         {
-            return await imageService.SaveImageGroup(file.FileName, () => file.OpenReadStream());
+            var imageGroup = await imageService.SaveImageGroup(file.FileName, () => file.OpenReadStream());
+            return CreatedAtAction(nameof(GetImageGroup), new { imageGroup.Id }, imageGroup);
         }
 
         [HttpDelete("ImageGroup/{id}")]

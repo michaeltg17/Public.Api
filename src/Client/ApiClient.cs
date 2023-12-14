@@ -17,14 +17,14 @@ namespace Client
             HttpClient = client;
         }
 
-        async Task<T> Get(long id)
+        public Task<HttpResponseMessage> GetImageAsResponse(long id)
         {
-
+            return HttpClient.GetAsync($"Image/{id}");
         }
 
-        public async Task<Image> GetImage(long id)
+        public async Task<(Image image, HttpResponseMessage response)> GetImage(long id)
         {
-            var response = await HttpClient.GetAsync($"Image/{id}");
+            var response = await GetImageAsResponse(id);
             var content = await response.Content.ReadAsStreamAsync();
 
             if (response.IsSuccessStatusCode)
@@ -43,14 +43,23 @@ namespace Client
             return HttpClient.GetFromJsonAsync<ImageGroup>($"ImageGroup/{id}")!;
         }
 
-        public async Task<ImageGroup> SaveImageGroup(string imagePath)
+        public async Task<(ImageGroup imageGroup, HttpResponseMessage response)> SaveImageGroup(string imagePath)
         {
             var multipartContent = new MultipartFormDataContent();
             var byteArrayContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
             multipartContent.Add(byteArrayContent, "file", Path.GetFileName(imagePath));
 
             var response = await HttpClient.PostAsync("ImageGroup", multipartContent);
-            return await response.FromJson<ImageGroup>();
+            return (await response.FromJson<ImageGroup>(), response);
+        }
+
+        public Task<HttpResponseMessage> SaveImageGroupAsResponse(string imagePath)
+        {
+            var multipartContent = new MultipartFormDataContent();
+            var byteArrayContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+            multipartContent.Add(byteArrayContent, "file", Path.GetFileName(imagePath));
+
+            return HttpClient.PostAsync("ImageGroup", multipartContent);
         }
 
         public async Task DeleteImageGroup(long id)
