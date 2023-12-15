@@ -1,4 +1,5 @@
 ﻿using Client;
+using Domain.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -13,10 +14,10 @@ namespace FunctionalTests.Tests
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.SaveImageGroup(imagePath);
+            var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var image = await apiClient.GetImage(imageGroup.Images.First().Id);
+            var image = await apiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
 
             //Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
@@ -29,7 +30,7 @@ namespace FunctionalTests.Tests
         public async Task GivenUnexistingImage_WhenGetImage_ExpectedProblemDetails()
         {
             //When
-            var getImage = async () => await apiClient.GetImage(id: 600);
+            var response = await apiClient.GetImage(id: 600);
 
             //Then
             var expected = new ProblemDetails
@@ -40,8 +41,9 @@ namespace FunctionalTests.Tests
                 Detail = "Image with id '600' was not found."
             };
 
-            (await getImage.Should().ThrowAsync<ApiClientException>())
-            .And.ProblemDetails.Should().BeEquivalentTo(expected, options => options.Excluding(p => p.Extensions));
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

@@ -7,11 +7,17 @@ namespace Client
     {
         static readonly JsonSerializerOptions JsonSerializerOptions = new(JsonSerializerDefaults.Web);
 
-        public static async Task<T> FromJson<T>(this HttpResponseMessage response)
+        public static async Task<T> To<T>(this HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStreamAsync();
             var @object = await JsonSerializer.DeserializeAsync<T>(content, JsonSerializerOptions);
             return @object ?? throw new MichaelNetException("Deserialization from JSON failed. Result is null.");
+        }
+
+        public static async Task<T> To<T>(this Task<HttpResponseMessage> responseTask)
+        {
+            var response = await responseTask;
+            return await response.To<T>();
         }
     }
 }

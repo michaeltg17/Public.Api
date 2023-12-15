@@ -1,4 +1,7 @@
-﻿using FluentAssertions;
+﻿using Client;
+using Domain.Models;
+using FluentAssertions;
+using System.Net;
 using Xunit;
 
 namespace FunctionalTests.Tests
@@ -12,11 +15,13 @@ namespace FunctionalTests.Tests
             const string imagePath = @"Images\didi.jpeg";
 
             //When
-            var imageGroup = await apiClient.SaveImageGroup(imagePath);
+            var response = await apiClient.SaveImageGroup(imagePath);
+            var imageGroup = response.To<ImageGroup>();
 
             //Then
             var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
             imageGroup.Should().BeEquivalentTo(imageGroup2);
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
     }
 }

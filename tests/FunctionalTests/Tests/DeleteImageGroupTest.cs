@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Client;
+using Domain.Models;
+using FluentAssertions;
 using System.Net;
 using Xunit;
 
@@ -11,8 +13,8 @@ namespace FunctionalTests.Tests
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.SaveImageGroup(imagePath);
-            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
+            var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
             imageGroup.Should().BeEquivalentTo(imageGroup2);
 
             //When
