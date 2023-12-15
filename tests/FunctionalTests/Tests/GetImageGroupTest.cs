@@ -28,6 +28,7 @@ namespace FunctionalTests.Tests
         [Fact]
         public async Task GivenUnexistingImageGroup_WhenGetImageGroup_ExpectedProblemDetails()
         {
+            //Given
             //When
             var response = await apiClient.GetImageGroup(id: 600);
 

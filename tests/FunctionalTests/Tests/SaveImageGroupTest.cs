@@ -23,5 +23,21 @@ namespace FunctionalTests.Tests
             imageGroup.Should().BeEquivalentTo(imageGroup2);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
+
+        [Fact]
+        public async Task GivenBadRquest_WhenSaveImageGroup_ExpectedProblemDetails()
+        {
+            //Given
+            var x = await apiClient.HttpClient.PostAsync("ImageGroup", null);
+
+            //When
+            //var response = await apiClient.SaveImageGroup(imagePath);
+            //var imageGroup = response.To<ImageGroup>();
+
+            ////Then
+            //var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
+            //imageGroup.Should().BeEquivalentTo(imageGroup2);
+            //response.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
     }
 }

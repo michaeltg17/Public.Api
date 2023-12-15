@@ -26,7 +26,7 @@ namespace Application.Services
         public async Task<Image> GetImage(long id)
         {
             return await dbContext.Images.SingleOrDefaultAsync(x => x.Id == id)
-                ?? throw new NotFoundException($"Image with id '{id}' was not found.");
+                ?? throw new NotFoundException<Image>(id);
         }
 
         public async Task<ImageGroup> GetImageGroup(long id)
@@ -35,7 +35,7 @@ namespace Application.Services
                 .Include(g => g.Images)
                 .ThenInclude(i => i.ResolutionNavigation)
                 .SingleOrDefaultAsync(g => g.Id == id)
-                ?? throw new NotFoundException($"ImageGroup with id '{id}' was not found.");
+                ?? throw new NotFoundException<ImageGroup>(id);
         }
 
         async Task<ImageGroup> GetImageGroupWithDapper(long id)
@@ -98,7 +98,7 @@ namespace Application.Services
         public async Task DeleteImageGroup(long id)
         {
             dbContext.Remove<ImageGroup>(id);
-            await dbContext.SaveChangesAsync();
+            if (await dbContext.SaveChangesAsync() == 0) throw new NotFoundException<ImageGroup>(id);
         }
     }
 }
