@@ -6,13 +6,13 @@ namespace CrossCutting
     {
         public ValidateOptionsResult Validate(string? name, Settings settings)
         {
-            var failures = new List<string>();
+            var validationErrors = new List<string>();
 
             if (string.IsNullOrWhiteSpace(settings.Url))
-                failures.Add($"The '{nameof(settings.Url)}' setting is required");
+                validationErrors.Add($"The '{nameof(settings.Url)}' setting is required");
 
             if (string.IsNullOrWhiteSpace(settings.ImagesStoragePath))
-                failures.Add($"The '{nameof(settings.ImagesStoragePath)}' setting is required");
+                validationErrors.Add($"The '{nameof(settings.ImagesStoragePath)}' setting is required");
             else
             {
                 try
@@ -21,17 +21,17 @@ namespace CrossCutting
                 }
                 catch (Exception exception)
                 {
-                    failures.Add(exception.ToString());
+                    validationErrors.Add(exception.ToString());
                 }
             }
 
             if (string.IsNullOrWhiteSpace(settings.ImagesRequestPath))
-                failures.Add($"The '{nameof(settings.ImagesRequestPath)}' setting is required");
+                validationErrors.Add($"The '{nameof(settings.ImagesRequestPath)}' setting is required");
 
             if (string.IsNullOrWhiteSpace(settings.SqlServerConnectionString)) 
-                failures.Add($"The '{nameof(settings.SqlServerConnectionString)}' setting is required");
+                validationErrors.Add($"The '{nameof(settings.SqlServerConnectionString)}' setting is required");
 
-            if (failures.Any()) return ValidateOptionsResult.Fail(failures);
+            if (validationErrors.Any()) return ValidateOptionsResult.Fail(validationErrors);
 
             return ValidateOptionsResult.Success;
         }

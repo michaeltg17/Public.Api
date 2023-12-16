@@ -14,24 +14,24 @@ namespace Application.Services
 {
     public class ImageService : IImageService
     {
-        readonly AppDbContext dbContext;
+        readonly AppDbContext db;
         readonly IObjectStorage objectStorage;
 
-        public ImageService(IObjectStorage objectStorage, AppDbContext dbContext)
+        public ImageService(IObjectStorage objectStorage, AppDbContext db)
         {
-            this.dbContext = dbContext;
+            this.db = db;
             this.objectStorage = objectStorage;
         }
 
         public async Task<Image> GetImage(long id)
         {
-            return await dbContext.Images.SingleOrDefaultAsync(x => x.Id == id)
+            return await db.Images.SingleOrDefaultAsync(x => x.Id == id)
                 ?? throw new NotFoundException<Image>(id);
         }
 
         public async Task<ImageGroup> GetImageGroup(long id)
         {
-            return await dbContext.ImageGroups
+            return await db.ImageGroups
                 .Include(g => g.Images)
                 .ThenInclude(i => i.ResolutionNavigation)
                 .SingleOrDefaultAsync(g => g.Id == id)
@@ -40,7 +40,7 @@ namespace Application.Services
 
         async Task<ImageGroup> GetImageGroupWithDapper(long id)
         {
-            return await dbContext.Get(new GetImageGroupQuery(id));
+            return await db.Get(new GetImageGroupQuery(id));
         }
 
         public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> openReadStream)
@@ -52,8 +52,8 @@ namespace Application.Services
                 Name = Path.GetFileNameWithoutExtension(fullFileName),
                 Images = images
             };
-            await dbContext.AddAsync(imageGroup);
-            await dbContext.SaveChangesAsync();
+            await db.AddAsync(imageGroup);
+            await db.SaveChangesAsync();
 
             return imageGroup;
         }
@@ -76,7 +76,7 @@ namespace Application.Services
             var tasks = new List<Task<Image>>();
             using (var stream = openReadStream())
             {
-                foreach (var resolution in dbContext.ImageResolutions)
+                foreach (var resolution in db.ImageResolutions)
                 {
                     var memoryStream = new MemoryStream();
                     stream.CopyTo(memoryStream);
@@ -97,8 +97,8 @@ namespace Application.Services
 
         public async Task DeleteImageGroup(long id)
         {
-            dbContext.Remove<ImageGroup>(id);
-            if (await dbContext.SaveChangesAsync() == 0) throw new NotFoundException<ImageGroup>(id);
+            var affectedRows = await db.Delete<ImageGroup>(id);
+            if (affectedRows == 0) throw new NotFoundException<ImageGroup>(id);
         }
     }
 }

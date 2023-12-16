@@ -16,10 +16,10 @@ namespace FunctionalTests.Tests
 
             //When
             var response = await apiClient.SaveImageGroup(imagePath);
-            var imageGroup = response.To<ImageGroup>();
+            var imageGroup = await response.To<ImageGroup>();
 
             //Then
-            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
+            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
             imageGroup.Should().BeEquivalentTo(imageGroup2);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }

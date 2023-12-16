@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Application.Exceptions;
 using System.Net;
 using Microsoft.AspNetCore.Http.Features;
+using Common.Net;
 
 namespace Api
 {
@@ -108,16 +109,17 @@ namespace Api
                     HttpContext = context,
                     ProblemDetails =
                     {
-                        Title = exception.GetType().Name,
+                        Title = exception.GetType().GetNameWithoutGenericArity(),
                         Detail = exception.Message,
                         Status = context.Response.StatusCode
                     }
                 };
 
-                if (app.Environment.IsDevelopment())
-                {
-                    problem.ProblemDetails.Extensions.Add("Exception", exception.ToString());
-                }
+                //Don't know if useful or not
+                //if (app.Environment.IsDevelopment())
+                //{
+                //    problem.ProblemDetails.Extensions.Add("Exception", exception.ToString());
+                //}
 
                 var done = await problemDetailsService.TryWriteAsync(problem);
                 if (!done) await context.Response.WriteAsJsonAsync(problem.ProblemDetails);

@@ -7,19 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(ISettings settings) : DbContext
     {
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ImageGroup> ImageGroups { get; set; }
         public virtual DbSet<ImageResolution> ImageResolutions { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        readonly ISettings settings;
-
-        public AppDbContext(ISettings settings)
-        {
-            this.settings = settings;
-        }
+        readonly ISettings settings = settings;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,10 +31,9 @@ namespace Persistence
 
         public Task<T> Get<T>(IQuery<T> query) => query.Execute(Database.GetDbConnection());
 
-        public void Remove<T>(long id) where T : class, IIdentifiable, new()
+        public Task<int> Delete<T>(long id) where T : class, IIdentifiable, new()
         {
-            var entity = new T() { Id = id };
-            Remove(entity);
+            return Set<T>().Where(e => e.Id == id).ExecuteDeleteAsync();
         }
     }
 }

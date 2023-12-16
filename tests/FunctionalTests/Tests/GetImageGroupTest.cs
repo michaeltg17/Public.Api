@@ -18,10 +18,10 @@ namespace FunctionalTests.Tests
 
             //When
             var response = await apiClient.GetImageGroup(imageGroup.Id);
+            var imageGroup2 = await response.To<ImageGroup>();
 
             //Then
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var imageGroup2 = response.To<ImageGroup>();
             imageGroup.Should().BeEquivalentTo(imageGroup2);
         }
 
@@ -41,7 +41,7 @@ namespace FunctionalTests.Tests
                 Detail = "ImageGroup with id '600' was not found."
             };
 
-            response.To<ProblemDetails>().Should().BeEquivalentTo(expected);
+            (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
