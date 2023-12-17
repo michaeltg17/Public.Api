@@ -10,6 +10,8 @@ using Application.Exceptions;
 using System.Net;
 using Microsoft.AspNetCore.Http.Features;
 using Common.Net;
+using FluentAssertions.Common;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api
 {
@@ -55,8 +57,24 @@ namespace Api
                 .AddJsonOptions(c => c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             builder.Services.AddProblemDetails();
-
             AddSwaggerIfDevelopment(builder);
+
+            builder.Services.Configure<ApiBehaviorOptions>(apiBehaviorOptions =>
+            {
+                apiBehaviorOptions.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var problemDetails = new ValidationProblemDetails(actionContext.ModelState)
+                    {
+                        Type = apiBehaviorOptions.ClientErrorMapping[400].Link,
+                        Title = "ValidationException",
+                        Status = StatusCodes.Status400BadRequest,
+                        Detail = "Please check the errors property for additional details.",
+                        Instance = actionContext.HttpContext.Request.Path
+                    };
+
+                    return new BadRequestObjectResult(problemDetails);
+                };
+            });
         }
 
         static void AddSwaggerIfDevelopment(WebApplicationBuilder builder)
@@ -111,14 +129,15 @@ namespace Api
                     {
                         Title = exception.GetType().GetNameWithoutGenericArity(),
                         Detail = exception.Message,
-                        Status = context.Response.StatusCode
+                        Status = context.Response.StatusCode,
+                        Instance = context.Request.Path
                     }
                 };
 
                 //Don't know if useful or not
                 //if (app.Environment.IsDevelopment())
                 //{
-                //    problem.ProblemDetails.Extensions.Add("Exception", exception.ToString());
+                //    problem.ProblemDetails.Extensions.Add("exception", exception.ToString());
                 //}
 
                 var done = await problemDetailsService.TryWriteAsync(problem);

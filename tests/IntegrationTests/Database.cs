@@ -75,7 +75,7 @@ namespace IntegrationTests
         void DeployDacpac()
         {
             var services = new DacServices(ConnectionString);
-            var package = DacPackage.Load(@"Others\Public.Database.dacpac");
+            var package = DacPackage.Load(@"Public.Database.dacpac");
             services.Deploy(package, DatabaseName, true);
         }
 
