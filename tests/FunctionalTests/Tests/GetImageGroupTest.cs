@@ -38,7 +38,8 @@ namespace FunctionalTests.Tests
                 Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
                 Title = "NotFoundException",
                 Status = (int)HttpStatusCode.NotFound,
-                Detail = "ImageGroup with id '600' was not found."
+                Detail = "ImageGroup with id '600' was not found.",
+                Instance = "/ImageGroup/600"
             };
 
             (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);

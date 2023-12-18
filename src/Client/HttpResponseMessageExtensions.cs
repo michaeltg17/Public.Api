@@ -5,7 +5,10 @@ namespace Client
 {
     public static class HttpResponseMessageExtensions
     {
-        static readonly JsonSerializerOptions JsonSerializerOptions = new(JsonSerializerDefaults.Web);
+        static readonly JsonSerializerOptions JsonSerializerOptions = new(JsonSerializerDefaults.Web)
+        {
+            Converters = { new ObjectAsPrimitiveConverter() }
+        };
 
         public static async Task<T> To<T>(this HttpResponseMessage response)
         {

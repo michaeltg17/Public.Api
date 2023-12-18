@@ -1,6 +1,9 @@
 ﻿using Client;
+using Common.Net;
 using Domain.Models;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 using System.Net;
 using Xunit;
 
@@ -25,19 +28,28 @@ namespace FunctionalTests.Tests
         }
 
         [Fact]
-        public async Task GivenBadRquest_WhenSaveImageGroup_ExpectedProblemDetails()
+        public async Task GivenBadRequest_WhenSaveImageGroup_ExpectedProblemDetails()
         {
             //Given
-            var x = await apiClient.HttpClient.PostAsync("ImageGroup", null);
-
             //When
-            //var response = await apiClient.SaveImageGroup(imagePath);
-            //var imageGroup = response.To<ImageGroup>();
+            var response = await apiClient.HttpClient.PostAsync("ImageGroup", null);
 
-            ////Then
-            //var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id);
-            //imageGroup.Should().BeEquivalentTo(imageGroup2);
-            //response.StatusCode.Should().Be(HttpStatusCode.Created);
+            //Then
+            dynamic extensions = new ExpandoObject();
+            extensions.file = "The file field is required.";
+            var expected = new ProblemDetails
+            {
+                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                Title = "ValidationException",
+                Status = (int)HttpStatusCode.BadRequest,
+                Detail = "Please check the errors property for additional details.",
+                Instance = "/ImageGroup",
+                Extensions = new Dictionary<string, object?>() { { "errors", extensions } }
+            };
+
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
