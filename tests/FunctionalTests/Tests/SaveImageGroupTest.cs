@@ -1,5 +1,4 @@
 ﻿using Client;
-using Common.Net;
 using Domain.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -35,8 +34,8 @@ namespace FunctionalTests.Tests
             var response = await apiClient.HttpClient.PostAsync("ImageGroup", null);
 
             //Then
-            dynamic extensions = new ExpandoObject();
-            extensions.file = "The file field is required.";
+            dynamic errors = new ExpandoObject();
+            errors.file = new[] { "The file field is required." };
             var expected = new ProblemDetails
             {
                 Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
@@ -44,12 +43,12 @@ namespace FunctionalTests.Tests
                 Status = (int)HttpStatusCode.BadRequest,
                 Detail = "Please check the errors property for additional details.",
                 Instance = "/ImageGroup",
-                Extensions = new Dictionary<string, object?>() { { "errors", extensions } }
+                Extensions = new Dictionary<string, object?>() { { "errors", errors } }
             };
 
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

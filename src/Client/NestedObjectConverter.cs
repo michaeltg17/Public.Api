@@ -4,13 +4,13 @@ using System.Text.Json;
 
 namespace Client
 {
-    public class ObjectAsPrimitiveConverter(FloatFormat floatFormat, UnknownNumberFormat unknownNumberFormat, ObjectFormat objectFormat) : JsonConverter<object>
+    public class NestedObjectConverter(FloatFormat floatFormat, UnknownNumberFormat unknownNumberFormat, ObjectFormat objectFormat) : JsonConverter<object>
     {
         FloatFormat FloatFormat { get; init; } = floatFormat;
         UnknownNumberFormat UnknownNumberFormat { get; init; } = unknownNumberFormat;
         ObjectFormat ObjectFormat { get; init; } = objectFormat;
 
-        public ObjectAsPrimitiveConverter() : this(FloatFormat.Double, UnknownNumberFormat.Error, ObjectFormat.Expando) { }
+        public NestedObjectConverter() : this(FloatFormat.Double, UnknownNumberFormat.Error, ObjectFormat.Expando) { }
 
         public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
         {

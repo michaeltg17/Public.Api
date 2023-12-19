@@ -7,7 +7,7 @@ namespace Client
     {
         static readonly JsonSerializerOptions JsonSerializerOptions = new(JsonSerializerDefaults.Web)
         {
-            Converters = { new ObjectAsPrimitiveConverter() }
+            Converters = { new NestedObjectConverter() }
         };
 
         public static async Task<T> To<T>(this HttpResponseMessage response)
