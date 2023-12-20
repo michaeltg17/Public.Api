@@ -14,16 +14,26 @@
             return HttpClient.GetAsync($"ImageGroup/{id}")!;
         }
 
+        public Task<HttpResponseMessage> SaveImageGroup(HttpContent? httpContent)
+        {
+            return HttpClient.PostAsync("ImageGroup", httpContent);
+        }
+
         public Task<HttpResponseMessage> SaveImageGroup(string imagePath)
         {
             var multipartContent = new MultipartFormDataContent();
             var byteArrayContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
             multipartContent.Add(byteArrayContent, "file", Path.GetFileName(imagePath));
 
-            return HttpClient.PostAsync("ImageGroup", multipartContent);
+            return SaveImageGroup(multipartContent);
         }
 
         public Task<HttpResponseMessage> DeleteImageGroup(long id)
+        {
+            return DeleteImageGroup((object)id);
+        }
+
+        public Task<HttpResponseMessage> DeleteImageGroup(object id)
         {
             return HttpClient.DeleteAsync($"ImageGroup/{id}");
         }

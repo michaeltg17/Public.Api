@@ -2,6 +2,7 @@
 using Domain.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 using System.Net;
 using Xunit;
 
@@ -28,7 +29,7 @@ namespace FunctionalTests.Tests
         }
 
         [Fact]
-        public async Task GivenUnexistingImageGroup_WhenDelete_ExpectedProblemDetails()
+        public async Task GivenUnexistingImageGroup_WhenDeleteImageGroup_ExpectedProblemDetails()
         {
             //Given
             //When
@@ -47,6 +48,31 @@ namespace FunctionalTests.Tests
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task GivenBadRequest_WhenDeleteImageGroup_ExpectedProblemDetails()
+        {
+            //Given
+            //When
+            var response = await apiClient.DeleteImageGroup(id: 600);
+
+            //Then
+            dynamic errors = new ExpandoObject();
+            errors.id = new[] { "The file field is required." };
+            var expected = new ProblemDetails
+            {
+                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                Title = "ValidationException",
+                Status = (int)HttpStatusCode.BadRequest,
+                Detail = "Please check the errors property for additional details.",
+                Instance = "/ImageGroup",
+                Extensions = new Dictionary<string, object?>() { { "errors", errors } }
+            };
+
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

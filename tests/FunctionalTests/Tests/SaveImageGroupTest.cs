@@ -31,7 +31,7 @@ namespace FunctionalTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.HttpClient.PostAsync("ImageGroup", null);
+            var response = await apiClient.SaveImageGroup((HttpContent?)null);
 
             //Then
             dynamic errors = new ExpandoObject();
