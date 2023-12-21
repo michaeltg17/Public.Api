@@ -1,8 +1,8 @@
 ﻿using Client;
 using Domain.Models;
 using FluentAssertions;
+using FunctionalTests.Builders;
 using Microsoft.AspNetCore.Mvc;
-using System.Dynamic;
 using System.Net;
 using Xunit;
 
@@ -34,17 +34,10 @@ namespace FunctionalTests.Tests
             var response = await apiClient.SaveImageGroup((HttpContent?)null);
 
             //Then
-            dynamic errors = new ExpandoObject();
-            errors.file = new[] { "The file field is required." };
-            var expected = new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-                Title = "ValidationException",
-                Status = (int)HttpStatusCode.BadRequest,
-                Detail = "Please check the errors property for additional details.",
-                Instance = "/ImageGroup",
-                Extensions = new Dictionary<string, object?>() { { "errors", errors } }
-            };
+            var expected = new ProblemDetailsBuilder()
+                .WithValidationException("/ImageGroup")
+                .WithError("file", "The file field is required.")
+                .Build();
 
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);

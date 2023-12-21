@@ -1,6 +1,7 @@
 ﻿using Client;
 using Domain.Models;
 using FluentAssertions;
+using FunctionalTests.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
@@ -34,14 +35,9 @@ namespace FunctionalTests.Tests
             var response = await apiClient.GetImage(id: 600);
 
             //Then
-            var expected = new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "NotFoundException",
-                Status = (int)HttpStatusCode.NotFound,
-                Detail = "Image with id '600' was not found.",
-                Instance = "/Image/600"
-            };
+            var expected = new ProblemDetailsBuilder()
+                .WithNotFoundException("/Image/600", "Image", 600)
+                .Build();
 
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
