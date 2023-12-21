@@ -1,7 +1,7 @@
 ﻿using Client;
+using Common.Testing.Builders;
 using Domain.Models;
 using FluentAssertions;
-using FunctionalTests.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;

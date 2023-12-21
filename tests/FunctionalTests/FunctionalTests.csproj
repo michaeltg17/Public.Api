@@ -22,25 +22,20 @@
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.8.0" />
-    <PackageReference Include="xunit" Version="2.6.2" />
-    <PackageReference Include="Xunit.DependencyInjection" Version="8.9.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
+    <PackageReference Include="xunit" Version="2.6.3" />
+    <PackageReference Include="Xunit.DependencyInjection" Version="8.9.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common.Testing\Common.Testing.csproj" />
     <ProjectReference Include="..\..\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\src\Common.Net\Common.Net.csproj" />
     <ProjectReference Include="..\..\src\Common\Common.csproj" />
     <ProjectReference Include="..\..\src\Domain\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Images\didi.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

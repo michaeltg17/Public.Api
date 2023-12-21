@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Net;
 
-namespace FunctionalTests.Builders
+namespace Common.Testing.Builders
 {
     public class ProblemDetailsBuilder : BuilderWithNew<ProblemDetailsBuilder, ProblemDetails>
     {
@@ -34,7 +34,7 @@ namespace FunctionalTests.Builders
         {
             if (Item.Extensions["errors"] is not ExpandoObject errors) Item.Extensions["errors"] = new ExpandoObject();
 
-            var dictionary = (IDictionary<string, object?>) Item.Extensions["errors"]!;
+            var dictionary = (IDictionary<string, object?>)Item.Extensions["errors"]!;
             dictionary.Add(property, new[] { error });
 
             return this;

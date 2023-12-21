@@ -1,7 +1,7 @@
 ﻿using Client;
+using Common.Testing.Builders;
 using Domain.Models;
 using FluentAssertions;
-using FunctionalTests.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
@@ -40,6 +40,24 @@ namespace FunctionalTests.Tests
 
             (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task GivenBadRequest_WhenGetImageGroup_ExpectedProblemDetails()
+        {
+            //Given
+            //When
+            var response = await apiClient.GetImageGroup("blabla");
+
+            //Then
+            var expected = new ProblemDetailsBuilder()
+                .WithValidationException("/ImageGroup/blabla")
+                .WithError("id", "The value 'blabla' is not valid.")
+                .Build();
+
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Client
             }
         }
 
-        public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override object? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
             {
@@ -55,7 +55,7 @@ namespace Client
                     }
                 case JsonTokenType.StartArray:
                     {
-                        var list = new List<object>();
+                        var list = new List<object?>();
                         while (reader.Read())
                         {
                             switch (reader.TokenType)
@@ -78,7 +78,7 @@ namespace Client
                             case JsonTokenType.EndObject:
                                 return dict;
                             case JsonTokenType.PropertyName:
-                                var key = reader.GetString();
+                                var key = reader.GetString()!;
                                 reader.Read();
                                 dict.Add(key, Read(ref reader, typeof(object), options));
                                 break;
@@ -92,8 +92,8 @@ namespace Client
             }
         }
 
-        protected virtual IDictionary<string, object> CreateDictionary() =>
-            ObjectFormat == ObjectFormat.Expando ? new ExpandoObject() : new Dictionary<string, object>();
+        protected virtual IDictionary<string, object?> CreateDictionary() =>
+            ObjectFormat == ObjectFormat.Expando ? new ExpandoObject() : new Dictionary<string, object?>();
     }
 
     public enum FloatFormat

@@ -10,7 +10,6 @@ using Application.Exceptions;
 using System.Net;
 using Microsoft.AspNetCore.Http.Features;
 using Common.Net;
-using FluentAssertions.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api

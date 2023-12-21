@@ -6,10 +6,20 @@
 
         public Task<HttpResponseMessage> GetImage(long id)
         {
+            return GetImage((object)id);
+        }
+
+        public Task<HttpResponseMessage> GetImage(object id)
+        {
             return HttpClient.GetAsync($"Image/{id}");
         }
 
         public Task<HttpResponseMessage> GetImageGroup(long id)
+        {
+            return GetImageGroup((object)id);
+        }
+
+        public Task<HttpResponseMessage> GetImageGroup(object id)
         {
             return HttpClient.GetAsync($"ImageGroup/{id}")!;
         }
