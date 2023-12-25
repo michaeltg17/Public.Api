@@ -1,4 +1,5 @@
 ﻿using Client;
+using Common.Testing.Builders;
 using Domain.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -32,20 +33,17 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.HttpClient.PostAsync("ImageGroup", null);
+            var response = await apiClient.SaveImageGroup((HttpContent?)null);
 
             //Then
-            var expected = new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "NotFoundException",
-                Status = (int)HttpStatusCode.NotFound,
-                Detail = "Image with id '600' was not found."
-            };
+            var expected = new ProblemDetailsBuilder()
+                .WithValidationException("/ImageGroup")
+                .WithError("file", "The file field is required.")
+                .Build();
 
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

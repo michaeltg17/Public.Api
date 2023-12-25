@@ -5,38 +5,41 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
+using Xunit.Abstractions;
 
-namespace FunctionalTests.Tests
+namespace IntegrationTests.Tests
 {
-    public class GetImageTest(ISettings settings) : Test(settings)
+    [Collection("ApiCollection")]
+    public class DeleteImageGroupTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
     {
         [Fact]
-        public async Task GivenImageGroup_WhenGetImage_IsGot()
+        public async Task GivenImageGroup_WhenDelete_IsDeleted()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
             var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
+            imageGroup.Should().BeEquivalentTo(imageGroup2);
 
             //When
-            var image = await apiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
+            var deleteResponse = await apiClient.DeleteImageGroup(imageGroup.Id);
 
             //Then
-            var uploadedImageBytes = File.ReadAllBytes(imagePath);
-            var downloadedImageBytes = await apiClient.HttpClient.GetByteArrayAsync(image!.Url);
-
-            uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            var getResponse = await apiClient.GetImageGroup(imageGroup.Id);
+            getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
-        public async Task GivenUnexistingImage_WhenGetImage_ExpectedProblemDetails()
+        public async Task GivenUnexistingImageGroup_WhenDeleteImageGroup_ExpectedProblemDetails()
         {
             //Given
             //When
-            var response = await apiClient.GetImage(id: 600);
+            var response = await apiClient.DeleteImageGroup(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithNotFoundException("/Image/600", "Image", 600)
+                .WithNotFoundException("/ImageGroup/600", "ImageGroup", 600)
                 .Build();
 
             var problemDetails = await response.To<ProblemDetails>();
@@ -45,15 +48,15 @@ namespace FunctionalTests.Tests
         }
 
         [Fact]
-        public async Task GivenBadRequest_WhenGetImage_ExpectedProblemDetails()
+        public async Task GivenBadRequest_WhenDeleteImageGroup_ExpectedProblemDetails()
         {
             //Given
             //When
-            var response = await apiClient.GetImage("blabla");
+            var response = await apiClient.DeleteImageGroup("blabla");
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithValidationException("/Image/blabla")
+                .WithValidationException("/ImageGroup/blabla")
                 .WithError("id", "The value 'blabla' is not valid.")
                 .Build();
 
