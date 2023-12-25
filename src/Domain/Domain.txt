@@ -1,0 +1,11 @@
+product
+order
+orderdetail
+client
+seller
+addresses
+currencies
+payment methods
+discounts
+order status
+courier

@@ -8,15 +8,15 @@ namespace Api.Controllers
     public class ImageController(IImageService imageService) : ControllerBase
     {
         [HttpGet("Image/{id}")]
-        public async Task<Image> GetImage(long id)
+        public async Task<Image> GetImage(long id, CancellationToken cancellationToken)
         {
-            return await imageService.GetImage(id);
+            return await imageService.GetImage(id, cancellationToken);
         }
 
         [HttpGet("ImageGroup/{id}")]
-        public async Task<ImageGroup> GetImageGroup(long id)
+        public async Task<ImageGroup> GetImageGroup(long id, CancellationToken cancellationToken)
         {
-            return await imageService.GetImageGroup(id);
+            return await imageService.GetImageGroup(id, cancellationToken);
         }
 
         [HttpPost("ImageGroup")]

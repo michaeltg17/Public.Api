@@ -9,6 +9,7 @@ using Persistence;
 using System.Linq;
 using System;
 using Application.Exceptions;
+using System.Threading;
 
 namespace Application.Services
 {
@@ -23,18 +24,18 @@ namespace Application.Services
             this.objectStorage = objectStorage;
         }
 
-        public async Task<Image> GetImage(long id)
+        public async Task<Image> GetImage(long id, CancellationToken cancellationToken)
         {
-            return await db.Images.SingleOrDefaultAsync(x => x.Id == id)
+            return await db.Images.SingleOrDefaultAsync(x => x.Id == id, cancellationToken)
                 ?? throw new NotFoundException<Image>(id);
         }
 
-        public async Task<ImageGroup> GetImageGroup(long id)
+        public async Task<ImageGroup> GetImageGroup(long id, CancellationToken cancellationToken)
         {
             return await db.ImageGroups
                 .Include(g => g.Images)
                 .ThenInclude(i => i.ResolutionNavigation)
-                .SingleOrDefaultAsync(g => g.Id == id)
+                .SingleOrDefaultAsync(g => g.Id == id, cancellationToken)
                 ?? throw new NotFoundException<ImageGroup>(id);
         }
 
