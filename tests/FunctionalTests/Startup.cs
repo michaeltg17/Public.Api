@@ -9,7 +9,7 @@ namespace FunctionalTests
     {
         public void ConfigureHost(IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureHostConfiguration(builder => builder.AddJsonFile("appsettings.json"));
+            hostBuilder.ConfigureHostConfiguration(builder => builder.AddJsonFile("testsettings.json"));
         }
 
         public void ConfigureServices(IServiceCollection services)
