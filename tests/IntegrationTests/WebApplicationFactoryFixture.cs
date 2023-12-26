@@ -9,19 +9,21 @@ using CrossCutting;
 
 namespace IntegrationTests
 {
-    public class WebApplicationFactoryFixture : WebApplicationFactory<Program>, IAsyncLifetime
+    public class WebApplicationFactoryFixture(IMessageSink messageSink) : WebApplicationFactory<Program>, IAsyncLifetime
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
 
         Database Database = default!;
 
-        public async Task InitializeAsync()
+        public Task InitializeAsync()
         {
-            Database = await Database.Create();
+            return Task.CompletedTask;
         }
 
         protected override IHost CreateHost(IHostBuilder builder)
         {
+            Database = Database.Create(messageSink).GetAwaiter().GetResult();
+
             builder.UseSerilog((context, services, configuration) =>
             {
                 Program.ApplySerilogConfiguration(context, services, configuration);
