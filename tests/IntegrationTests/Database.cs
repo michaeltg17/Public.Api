@@ -11,12 +11,13 @@ namespace IntegrationTests
     public class Database : IAsyncDisposable
     {
         const bool KeepAlive = true;
+        const bool ShouldDeployDacpac = false;
         const string DatabaseName = "Database";
         const string ContainerName = "IntegrationTestsSqlServer";
         const int HostPort = 50000;
 
         public string ConnectionString { get; private set; } = default!;
-        MsSqlContainer SqlServerContainer = default!;
+        MsSqlContainer? SqlServerContainer;
         IMessageSink MessageSink = default!;
 
         Database(IMessageSink messageSink)
@@ -28,16 +29,23 @@ namespace IntegrationTests
         {
             var database = new Database(messageSink);
             database.WriteMessage("Creating database.");
+
             database.WriteMessage("Use existing container if exists.");
             var existsContainer = await database.UseExistingContainerIfExists();
+
             if (!existsContainer)
             {
                 database.WriteMessage("Does not exist. Creating new container.");
                 await database.CreateContainer();
                 database.WriteMessage("Container created.");
             }
-            database.WriteMessage("Deploying dacpac.");
-            database.DeployDacpac();
+
+            if (ShouldDeployDacpac)
+            {
+                database.WriteMessage("Deploying dacpac.");
+                database.DeployDacpac();
+            }
+
             database.WriteMessage("Database created.");
             return database;
         }
@@ -105,7 +113,7 @@ namespace IntegrationTests
 
 #pragma warning disable CS0162 // Unreachable code detected
             GC.SuppressFinalize(this);
-            return SqlServerContainer.DisposeAsync();
+            return SqlServerContainer?.DisposeAsync() ?? ValueTask.CompletedTask;
 #pragma warning restore CS0162 // Unreachable code detected
         }
     }
