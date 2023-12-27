@@ -15,15 +15,13 @@ namespace IntegrationTests
 
         Database Database = default!;
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            return Task.CompletedTask;
+            Database = await Database.Create(messageSink);
         }
 
         protected override IHost CreateHost(IHostBuilder builder)
         {
-            Database = Database.Create(messageSink).GetAwaiter().GetResult();
-
             builder.UseSerilog((context, services, configuration) =>
             {
                 Program.ApplySerilogConfiguration(context, services, configuration);
