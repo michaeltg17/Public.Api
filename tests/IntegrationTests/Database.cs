@@ -10,8 +10,8 @@ namespace IntegrationTests
 {
     public class Database : IAsyncDisposable
     {
-        const bool KeepAlive = true;
-        const bool ShouldDeployDacpac = false;
+        const bool KeepAlive = false;
+        const bool ShouldDeployDacpac = true;
         const string DatabaseName = "Database";
         const string ContainerName = "IntegrationTestsSqlServer";
         const int HostPort = 50000;
