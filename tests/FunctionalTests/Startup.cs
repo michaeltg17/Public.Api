@@ -9,14 +9,16 @@ namespace FunctionalTests
     {
         public void ConfigureHost(IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureHostConfiguration(builder => builder.AddJsonFile("testsettings.json"));
+            hostBuilder.ConfigureHostConfiguration(builder => builder
+                .AddJsonFile("testsettings.json")
+                .AddEnvironmentVariables(Settings.SectionOrPrefix));
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddOptions<Settings>()
-                .BindConfiguration("FunctionalTests")
+                .BindConfiguration(Settings.SectionOrPrefix)
                 .ValidateOnStart()
                 .ValidateDataAnnotations();
 
