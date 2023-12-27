@@ -1,5 +1,5 @@
 {
   "FunctionalTests": {
-    "ApiUrl": "http://localhost:80"
+    "ApiUrl": "https://localhost:5001"
   }
 }

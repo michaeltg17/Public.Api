@@ -5,16 +5,16 @@ using Microsoft.Extensions.Options;
 
 namespace FunctionalTests
 {
-    public class Startup
+    public static class Startup
     {
-        public void ConfigureHost(IHostBuilder hostBuilder)
+        public static void ConfigureHost(IHostBuilder hostBuilder)
         {
             hostBuilder.ConfigureHostConfiguration(builder => builder
                 .AddJsonFile("testsettings.json")
-                .AddEnvironmentVariables(Settings.SectionOrPrefix));
+                .AddEnvironmentVariables());
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddOptions<Settings>()

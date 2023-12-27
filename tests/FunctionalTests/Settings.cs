@@ -5,7 +5,7 @@ namespace FunctionalTests
     public class Settings : ISettings
     {
         /// <summary>
-        /// Section or prefix for the api settings. In JSON parent level, in ENV FunctionalTests__X
+        /// Section or prefix for the settings. In JSON parent level, in ENV FunctionalTests__X
         /// </summary>
         public const string SectionOrPrefix = "FunctionalTests";
 
