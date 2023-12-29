@@ -2,7 +2,7 @@
 
 namespace Domain.Models
 {
-    public abstract class Entity : IIdentifiable, IGloballyIdentifiable, IAudited
+    public abstract class Entity : IIdentifiable, IGloballyIdentifiable, IAudited, ITestable
     {
         public long Id { get; set; }
         public Guid Guid { get; set; }
@@ -10,5 +10,6 @@ namespace Domain.Models
         public DateTime CreatedOn { get; set; }
         public long? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public bool IsTest { get; set; } = false;
     }
 }

@@ -5,10 +5,12 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
+using Xunit.Abstractions;
 
-namespace FunctionalTests.Tests
+namespace IntegrationTests.Tests
 {
-    public class GetImageTest(ISettings settings) : Test(settings)
+    [Collection("ApiCollection")]
+    public class GetImageTests(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
     {
         [Fact]
         public async Task GivenImageGroup_WhenGetImage_IsGot()

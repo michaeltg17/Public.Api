@@ -1,4 +1,6 @@
-﻿namespace Client
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Client
 {
     public class ApiClient(HttpClient client)
     {
@@ -46,6 +48,11 @@
         public Task<HttpResponseMessage> DeleteImageGroup(object id)
         {
             return HttpClient.DeleteAsync($"ImageGroup/{id}");
+        }
+
+        public Task<HttpResponseMessage> DeleteAllTestEntities()
+        {
+            return HttpClient.DeleteAsync($"Test/DeleteAllTestEntities");
         }
     }
 }

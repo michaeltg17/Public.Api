@@ -5,51 +5,52 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace IntegrationTests.Tests
+namespace FunctionalTests.Tests
 {
-    [Collection("ApiCollection")]
-    public class GetImageGroupTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
+    public class DeleteImageGroupTests(ISettings settings) : Test(settings)
     {
         [Fact]
-        public async Task GivenImageGroup_WhenSaveAndGetImageGroup_IsGot()
+        public async Task GivenImageGroup_WhenDelete_IsDeleted()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
             var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
+            imageGroup.Should().BeEquivalentTo(imageGroup2);
 
             //When
-            var response = await apiClient.GetImageGroup(imageGroup.Id);
-            var imageGroup2 = await response.To<ImageGroup>();
+            var deleteResponse = await apiClient.DeleteImageGroup(imageGroup.Id);
 
             //Then
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            imageGroup.Should().BeEquivalentTo(imageGroup2);
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            var getResponse = await apiClient.GetImageGroup(imageGroup.Id);
+            getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
-        public async Task GivenUnexistingImageGroup_WhenGetImageGroup_ExpectedProblemDetails()
+        public async Task GivenUnexistingImageGroup_WhenDeleteImageGroup_ExpectedProblemDetails()
         {
             //Given
             //When
-            var response = await apiClient.GetImageGroup(id: 600);
+            var response = await apiClient.DeleteImageGroup(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()
                 .WithNotFoundException("/ImageGroup/600", "ImageGroup", 600)
                 .Build();
 
-            (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
-        public async Task GivenBadRequest_WhenGetImageGroup_ExpectedProblemDetails()
+        public async Task GivenBadRequest_WhenDeleteImageGroup_ExpectedProblemDetails()
         {
             //Given
             //When
-            var response = await apiClient.GetImageGroup("blabla");
+            var response = await apiClient.DeleteImageGroup("blabla");
 
             //Then
             var expected = new ProblemDetailsBuilder()

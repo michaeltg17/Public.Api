@@ -5,12 +5,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection("ApiCollection")]
-    public class DeleteImageGroupTest(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
+    public class DeleteImageGroupTests(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
     {
         [Fact]
         public async Task GivenImageGroup_WhenDelete_IsDeleted()

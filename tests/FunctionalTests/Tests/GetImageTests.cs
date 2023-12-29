@@ -8,50 +8,52 @@ using Xunit;
 
 namespace FunctionalTests.Tests
 {
-    public class GetImageGroupTest(ISettings settings) : Test(settings)
+    public class GetImageTests(ISettings settings) : Test(settings)
     {
         [Fact]
-        public async Task GivenImageGroup_WhenSaveAndGetImageGroup_IsGot()
+        public async Task GivenImageGroup_WhenGetImage_IsGot()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
             var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var response = await apiClient.GetImageGroup(imageGroup.Id);
-            var imageGroup2 = await response.To<ImageGroup>();
+            var image = await apiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
 
             //Then
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            imageGroup.Should().BeEquivalentTo(imageGroup2);
+            var uploadedImageBytes = File.ReadAllBytes(imagePath);
+            var downloadedImageBytes = await apiClient.HttpClient.GetByteArrayAsync(image!.Url);
+
+            uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }
 
         [Fact]
-        public async Task GivenUnexistingImageGroup_WhenGetImageGroup_ExpectedProblemDetails()
+        public async Task GivenUnexistingImage_WhenGetImage_ExpectedProblemDetails()
         {
             //Given
             //When
-            var response = await apiClient.GetImageGroup(id: 600);
+            var response = await apiClient.GetImage(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithNotFoundException("/ImageGroup/600", "ImageGroup", 600)
+                .WithNotFoundException("/Image/600", "Image", 600)
                 .Build();
 
-            (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
-        public async Task GivenBadRequest_WhenGetImageGroup_ExpectedProblemDetails()
+        public async Task GivenBadRequest_WhenGetImage_ExpectedProblemDetails()
         {
             //Given
             //When
-            var response = await apiClient.GetImageGroup("blabla");
+            var response = await apiClient.GetImage("blabla");
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithValidationException("/ImageGroup/blabla")
+                .WithValidationException("/Image/blabla")
                 .WithError("id", "The value 'blabla' is not valid.")
                 .Build();
 

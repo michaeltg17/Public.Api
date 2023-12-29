@@ -8,7 +8,7 @@ using Xunit;
 
 namespace FunctionalTests.Tests
 {
-    public class SaveImageGroupTest(ISettings settings) : Test(settings)
+    public class SaveImageGroupTests(ISettings settings) : Test(settings)
     {
         [Fact]
         public async Task GivenImage_WhenSaveImageGroup_IsSaved()

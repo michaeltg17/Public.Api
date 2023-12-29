@@ -13,17 +13,8 @@ using System.Threading;
 
 namespace Application.Services
 {
-    public class ImageService : IImageService
+    public class ImageService(IObjectStorage objectStorage, AppDbContext db) : IImageService
     {
-        readonly AppDbContext db;
-        readonly IObjectStorage objectStorage;
-
-        public ImageService(IObjectStorage objectStorage, AppDbContext db)
-        {
-            this.db = db;
-            this.objectStorage = objectStorage;
-        }
-
         public async Task<Image> GetImage(long id, CancellationToken cancellationToken)
         {
             return await db.Images.SingleOrDefaultAsync(x => x.Id == id, cancellationToken)

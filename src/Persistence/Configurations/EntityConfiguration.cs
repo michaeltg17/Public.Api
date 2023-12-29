@@ -9,6 +9,7 @@ namespace Persistence.Scaffold.Configurations
         public virtual void Configure(EntityTypeBuilder<T> entity)
         {
             entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
+            entity.HasQueryFilter(e => e.IsTest == false);
         }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Common.Net;
 using Microsoft.AspNetCore.Mvc;
 
+[assembly: ApiController]
 namespace Api
 {
     public class Program
