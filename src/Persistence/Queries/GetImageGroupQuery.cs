@@ -28,7 +28,7 @@ namespace Persistence.Queries
 
             var images = grids.Read<Image>();
             var imageGroup = grids.ReadSingle<ImageGroup>();
-            imageGroup.Images = images.AsList();
+            imageGroup.ImagesNavigation = images.AsList();
 
             return imageGroup;
         }

@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {

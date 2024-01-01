@@ -4,6 +4,6 @@
     {
         public string Name { get; set; } = default!;
 
-        public virtual IEnumerable<Image> Images { get; set; } = default!;
+        public virtual IEnumerable<Image> ImagesNavigation { get; set; } = default!;
     }
 }

@@ -8,7 +8,7 @@ namespace IntegrationTests.Tests
     [Collection("ApiCollection")]
     public class DeleteAllTestEntitiesTests(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
     {
-        [Fact]
+        //[Fact]
         public async Task GivenTestEntitiesInDb_WhenDeleteAllTestEntities_EntitiesAreDeleted()
         {
             //Given

@@ -10,7 +10,7 @@ namespace IntegrationTests
 {
     public class Database : IAsyncDisposable
     {
-        const bool KeepAlive = false;
+        const bool KeepAlive = true;
         const bool ShouldDeployDacpac = true;
         const string DatabaseName = "Database";
         const string ContainerName = "IntegrationTestsSqlServer";
@@ -18,7 +18,7 @@ namespace IntegrationTests
 
         public string ConnectionString { get; private set; } = default!;
         MsSqlContainer? SqlServerContainer;
-        IMessageSink MessageSink = default!;
+        readonly IMessageSink MessageSink;
 
         Database(IMessageSink messageSink)
         {
@@ -104,17 +104,18 @@ namespace IntegrationTests
 
         void WriteMessage(string message) => MessageSink.OnMessage(new DiagnosticMessage(message));
 
+
         public ValueTask DisposeAsync()
         {
             if (KeepAlive)
             {
+#pragma warning disable CS0162 // Unreachable code detected
                 return ValueTask.CompletedTask;
+#pragma warning restore CS0162 // Unreachable code detected
             }
 
-#pragma warning disable CS0162 // Unreachable code detected
             GC.SuppressFinalize(this);
             return SqlServerContainer?.DisposeAsync() ?? ValueTask.CompletedTask;
-#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 }

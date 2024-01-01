@@ -11,12 +11,12 @@ namespace Persistence.Scaffold.Configurations
 
             entity
                 .HasOne(e => e.GroupNavigation)
-                .WithMany(e => e.Images)
+                .WithMany(e => e.ImagesNavigation)
                 .HasForeignKey(e => e.Group);
 
             entity
                 .HasOne(e => e.ResolutionNavigation)
-                .WithMany(e => e.Images)
+                .WithMany(e => e.ImagesNavigation)
                 .HasForeignKey(e => e.Resolution);
         }
     }

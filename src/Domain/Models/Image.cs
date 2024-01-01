@@ -8,5 +8,7 @@
 
         public virtual ImageResolution ResolutionNavigation { get; set; } = default!;
         public virtual ImageGroup GroupNavigation { get; set; } = default!;
+
+        public string FileName => Guid + "." + GroupNavigation.TypeNavigation.GetDefaultFileExtension();
     }
 }

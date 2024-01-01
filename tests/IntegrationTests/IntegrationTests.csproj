@@ -17,7 +17,7 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
 		<PackageReference Include="Microsoft.SqlServer.DacFx" Version="162.1.167" />
 		<PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.8.0" />
-		<PackageReference Include="Public.Database.Dacpac" Version="1.0.2">
+		<PackageReference Include="Public.Database.Dacpac" Version="1.0.4">
 			<GeneratePathProperty>true</GeneratePathProperty>
 		</PackageReference>
 		<PackageReference Include="Serilog.Sinks.XUnit" Version="3.0.5" />

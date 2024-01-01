@@ -8,6 +8,11 @@ namespace Persistence.Scaffold.Configurations
         public override void Configure(EntityTypeBuilder<ImageGroup> entity)
         {
             base.Configure(entity);
+
+            entity
+                .HasOne(e => e.TypeNavigation)
+                .WithMany(e => e.ImageGroupNavigation)
+                .HasForeignKey(e => e.Type);
         }
     }
 }

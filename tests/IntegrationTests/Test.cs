@@ -14,7 +14,7 @@ namespace IntegrationTests
         {
             factory.TestOutputHelper = testOutputHelper;
             apiClient = new(factory.CreateClient());
-            db = factory.Services.GetRequiredService<AppDbContext>();
+            //db = factory.Services.GetRequiredService<AppDbContext>();
         }
     }
 }

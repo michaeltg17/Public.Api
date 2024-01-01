@@ -20,7 +20,7 @@ namespace IntegrationTests.Tests
             var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var image = await apiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
+            var image = await apiClient.GetImage(imageGroup.ImagesNavigation.First().Id).To<Image>();
 
             //Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
