@@ -13,6 +13,7 @@ namespace Client
         public static async Task<T> To<T>(this HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStreamAsync();
+            var x = await response.Content.ReadAsStringAsync();
             var @object = await JsonSerializer.DeserializeAsync<T>(content, JsonSerializerOptions);
             return @object ?? throw new MichaelNetException("Deserialization from JSON failed. Result is null.");
         }
