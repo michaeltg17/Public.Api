@@ -4,7 +4,7 @@ using Application.Services;
 
 namespace Api.Controllers
 {
-    public class ImageController(IImageService imageService) : ControllerBase
+    public class ImageController(ImageService imageService) : ControllerBase
     {
         [HttpGet("Image/{id}")]
         public Task<Image> GetImage(long id, CancellationToken cancellationToken)

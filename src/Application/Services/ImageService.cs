@@ -14,7 +14,7 @@ using System.Transactions;
 
 namespace Application.Services
 {
-    public class ImageService(IObjectStorage objectStorage, AppDbContext db) : IImageService
+    public class ImageService(IObjectStorage objectStorage, AppDbContext db)
     {
         public async Task<Image> GetImage(long id, CancellationToken cancellationToken)
         {

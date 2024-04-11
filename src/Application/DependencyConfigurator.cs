@@ -11,7 +11,8 @@ namespace Application
     {
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection services)
         {
-            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<ImageService>();
+            services.AddScoped<TestService>();
 
             services.AddScoped<IObjectStorage, AspNetCoreStorage>(provider =>
             {

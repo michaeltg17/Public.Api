@@ -5,10 +5,10 @@ namespace Api.Controllers
 {
     public class TestController(TestService testService) : ControllerBase
     {
-        [HttpPost("Test/InternalServerError")]
-        public Task InternalServerError()
+        [HttpPost("Test/ThrowInternalServerError")]
+        public Task ThrowInternalServerError()
         {
-            throw new Exception("You should not see this.");
+            throw new Exception("Sensitive data");
         }
 
         [HttpDelete("Test/DeleteAllTestEntities")]

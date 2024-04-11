@@ -54,5 +54,10 @@ namespace Client
         {
             return HttpClient.DeleteAsync($"Test/DeleteAllTestEntities");
         }
+
+        public Task<HttpResponseMessage> ThrowInternalServerError()
+        {
+            return HttpClient.PostAsync($"Test/ThrowInternalServerError", null);
+        }
     }
 }

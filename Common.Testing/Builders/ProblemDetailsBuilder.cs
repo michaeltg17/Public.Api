@@ -30,9 +30,20 @@ namespace Common.Testing.Builders
             return this;
         }
 
+        public ProblemDetailsBuilder WithInternalServerError(string instance)
+        {
+            Item.Type = "https://tools.ietf.org/html/rfc9110#section-15.6.1";
+            Item.Title = "InternalServerError";
+            Item.Status = (int)HttpStatusCode.InternalServerError;
+            Item.Detail = "Internal server error. Please contact the API support.";
+            Item.Instance = instance;
+
+            return this;
+        }
+
         public ProblemDetailsBuilder WithError(string property, string error)
         {
-            if (Item.Extensions["errors"] is not ExpandoObject errors) Item.Extensions["errors"] = new ExpandoObject();
+            if (Item.Extensions["errors"] is not ExpandoObject) Item.Extensions["errors"] = new ExpandoObject();
 
             var dictionary = (IDictionary<string, object?>)Item.Extensions["errors"]!;
             dictionary.Add(property, new[] { error });
