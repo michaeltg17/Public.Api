@@ -1,14 +1,12 @@
-﻿using Client;
-
-namespace FunctionalTests
+﻿namespace FunctionalTests
 {
     public abstract class Test
     {
-        protected readonly ApiClient apiClient;
+        protected readonly ApiClient.ApiClient apiClient;
 
         public Test(ISettings settings)
         {
-            apiClient = new ApiClient(new HttpClient() { BaseAddress = new Uri(settings.ApiUrl) });
+            apiClient = new ApiClient.ApiClient(new HttpClient() { BaseAddress = new Uri(settings.ApiUrl) });
         }
     }
 }

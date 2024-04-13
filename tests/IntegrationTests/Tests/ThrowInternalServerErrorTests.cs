@@ -1,10 +1,10 @@
-﻿using Client;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit.Abstractions;
 using Xunit;
 using Common.Testing.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using ApiClient.Extensions;
 
 namespace IntegrationTests.Tests
 {

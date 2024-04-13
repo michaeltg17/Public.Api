@@ -31,11 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common.Testing\Common.Testing.csproj" />
-    <ProjectReference Include="..\..\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\src\ApiClient\ApiClient.csproj" />
     <ProjectReference Include="..\..\src\Common.Net\Common.Net.csproj" />
     <ProjectReference Include="..\..\src\Common\Common.csproj" />
     <ProjectReference Include="..\..\src\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Common.Testing\Common.Testing.csproj" />
   </ItemGroup>
 
 </Project>

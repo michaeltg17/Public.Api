@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace Client
+namespace ApiClient.Converters
 {
     public class NestedObjectConverter(FloatFormat floatFormat, UnknownNumberFormat unknownNumberFormat, ObjectFormat objectFormat) : JsonConverter<object>
     {

@@ -1,4 +1,4 @@
-﻿using Client;
+﻿using ApiClient.Extensions;
 using Common.Testing.Builders;
 using Domain.Models;
 using FluentAssertions;

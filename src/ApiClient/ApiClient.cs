@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Client
+﻿namespace ApiClient
 {
     public class ApiClient(HttpClient client)
     {

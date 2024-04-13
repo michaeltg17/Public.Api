@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-namespace Client
+namespace ApiClient.Extensions
 {
     public static class ProblemDetailsExtensions
     {

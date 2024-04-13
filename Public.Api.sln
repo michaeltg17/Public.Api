@@ -28,13 +28,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "src\Client\Client.csproj", "{455D2470-B633-4623-99C8-43F7B684642C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiClient", "src\ApiClient\ApiClient.csproj", "{455D2470-B633-4623-99C8-43F7B684642C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Net", "src\Common.Net\Common.Net.csproj", "{D202C868-AEA5-4D1A-BB95-F69C6C7800CD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Testing", "Common.Testing\Common.Testing.csproj", "{0EA25255-79AE-4CCA-B0B4-8F0C2BFA6A33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Testing", "tests\Common.Testing\Common.Testing.csproj", "{0EA25255-79AE-4CCA-B0B4-8F0C2BFA6A33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\Common\Common.csproj", "{9F181DC5-6124-4C92-8929-4E7004676D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{9F181DC5-6124-4C92-8929-4E7004676D58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
