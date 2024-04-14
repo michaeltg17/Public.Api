@@ -4,10 +4,11 @@ using Michael.Net.Domain;
 using Michael.Net.Persistance.EntityFrameworkCore.Interceptors;
 using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Persistence
 {
-    public class AppDbContext(ISettings settings) : DbContext
+    public class AppDbContext(DbContextOptions options, ISettings settings, ILogger<AppDbContext> logger) : DbContext(options)
     {
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ImageGroup> ImageGroups { get; set; }
@@ -22,6 +23,8 @@ namespace Persistence
             optionsBuilder
                 .UseSqlServer(settings.SqlServerConnectionString)
                 .AddInterceptors(new SetAuditInfoSaveChangesInterceptor());
+
+            //optionsBuilder.use.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

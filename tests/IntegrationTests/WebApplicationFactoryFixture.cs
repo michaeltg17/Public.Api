@@ -37,10 +37,11 @@ namespace IntegrationTests
                     settings.Url = "http://localhost";
                 });
 
-                services.AddDbContext<AppDbContext>(options => 
-                {
-                    options.EnableSensitiveDataLogging().LogTo(message => TestOutputHelper.WriteLine(message), Microsoft.Extensions.Logging.LogLevel.Trace);
-                });
+                //services.AddDbContext<AppDbContext>(options => 
+                //{
+                //    //options.EnableSensitiveDataLogging().LogTo(message => TestOutputHelper.WriteLine(message), Microsoft.Extensions.Logging.LogLevel.Trace);
+                //    //options.EnableSensitiveDataLogging();
+                //});
             });
 
             return base.CreateHost(builder);

@@ -1,6 +1,4 @@
-﻿using Flurl;
-
-namespace CrossCutting
+﻿namespace CrossCutting
 {
     public class Settings : ISettings
     {

@@ -11,6 +11,7 @@ using System;
 using Application.Exceptions;
 using System.Threading;
 using System.Transactions;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services
 {
