@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using CrossCutting;
 using Persistence;
+using IntegrationTests.Extensions;
 
 namespace IntegrationTests
 {
@@ -37,11 +38,8 @@ namespace IntegrationTests
                     settings.Url = "http://localhost";
                 });
 
-                //services.AddDbContext<AppDbContext>(options => 
-                //{
-                //    //options.EnableSensitiveDataLogging().LogTo(message => TestOutputHelper.WriteLine(message), Microsoft.Extensions.Logging.LogLevel.Trace);
-                //    //options.EnableSensitiveDataLogging();
-                //});
+                services.RemoveDbContextOptions<AppDbContext>();
+                services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
             });
 
             return base.CreateHost(builder);
