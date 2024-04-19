@@ -1,8 +1,8 @@
 {
-  "solution": "ImageSharingPlatform.Backend.sln",
+  "solution": "Public.Api.sln",
   "solutionFolder": null,
   "mappings": {
-    "Michael.Net": "../Michael.Net/src/Michael.Net/Michael.Net.csproj"
+    "Microsoft.EntityFrameworkCore": "../efcore/src/EFCore/EFCore.csproj"
   },
   "removeProjects": true
 }

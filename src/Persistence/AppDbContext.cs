@@ -21,7 +21,7 @@ namespace Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options
-                .UseSqlServer(settings.SqlServerConnectionString)
+                .UseSqlServer(settings.SqlServerConnectionString, options => options.EnableRetryOnFailure())
                 .AddInterceptors(new SetAuditInfoSaveChangesInterceptor());
         }
 

@@ -39,7 +39,9 @@ namespace Application.Services
         public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> imageFile)
         {
             var extension = Path.GetExtension(fullFileName)[1..];
-            var type = await db.ImageTypes.SingleOrDefaultAsync(t => t.FileExtensionNavigation.Any(e => e.FileExtension == extension)) 
+            var type = await db.ImageTypes
+                .Include(t => t.FileExtensionNavigation)
+                .SingleOrDefaultAsync(t => t.FileExtensionNavigation.Any(e => e.FileExtension == extension)) 
                 ?? throw new ApiException($"Extension '{extension}' is not a valid image extension.");
 
             Path.ChangeExtension(fullFileName, type.GetDefaultFileExtension());

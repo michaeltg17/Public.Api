@@ -13,8 +13,9 @@ namespace IntegrationTests
 {
     public class WebApplicationFactoryFixture(IMessageSink messageSink) : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        public ITestOutputHelper TestOutputHelper { get; set; } = default!;
+        const bool EnableSqlLogging = false;
 
+        public ITestOutputHelper TestOutputHelper { get; set; } = default!;
         Database Database = default!;
 
         public async Task InitializeAsync()
@@ -38,8 +39,13 @@ namespace IntegrationTests
                     settings.Url = "http://localhost";
                 });
 
-                //services.RemoveDbContextOptions<AppDbContext>();
-                //services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
+                #pragma warning disable CS0162 // Unreachable code detected
+                if (EnableSqlLogging)
+                {
+                    services.RemoveDbContextOptions<AppDbContext>();
+                    services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
+                }
+                #pragma warning restore CS0162 // Unreachable code detected
             });
 
             return base.CreateHost(builder);
