@@ -11,7 +11,6 @@ using System;
 using Application.Exceptions;
 using System.Threading;
 using System.Transactions;
-using Microsoft.Extensions.Logging;
 
 namespace Application.Services
 {
@@ -37,19 +36,22 @@ namespace Application.Services
             return await db.Get(new GetImageGroupQuery(id));
         }
 
-        public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> openReadStream)
+        public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> imageFile)
         {
             var extension = Path.GetExtension(fullFileName)[1..];
-            var hasValidExtension = await db.ImageTypes.AnyAsync(t => t.FileExtensionNavigation.Any(e => e.FileExtension == extension));
-            if (!hasValidExtension) throw new ApiException($"Extension '{extension}' is not a valid image extension.");
+            var type = await db.ImageTypes.SingleOrDefaultAsync(t => t.FileExtensionNavigation.Any(e => e.FileExtension == extension)) 
+                ?? throw new ApiException($"Extension '{extension}' is not a valid image extension.");
 
-            using var transaction = new TransactionScope();
-            var images = await SaveImageWithMultipleResolutions(fullFileName, openReadStream);
+            Path.ChangeExtension(fullFileName, type.GetDefaultFileExtension());
+
+            //using var transaction = new TransactionScope();
+            var images = await SaveImageWithMultipleResolutions(fullFileName, imageFile);
 
             var imageGroup = new ImageGroup()
             {
                 Name = Path.GetFileNameWithoutExtension(fullFileName),
-                ImagesNavigation = images
+                ImagesNavigation = images,
+                Type = type.Id
             };
             await db.AddAsync(imageGroup);
             await db.SaveChangesAsync();
@@ -74,10 +76,10 @@ namespace Application.Services
             return image;
         }
 
-        async Task<IEnumerable<Image>> SaveImageWithMultipleResolutions(string fullFileName, Func<Stream> openReadStream)
+        async Task<IEnumerable<Image>> SaveImageWithMultipleResolutions(string fullFileName, Func<Stream> imageFile)
         {
             var tasks = new List<Task<Image>>();
-            using (var stream = openReadStream())
+            using (var stream = imageFile())
             {
                 foreach (var resolution in db.ImageResolutions)
                 {
@@ -94,8 +96,12 @@ namespace Application.Services
 
         public async Task DeleteImageGroup(long id)
         {
-            var imageGroup = await db.ImageGroups.SingleOrDefaultAsync(i => i.Id == id) 
-                ?? throw new NotFoundException<ImageGroup>(id);
+            var imageGroup = await db.ImageGroups
+                .Include(i => i.ImagesNavigation)
+                .ThenInclude(i => i.GroupNavigation)
+                .ThenInclude(i => i.TypeNavigation)
+                .ThenInclude(i => i.FileExtensionNavigation)
+                .SingleOrDefaultAsync(i => i.Id == id) ?? throw new NotFoundException<ImageGroup>(id);
 
             using var transaction = new TransactionScope();
             await Task.WhenAll(imageGroup.ImagesNavigation.Select(i => objectStorage.Delete(i.FileName)));

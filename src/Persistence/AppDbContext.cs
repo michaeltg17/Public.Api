@@ -14,6 +14,7 @@ namespace Persistence
         public virtual DbSet<ImageType> ImageTypes { get; set; }
         public virtual DbSet<ImageResolution> ImageResolutions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<ImageFileExtension> ImageFileExtensions { get; set; }
 
         readonly ISettings settings = settings;
 

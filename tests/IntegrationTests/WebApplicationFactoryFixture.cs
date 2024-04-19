@@ -38,8 +38,8 @@ namespace IntegrationTests
                     settings.Url = "http://localhost";
                 });
 
-                services.RemoveDbContextOptions<AppDbContext>();
-                services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
+                //services.RemoveDbContextOptions<AppDbContext>();
+                //services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
             });
 
             return base.CreateHost(builder);
