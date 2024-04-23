@@ -1,5 +1,4 @@
-﻿using Persistence;
-using Xunit.Abstractions;
+﻿using Xunit.Abstractions;
 
 namespace IntegrationTests
 {
@@ -7,10 +6,13 @@ namespace IntegrationTests
     {
         protected readonly ApiClient.ApiClient apiClient;
 
-        public Test(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory)
+        public Test(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper)
         {
             factory.TestOutputHelper = testOutputHelper;
+            //factory.ReloadSerilog();
             apiClient = new(factory.CreateClient());
+            testOutputHelper.WriteLine("Im test");
+
         }
     }
 }

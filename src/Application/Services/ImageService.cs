@@ -42,7 +42,7 @@ namespace Application.Services
             return await db.Get(new GetImageGroupQuery(id));
         }
 
-        public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> imageFile)
+        public async Task<ImageGroup> SaveImageGroup(string fullFileName, Func<Stream> openReadStream)
         {
             var extension = Path.GetExtension(fullFileName)[1..];
             var type = await db.ImageTypes
@@ -53,7 +53,7 @@ namespace Application.Services
             Path.ChangeExtension(fullFileName, type.GetDefaultFileExtension());
 
             //using var transaction = new TransactionScope();
-            var images = await SaveImageWithMultipleResolutions(fullFileName, imageFile);
+            var images = await SaveImageWithMultipleResolutions(fullFileName, openReadStream);
 
             var imageGroup = new ImageGroup()
             {
@@ -84,10 +84,10 @@ namespace Application.Services
             return image;
         }
 
-        async Task<IEnumerable<Image>> SaveImageWithMultipleResolutions(string fullFileName, Func<Stream> imageFile)
+        async Task<IEnumerable<Image>> SaveImageWithMultipleResolutions(string fullFileName, Func<Stream> openReadStream)
         {
             var tasks = new List<Task<Image>>();
-            using (var stream = imageFile())
+            using (var stream = openReadStream())
             {
                 foreach (var resolution in db.ImageResolutions)
                 {
