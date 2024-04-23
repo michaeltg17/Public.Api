@@ -11,7 +11,7 @@
 
         public Task<HttpResponseMessage> GetImage(object id)
         {
-            return HttpClient.GetAsync($"Image/{id}");
+            return HttpClient.GetAsync($"api/v1/Image/{id}");
         }
 
         public Task<HttpResponseMessage> GetImageGroup(long id)
@@ -21,12 +21,12 @@
 
         public Task<HttpResponseMessage> GetImageGroup(object id)
         {
-            return HttpClient.GetAsync($"ImageGroup/{id}")!;
+            return HttpClient.GetAsync($"api/v1/ImageGroup/{id}")!;
         }
 
         public Task<HttpResponseMessage> SaveImageGroup(HttpContent? httpContent)
         {
-            return HttpClient.PostAsync("ImageGroup", httpContent);
+            return HttpClient.PostAsync("api/v1/ImageGroup", httpContent);
         }
 
         public Task<HttpResponseMessage> SaveImageGroup(string imagePath)
@@ -45,7 +45,7 @@
 
         public Task<HttpResponseMessage> DeleteImageGroup(object id)
         {
-            return HttpClient.DeleteAsync($"ImageGroup/{id}");
+            return HttpClient.DeleteAsync($"api/v1/ImageGroup/{id}");
         }
 
         public Task<HttpResponseMessage> DeleteAllTestEntities()

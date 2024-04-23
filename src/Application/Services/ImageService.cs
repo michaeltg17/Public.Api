@@ -10,7 +10,7 @@ using System.Linq;
 using System;
 using Application.Exceptions;
 using System.Threading;
-using System.Transactions;
+//using System.Transactions;
 
 namespace Application.Services
 {
@@ -18,7 +18,11 @@ namespace Application.Services
     {
         public async Task<Image> GetImage(long id, CancellationToken cancellationToken)
         {
-            return await db.Images.SingleOrDefaultAsync(x => x.Id == id, cancellationToken)
+            return await db.Images
+                .Include(i => i.GroupNavigation)
+                .ThenInclude(g => g.TypeNavigation)
+                .ThenInclude(g => g.FileExtensionNavigation)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken)
                 ?? throw new NotFoundException<Image>(id);
         }
 
@@ -27,6 +31,8 @@ namespace Application.Services
             return await db.ImageGroups
                 .Include(g => g.ImagesNavigation)
                 .ThenInclude(i => i.ResolutionNavigation)
+                .Include(i => i.TypeNavigation)
+                .ThenInclude(i => i.FileExtensionNavigation)
                 .SingleOrDefaultAsync(g => g.Id == id, cancellationToken)
                 ?? throw new NotFoundException<ImageGroup>(id);
         }
@@ -63,7 +69,7 @@ namespace Application.Services
 
         async Task<Image> SaveImageFile(string fullFileName, Stream stream, ImageResolution resolution)
         {
-            var guid = new Guid();
+            var guid = Guid.NewGuid();
             var extension = Path.GetExtension(fullFileName);
             var fileName = $"{guid}{extension}";
             var image = new Image
@@ -100,13 +106,12 @@ namespace Application.Services
         {
             var imageGroup = await db.ImageGroups
                 .Include(i => i.ImagesNavigation)
-                .ThenInclude(i => i.GroupNavigation)
-                .ThenInclude(i => i.TypeNavigation)
+                .Include(i => i.TypeNavigation)
                 .ThenInclude(i => i.FileExtensionNavigation)
                 .SingleOrDefaultAsync(i => i.Id == id) ?? throw new NotFoundException<ImageGroup>(id);
 
-            using var transaction = new TransactionScope();
-            await Task.WhenAll(imageGroup.ImagesNavigation.Select(i => objectStorage.Delete(i.FileName)));
+            //using var transaction = new TransactionScope();
+            //await Task.WhenAll(imageGroup.ImagesNavigation.Select(i => objectStorage.Delete(i.FileName)));
 
             await db.Delete<ImageGroup>(id);
         }

@@ -1,6 +1,6 @@
 ﻿using ApiClient.Extensions;
 using Common.Testing.Builders;
-using Domain.Models;
+using Common.Testing.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -18,7 +18,7 @@ namespace FunctionalTests.Tests
             var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var image = await apiClient.GetImage(imageGroup.ImagesNavigation.First().Id).To<Image>();
+            var image = await apiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
 
             //Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);

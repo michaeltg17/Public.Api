@@ -13,7 +13,7 @@ namespace Common.Testing.Builders
             Item.Title = "NotFoundException";
             Item.Status = (int)HttpStatusCode.NotFound;
             Item.Detail = $"{entity} with id '{id}' was not found.";
-            Item.Instance = instance;
+            Item.Instance = "/api/v1" + instance;
 
             return this;
         }
@@ -24,7 +24,7 @@ namespace Common.Testing.Builders
             Item.Title = "ValidationException";
             Item.Status = (int)HttpStatusCode.BadRequest;
             Item.Detail = "Please check the errors property for additional details.";
-            Item.Instance = instance;
+            Item.Instance = "/api/v1" + instance;
             Item.Extensions = new Dictionary<string, object?>() { { "errors", null } };
 
             return this;
