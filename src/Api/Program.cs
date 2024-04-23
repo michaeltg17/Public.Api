@@ -32,17 +32,23 @@ namespace Api
 
         static void AddSerilog(WebApplicationBuilder builder)
         {
-            builder.Host.UseSerilog(ApplySerilogConfiguration);
+            builder.Host.UseSerilog((context, services, configuration) =>
+            {
+                ApplyCommonSerilogConfiguration(context, services, configuration);
+                configuration.WriteTo.Console(outputTemplate: SerilogConsoleTemplate);
+            });
         }
 
-        public static void ApplySerilogConfiguration(HostBuilderContext context, IServiceProvider services, LoggerConfiguration configuration)
+        public static void ApplyCommonSerilogConfiguration(
+            HostBuilderContext context, IServiceProvider services, LoggerConfiguration configuration)
         {
             configuration
                 .ReadFrom.Configuration(context.Configuration)
                 .ReadFrom.Services(services)
-                .Enrich.FromLogContext()
-                .WriteTo.Console();
+                .Enrich.FromLogContext();
         }
+
+        public const string SerilogConsoleTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
         static void AddMainDependencies(WebApplicationBuilder builder)
         {

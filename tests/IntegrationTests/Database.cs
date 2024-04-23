@@ -10,8 +10,6 @@ namespace IntegrationTests
 {
     public class Database : IAsyncDisposable
     {
-        const bool KeepAlive = true;
-        const bool ShouldDeployDacpac = true;
         const string DatabaseName = "Database";
         const string ContainerName = "IntegrationTestsSqlServer";
         const int HostPort = 50000;
@@ -25,12 +23,12 @@ namespace IntegrationTests
             MessageSink = messageSink;
         }
 
-        public static async Task<Database> Create(IMessageSink messageSink)
+        public static async Task<Database> Initialize(IMessageSink messageSink)
         {
             var database = new Database(messageSink);
-            database.WriteMessage("Creating database.");
+            database.WriteMessage("Initializing database.");
 
-            database.WriteMessage("Use existing container if exists.");
+            database.WriteMessage("Using existing container if exists.");
             var existsContainer = await database.UseExistingContainerIfExists();
 
             if (!existsContainer)
@@ -39,14 +37,16 @@ namespace IntegrationTests
                 await database.CreateContainer();
                 database.WriteMessage("Container created.");
             }
-
-            if (ShouldDeployDacpac)
+            
+            if (TestOptions.ShouldDeployDacpac)
             {
+                #pragma warning disable CS0162 // Unreachable code detected
                 database.WriteMessage("Deploying dacpac.");
                 database.DeployDacpac();
+                #pragma warning restore CS0162 // Unreachable code detected
             }
 
-            database.WriteMessage("Database created.");
+            database.WriteMessage("Database initialized.");
             return database;
         }
 
@@ -78,8 +78,8 @@ namespace IntegrationTests
                 .WithName(ContainerName)
                 .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                 .WithPortBinding(HostPort, 1433)
-                .WithCleanUp(!KeepAlive)
-                .WithAutoRemove(!KeepAlive)
+                .WithCleanUp(!TestOptions.KeepAliveDatabase)
+                .WithAutoRemove(!TestOptions.KeepAliveDatabase)
                 .Build();
 
             await SqlServerContainer.StartAsync();
@@ -104,10 +104,9 @@ namespace IntegrationTests
 
         void WriteMessage(string message) => MessageSink.OnMessage(new DiagnosticMessage(message));
 
-
         public ValueTask DisposeAsync()
         {
-            if (KeepAlive)
+            if (TestOptions.KeepAliveDatabase)
             {
 #pragma warning disable CS0162 // Unreachable code detected
                 return ValueTask.CompletedTask;

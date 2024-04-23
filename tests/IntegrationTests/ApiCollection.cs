@@ -7,7 +7,7 @@ namespace IntegrationTests;
 /// to be the place to apply [CollectionDefinition] and all the
 /// ICollectionFixture interfaces.
 /// </summary>
-[CollectionDefinition("ApiCollection")]
+[CollectionDefinition(nameof(ApiCollection))]
 public class ApiCollection : ICollectionFixture<WebApplicationFactoryFixture>
 {
 }

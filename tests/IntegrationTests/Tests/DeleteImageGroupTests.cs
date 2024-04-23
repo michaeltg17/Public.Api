@@ -9,7 +9,7 @@ using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
-    [Collection("ApiCollection")]
+    [Collection(nameof(ApiCollection))]
     public class DeleteImageGroupTests(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
     {
         [Fact]

@@ -8,27 +8,33 @@ using Microsoft.Extensions.DependencyInjection;
 using CrossCutting;
 using Persistence;
 using IntegrationTests.Extensions;
+using Serilog.Events;
 
 namespace IntegrationTests
 {
     public class WebApplicationFactoryFixture(IMessageSink messageSink) : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        const bool EnableSqlLogging = false;
-
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
         Database Database = default!;
 
         public async Task InitializeAsync()
         {
-            Database = await Database.Create(messageSink);
+            Database = await Database.Initialize(messageSink);
         }
 
         protected override IHost CreateHost(IHostBuilder builder)
         {
             builder.UseSerilog((context, services, configuration) =>
             {
-                Program.ApplySerilogConfiguration(context, services, configuration);
-                configuration.WriteTo.TestOutput(TestOutputHelper);
+                Program.ApplyCommonSerilogConfiguration(context, services, configuration);
+                configuration.WriteTo.TestOutput(TestOutputHelper, outputTemplate: Program.SerilogConsoleTemplate);
+
+                if (TestOptions.EnableSqlLogging)
+                {
+                    #pragma warning disable CS0162 // Unreachable code detected
+                    configuration.MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Information);
+                    #pragma warning restore CS0162 // Unreachable code detected
+                }
             });
 
             builder.ConfigureServices(services =>
@@ -39,13 +45,15 @@ namespace IntegrationTests
                     settings.Url = "http://localhost";
                 });
 
-                #pragma warning disable CS0162 // Unreachable code detected
-                if (EnableSqlLogging)
+                
+                if (TestOptions.EnableSqlLogging)
                 {
+                    #pragma warning disable CS0162 // Unreachable code detected
                     services.RemoveDbContextOptions<AppDbContext>();
                     services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
+                    #pragma warning restore CS0162 // Unreachable code detected
                 }
-                #pragma warning restore CS0162 // Unreachable code detected
+
             });
 
             return base.CreateHost(builder);

@@ -9,7 +9,7 @@ using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
-    [Collection("ApiCollection")]
+    [Collection(nameof(ApiCollection))]
     public class GetImageTests(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(testOutputHelper, factory)
     {
         [Fact]

@@ -8,7 +8,7 @@ using ApiClient.Extensions;
 
 namespace IntegrationTests.Tests
 {
-    [Collection("ApiCollection")]
+    [Collection(nameof(ApiCollection))]
     public class ThrowInternalServerErrorTests(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) 
         : Test(testOutputHelper, factory)
     {
