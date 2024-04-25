@@ -27,8 +27,6 @@ namespace IntegrationTests.Tests
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             imageGroup.Should().BeEquivalentTo(imageGroup2);
             imageGroup.Images.Should().HaveCount(3);
-
-            testOutputHelper.WriteLine("a");
         }
 
         [Fact]
@@ -45,8 +43,6 @@ namespace IntegrationTests.Tests
 
             (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-
-            testOutputHelper.WriteLine("b");
         }
 
         [Fact]
@@ -65,8 +61,6 @@ namespace IntegrationTests.Tests
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-            testOutputHelper.WriteLine("c");
         }
     }
 }

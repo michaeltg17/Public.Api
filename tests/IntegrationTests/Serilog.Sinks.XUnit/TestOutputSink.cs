@@ -3,7 +3,7 @@ using Serilog.Events;
 using Serilog.Formatting;
 using Xunit.Abstractions;
 
-namespace IntegrationTests.XUnit
+namespace IntegrationTests.Serilog.Sinks.XUnit
 {
     public class TestOutputSink(Func<ITestOutputHelper> getTestOutputHelper, ITextFormatter textFormatter) : ILogEventSink
     {

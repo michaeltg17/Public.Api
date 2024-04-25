@@ -9,10 +9,7 @@ namespace IntegrationTests
         public Test(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper)
         {
             factory.TestOutputHelper = testOutputHelper;
-            //factory.ReloadSerilog();
             apiClient = new(factory.CreateClient());
-            testOutputHelper.WriteLine("Im test");
-
         }
     }
 }

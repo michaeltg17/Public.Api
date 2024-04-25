@@ -2,11 +2,10 @@
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Display;
-using Serilog.Sinks.XUnit;
 using Serilog;
 using Xunit.Abstractions;
 
-namespace IntegrationTests.XUnit
+namespace IntegrationTests.Serilog.Sinks.XUnit
 {
     public static class TestOutputLoggerConfigurationExtensions
     {
@@ -15,8 +14,8 @@ namespace IntegrationTests.XUnit
             Func<ITestOutputHelper> getTestOutputHelper, 
             LogEventLevel restrictedToMinimumLevel = LogEventLevel.Verbose, 
             string outputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}", 
-            IFormatProvider formatProvider = null, 
-            LoggingLevelSwitch levelSwitch = null)
+            IFormatProvider? formatProvider = null, 
+            LoggingLevelSwitch? levelSwitch = null)
         {
             var textFormatter = new MessageTemplateTextFormatter(outputTemplate, formatProvider);
             return sinkConfiguration.Sink(new TestOutputSink(getTestOutputHelper, textFormatter), restrictedToMinimumLevel, levelSwitch);

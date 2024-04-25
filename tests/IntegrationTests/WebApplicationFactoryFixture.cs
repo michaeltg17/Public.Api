@@ -9,38 +9,19 @@ using CrossCutting;
 using Persistence;
 using IntegrationTests.Extensions;
 using Serilog.Events;
-using Xunit.DependencyInjection;
-using Serilog.Extensions.Hosting;
-using IntegrationTests.XUnit;
+using IntegrationTests.Serilog.Sinks.XUnit;
 
 namespace IntegrationTests
 {
-    public class WebApplicationFactoryFixture(IMessageSink messageSink, ITestOutputHelperAccessor testOutputHelperAccessor) 
-        : WebApplicationFactory<Program>, IAsyncLifetime
+    public class WebApplicationFactoryFixture(IMessageSink messageSink) : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        public ITestOutputHelper TestOutputHelper { get; set; }
-        ReloadableLogger Logger { get; set; }
-
+        public ITestOutputHelper TestOutputHelper { get; set; } = default!;
         Database Database = default!;
 
         public async Task InitializeAsync()
         {
             Database = await Database.Initialize(messageSink);
-            //CreateLogger();
         }
-
-        //void CreateLogger()
-        //{
-        //    Logger = new LoggerConfiguration().CreateBootstrapLogger();
-        //    Log.Logger = Logger;
-        //}
-
-        //public void ReloadSerilog()
-        //{
-        //    Logger = new LoggerConfiguration().CreateBootstrapLogger();
-        //    Log.Logger = Logger;
-        //    Logger.Reload(config => config.WriteTo.TestOutput(TestOutputHelper, outputTemplate: Program.SerilogConsoleTemplate));
-        //}
 
         protected override IHost CreateHost(IHostBuilder builder)
         {

@@ -40,10 +40,8 @@ namespace IntegrationTests
             
             if (TestOptions.ShouldDeployDacpac)
             {
-                #pragma warning disable CS0162 // Unreachable code detected
                 database.WriteMessage("Deploying dacpac.");
                 database.DeployDacpac();
-                #pragma warning restore CS0162 // Unreachable code detected
             }
 
             database.WriteMessage("Database initialized.");
