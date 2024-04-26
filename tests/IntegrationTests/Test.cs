@@ -4,12 +4,14 @@ namespace IntegrationTests
 {
     public abstract class Test
     {
-        protected readonly ApiClient.ApiClient apiClient;
+        public ApiClient.ApiClient ApiClient { get; private set; } = default!;
+        public WebApplicationFactoryFixture WebApplicationFactoryFixture { get; set; } = default!;
+        public ITestOutputHelper TestOutputHelper { get; set; } = default!;
 
-        public Test(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper)
+        public void Initialize()
         {
-            factory.TestOutputHelper = testOutputHelper;
-            apiClient = new(factory.CreateClient());
+            WebApplicationFactoryFixture.TestOutputHelper = TestOutputHelper;
+            ApiClient = new(WebApplicationFactoryFixture.CreateClient());
         }
     }
 }

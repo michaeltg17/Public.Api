@@ -3,18 +3,17 @@ using Xunit;
 using ApiClient.Extensions;
 using Domain.Models;
 using ApiClient.Exceptions;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class ApiClientTests(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper) : Test(factory, testOutputHelper)
+    public class ApiClientTests: Test
     {
         [Fact]
         public async Task WhenInternalServerError_ApiExceptionIsThrownWithExpectedProblemDetails()
         {
             //When
-            var response = await apiClient.ThrowInternalServerError();
+            var response = await ApiClient.ThrowInternalServerError();
 
             //Then
             var expectedMessage =
