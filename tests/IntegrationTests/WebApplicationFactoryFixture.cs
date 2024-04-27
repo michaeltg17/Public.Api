@@ -9,7 +9,6 @@ using CrossCutting;
 using Persistence;
 using IntegrationTests.Extensions;
 using Serilog.Events;
-using IntegrationTests.Serilog.Sinks.XUnit;
 
 namespace IntegrationTests
 {
@@ -28,7 +27,11 @@ namespace IntegrationTests
             builder.UseSerilog((context, services, configuration) =>
             {
                 Program.ApplyCommonSerilogConfiguration(context, services, configuration);
-                configuration.WriteTo.TestOutput(() => TestOutputHelper, outputTemplate: Program.SerilogConsoleTemplate);
+                configuration.WriteTo.Map(
+                    _ => TestOutputHelper,
+                    (_, writeTo) => writeTo.TestOutput(TestOutputHelper, outputTemplate: Program.SerilogConsoleTemplate),
+                    sinkMapCountLimit: 1);
+
                 if (TestOptions.EnableSqlLogging)
                 {
                     #pragma warning disable CS0162 // Unreachable code detected
