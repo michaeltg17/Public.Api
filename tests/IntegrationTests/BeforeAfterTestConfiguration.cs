@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
-using Xunit.Abstractions;
 using Xunit.DependencyInjection;
 
 namespace IntegrationTests
 {
-    public class BeforeAfterTestConfiguration(WebApplicationFactoryFixture webApplicationFactoryFixture, ITestOutputHelper testOutputHelper)
+    public class BeforeAfterTestConfiguration(
+        WebApplicationFactoryFixture webApplicationFactoryFixture, 
+        ITestOutputHelperAccessor testOutputHelperAccessor)
         : BeforeAfterTest
     {
         public override void Before(object? testClassInstance, MethodInfo methodUnderTest)
@@ -12,7 +13,7 @@ namespace IntegrationTests
             if (testClassInstance is Test test)
             {
                 test.WebApplicationFactoryFixture = webApplicationFactoryFixture;
-                test.TestOutputHelper = testOutputHelperAccessor.Output;
+                test.TestOutputHelper = testOutputHelperAccessor.Output!;
                 test.Initialize();
             }
         }
