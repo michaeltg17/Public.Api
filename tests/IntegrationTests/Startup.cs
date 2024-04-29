@@ -8,7 +8,7 @@ namespace IntegrationTests
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<BeforeAfterTest, BeforeAfterTestConfiguration>();
-            services.AddKeyedScoped<WebApplicationFactoryFixture>()
+            services.AddSingleton<WebApplicationFactoryFixture>();
         }
     }
 }

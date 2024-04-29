@@ -7,7 +7,7 @@ using ApiClient.Exceptions;
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class ApiClientTests: Test
+    public class ApiClientTests : Test
     {
         [Fact]
         public async Task WhenInternalServerError_ApiExceptionIsThrownWithExpectedProblemDetails()

@@ -10,7 +10,6 @@
 	  <Compile Remove="Tests\DeleteAllTestEntitiesTests.cs" />
 	  <Compile Remove="Tests\DeleteImageGroupTests.cs" />
 	  <Compile Remove="Tests\GetImageGroupTests.cs" />
-	  <Compile Remove="Tests\GetImageTests.cs" />
 	  <Compile Remove="Tests\SaveImageGroupTest.cs" />
 	  <Compile Remove="Tests\ThrowInternalServerErrorTests.cs" />
 	</ItemGroup>
