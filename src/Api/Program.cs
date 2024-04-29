@@ -35,7 +35,7 @@ namespace Api
             builder.Host.UseSerilog((context, services, configuration) =>
             {
                 ApplyCommonSerilogConfiguration(context, services, configuration);
-                configuration.WriteTo.Console(outputTemplate: SerilogConsoleTemplate);
+                configuration.WriteTo.Console();
             });
         }
 
@@ -44,11 +44,9 @@ namespace Api
         {
             configuration
                 .ReadFrom.Configuration(context.Configuration)
-                .ReadFrom.Services(services)
+                //.ReadFrom.Services(services)
                 .Enrich.FromLogContext();
         }
-
-        public const string SerilogConsoleTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
         static void AddMainDependencies(WebApplicationBuilder builder)
         {
