@@ -44,7 +44,7 @@ namespace Api
         {
             configuration
                 .ReadFrom.Configuration(context.Configuration)
-                //.ReadFrom.Services(services)
+                .ReadFrom.Services(services)
                 .Enrich.FromLogContext();
         }
 
