@@ -4,12 +4,14 @@ namespace IntegrationTests
 {
     public abstract class Test : IDisposable
     {
-        protected readonly ApiClient.ApiClient apiClient;
+        public ApiClient.ApiClient ApiClient { get; private set; } = default!;
+        public WebApplicationFactoryFixture WebApplicationFactoryFixture { get; set; } = default!;
+        public ITestOutputHelper TestOutputHelper { get; set; } = default!;
 
-        public Test(WebApplicationFactoryFixture webApplicationFactoryFixture, ITestOutputHelper testOutputHelper)
+        public void Initialize()
         {
-            webApplicationFactoryFixture.TestOutputHelper = testOutputHelper;
-            apiClient = new(webApplicationFactoryFixture.CreateClient());
+            WebApplicationFactoryFixture.TestOutputHelper = TestOutputHelper;
+            ApiClient = new(WebApplicationFactoryFixture.CreateClient());
         }
 
         public void Dispose()

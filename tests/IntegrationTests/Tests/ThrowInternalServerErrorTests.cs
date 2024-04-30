@@ -4,20 +4,17 @@ using Common.Testing.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using ApiClient.Extensions;
-using Xunit.Sdk;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class ThrowInternalServerErrorTests(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper) 
-        : Test(factory, testOutputHelper)
+    public class ThrowInternalServerErrorTests : Test
     {
         [Fact]
         public async Task WhenInternalServerError_ExpectedProblemDetails()
         {
             //When
-            var response = await apiClient.ThrowInternalServerError();
+            var response = await ApiClient.ThrowInternalServerError();
 
             //Then
             var expected = new ProblemDetailsBuilder()

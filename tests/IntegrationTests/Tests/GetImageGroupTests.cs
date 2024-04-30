@@ -5,22 +5,21 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class GetImageGroupTests(ITestOutputHelper testOutputHelper, WebApplicationFactoryFixture factory) : Test(factory, testOutputHelper)
+    public class GetImageGroupTests : Test
     {
         [Fact]
         public async Task GivenImageGroup_WhenSaveAndGetImageGroup_IsGot()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup = await ApiClient.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var response = await apiClient.GetImageGroup(imageGroup.Id);
+            var response = await ApiClient.GetImageGroup(imageGroup.Id);
             var imageGroup2 = await response.To<ImageGroup>();
 
             //Then
@@ -34,7 +33,7 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.GetImageGroup(id: 600);
+            var response = await ApiClient.GetImageGroup(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()
@@ -50,7 +49,7 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.GetImageGroup("blabla");
+            var response = await ApiClient.GetImageGroup("blabla");
 
             //Then
             var expected = new ProblemDetailsBuilder()

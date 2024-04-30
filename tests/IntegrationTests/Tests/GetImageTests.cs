@@ -5,26 +5,25 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class GetImageTests(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper) : Test(factory, testOutputHelper)
+    public class GetImageTests : Test
     {
         [Fact]
         public async Task GivenImageGroup_WhenGetImage_IsGot()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup = await ApiClient.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var image = await apiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
+            var image = await ApiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
 
             //Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
-            var downloadedImageBytes = await apiClient.HttpClient.GetByteArrayAsync(image!.Url);
+            var downloadedImageBytes = await ApiClient.HttpClient.GetByteArrayAsync(image!.Url);
 
             uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }
@@ -34,7 +33,7 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.GetImage(id: 600);
+            var response = await ApiClient.GetImage(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()
@@ -51,7 +50,7 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.GetImage("blabla");
+            var response = await ApiClient.GetImage("blabla");
 
             //Then
             var expected = new ProblemDetailsBuilder()

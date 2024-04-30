@@ -1,23 +1,21 @@
 ﻿using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class DeleteAllTestEntitiesTests(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper) 
-        : Test(factory, testOutputHelper)
+    public class DeleteAllTestEntitiesTests : Test
     {
         //[Fact]
         public async Task GivenTestEntitiesInDb_WhenDeleteAllTestEntities_EntitiesAreDeleted()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            await apiClient.SaveImageGroup(imagePath);
+            await ApiClient.SaveImageGroup(imagePath);
 
             //When
-            var deleteResponse = await apiClient.DeleteAllTestEntities();
+            var deleteResponse = await ApiClient.DeleteAllTestEntities();
 
             //Then
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
