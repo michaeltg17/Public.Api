@@ -7,6 +7,7 @@ using CrossCutting;
 using Microsoft.OpenApi.Models;
 using Api.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Api.Middlewares;
 
 [assembly: ApiController]
 namespace Api
@@ -100,7 +101,8 @@ namespace Api
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.MapControllers();
             AddObjectStorageFeature(app);
-            app.AddExceptionHandler();
+            app.UseExceptionHandler();
+            app.UseMiddleware<SampleMiddleware>();
             app.Run();
         }
 

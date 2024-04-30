@@ -8,7 +8,7 @@ namespace Api.Extensions
 {
     public static class ExceptionHandlerExtensions
     {
-        public static void AddExceptionHandler(this WebApplication app)
+        public static void UseExceptionHandler(this WebApplication app)
         {
             app.UseExceptionHandler(config => config.Run(async httpContext =>
             {
@@ -27,8 +27,7 @@ namespace Api.Extensions
 
                 var problemDetailsContext = BuildProblemDetailsContext(exception, httpContext);
 
-                var done = await problemDetailsService.TryWriteAsync(problemDetailsContext);
-                //if (!done) await context.Response.WriteAsJsonAsync(problem.ProblemDetails);
+                await problemDetailsService.WriteAsync(problemDetailsContext);
             }));
         }
 

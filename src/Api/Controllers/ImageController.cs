@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Application.Services;
 using Domain.Models;
+using Api.Filters;
 
 namespace Api.Controllers
 {
@@ -12,12 +13,14 @@ namespace Api.Controllers
             return imageService.GetImage(id, cancellationToken);
         }
 
+        [TypeFilter<SampleFilter>]
         [HttpGet("api/v1/ImageGroup/{id}")]
         public async Task<ImageGroup> GetImageGroup(long id, CancellationToken cancellationToken)
         {
             return await imageService.GetImageGroup(id, cancellationToken);
         }
 
+        [SampleFilter]
         [HttpPost("api/v1/ImageGroup")]
         public async Task<ActionResult<ImageGroup>> SaveImageGroup(IFormFile file)
         {
