@@ -5,12 +5,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class SaveImageGroupTest(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper) : Test(factory, testOutputHelper)
+    public class SaveImageGroupTest : Test
     {
         [Fact]
         public async Task GivenImage_WhenSaveImageGroup_IsSaved()
@@ -19,11 +18,11 @@ namespace IntegrationTests.Tests
             const string imagePath = @"Images\didi.jpeg";
 
             //When
-            var response = await apiClient.SaveImageGroup(imagePath);
+            var response = await ApiClient.SaveImageGroup(imagePath);
             var imageGroup = await response.To<ImageGroup>();
 
             //Then
-            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
+            var imageGroup2 = await ApiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
             imageGroup.Should().BeEquivalentTo(imageGroup2);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
@@ -33,7 +32,7 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.SaveImageGroup((HttpContent?)null);
+            var response = await ApiClient.SaveImageGroup((HttpContent?)null);
 
             //Then
             var expected = new ProblemDetailsBuilder()

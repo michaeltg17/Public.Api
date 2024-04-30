@@ -7,14 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Tests\DeleteAllTestEntitiesTests.cs" />
-	  <Compile Remove="Tests\DeleteImageGroupTests.cs" />
-	  <Compile Remove="Tests\GetImageGroupTests.cs" />
-	  <Compile Remove="Tests\SaveImageGroupTest.cs" />
-	  <Compile Remove="Tests\ThrowInternalServerErrorTests.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="6.0.2">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

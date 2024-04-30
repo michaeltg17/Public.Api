@@ -5,29 +5,27 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class DeleteImageGroupTests(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper) 
-        : Test(factory, testOutputHelper)
+    public class DeleteImageGroupTests : Test
     {
         [Fact]
         public async Task GivenImageGroup_WhenDelete_IsDeleted()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
-            var imageGroup2 = await apiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
+            var imageGroup = await ApiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup2 = await ApiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
             imageGroup.Should().BeEquivalentTo(imageGroup2);
 
             //When
-            var deleteResponse = await apiClient.DeleteImageGroup(imageGroup.Id);
+            var deleteResponse = await ApiClient.DeleteImageGroup(imageGroup.Id);
 
             //Then
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-            var getResponse = await apiClient.GetImageGroup(imageGroup.Id);
+            var getResponse = await ApiClient.GetImageGroup(imageGroup.Id);
             getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
@@ -36,7 +34,7 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.DeleteImageGroup(id: 600);
+            var response = await ApiClient.DeleteImageGroup(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()
@@ -53,7 +51,7 @@ namespace IntegrationTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.DeleteImageGroup("blabla");
+            var response = await ApiClient.DeleteImageGroup("blabla");
 
             //Then
             var expected = new ProblemDetailsBuilder()
