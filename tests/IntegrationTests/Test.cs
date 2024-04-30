@@ -2,7 +2,7 @@
 
 namespace IntegrationTests
 {
-    public abstract class Test
+    public abstract class Test : IDisposable
     {
         public ApiClient.ApiClient ApiClient { get; private set; } = default!;
         public WebApplicationFactoryFixture WebApplicationFactoryFixture { get; set; } = default!;
@@ -12,6 +12,8 @@ namespace IntegrationTests
         {
             WebApplicationFactoryFixture.TestOutputHelper = TestOutputHelper;
             ApiClient = new(WebApplicationFactoryFixture.CreateClient());
+            WebApplicationFactoryFixture.FlushLogger();
+            GC.SuppressFinalize(this);
         }
     }
 }

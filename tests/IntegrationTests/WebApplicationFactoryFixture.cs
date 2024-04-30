@@ -15,11 +15,20 @@ namespace IntegrationTests
     public class WebApplicationFactoryFixture(IMessageSink messageSink) : WebApplicationFactory<Program>, IAsyncLifetime
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
-        Database Database = default!;
+        Database Database { get; set; } = default!;
 
         public async Task InitializeAsync()
         {
             Database = await Database.Initialize(messageSink);
+        }
+
+        /// <summary>
+        /// To be called at the end of each test so that log from previous test doesn't get mixed with the next one.
+        /// </summary>
+        public static void FlushLogger()
+        {
+            //Not the best but too hard to do it in another way.
+            Thread.Sleep(10);
         }
 
         protected override IHost CreateHost(IHostBuilder builder)
@@ -29,7 +38,7 @@ namespace IntegrationTests
                 Program.ApplyCommonSerilogConfiguration(context, services, configuration);
                 configuration.WriteTo.Map(
                     _ => TestOutputHelper,
-                    (_, writeTo) => writeTo.TestOutput(TestOutputHelper, outputTemplate: Program.SerilogConsoleTemplate),
+                    (_, writeTo) => writeTo.TestOutput(TestOutputHelper),
                     sinkMapCountLimit: 1);
 
                 if (TestOptions.EnableSqlLogging)
