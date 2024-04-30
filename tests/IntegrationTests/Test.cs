@@ -2,14 +2,20 @@
 
 namespace IntegrationTests
 {
-    public abstract class Test
+    public abstract class Test : IDisposable
     {
         protected readonly ApiClient.ApiClient apiClient;
 
-        public Test(WebApplicationFactoryFixture factory, ITestOutputHelper testOutputHelper)
+        public Test(WebApplicationFactoryFixture webApplicationFactoryFixture, ITestOutputHelper testOutputHelper)
         {
-            factory.TestOutputHelper = testOutputHelper;
-            apiClient = new(factory.CreateClient());
+            webApplicationFactoryFixture.TestOutputHelper = testOutputHelper;
+            apiClient = new(webApplicationFactoryFixture.CreateClient());
+        }
+
+        public void Dispose()
+        {
+            WebApplicationFactoryFixture.FlushLogger();
+            GC.SuppressFinalize(this);
         }
     }
 }
