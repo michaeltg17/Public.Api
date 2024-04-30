@@ -12,6 +12,10 @@ namespace IntegrationTests
         {
             WebApplicationFactoryFixture.TestOutputHelper = TestOutputHelper;
             ApiClient = new(WebApplicationFactoryFixture.CreateClient());
+        }
+
+        public void Dispose()
+        {
             WebApplicationFactoryFixture.FlushLogger();
             GC.SuppressFinalize(this);
         }
