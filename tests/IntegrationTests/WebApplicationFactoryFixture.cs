@@ -49,7 +49,7 @@ namespace IntegrationTests
                 }
             });
 
-            builder.ConfigureServices((context, services) =>
+            builder.ConfigureServices(services =>
             {
                 services.Configure<Settings>(settings =>
                 {
