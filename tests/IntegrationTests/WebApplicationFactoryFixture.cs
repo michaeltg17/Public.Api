@@ -35,7 +35,7 @@ namespace IntegrationTests
         {
             builder.UseSerilog((context, services, configuration) =>
             {
-                Program.ApplyCommonSerilogConfiguration(context, services, configuration);
+                Api.Startup.ApplyCommonSerilogConfiguration(context, services, configuration);
                 configuration.WriteTo.Map(
                     _ => TestOutputHelper,
                     (_, writeTo) => writeTo.TestOutput(TestOutputHelper),
