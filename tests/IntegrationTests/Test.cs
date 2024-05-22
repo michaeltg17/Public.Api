@@ -1,4 +1,5 @@
 ﻿using Xunit.Abstractions;
+using Serilog.Sinks.InMemory;
 
 namespace IntegrationTests
 {
@@ -11,6 +12,7 @@ namespace IntegrationTests
         public void Initialize()
         {
             WebApplicationFactoryFixture.TestOutputHelper = TestOutputHelper;
+            WebApplicationFactoryFixture.InMemorySink = new InMemorySink();
             ApiClient = new(WebApplicationFactoryFixture.CreateClient());
         }
 

@@ -57,5 +57,10 @@
         {
             return HttpClient.PostAsync($"Test/ThrowInternalServerError", null);
         }
+
+        public Task<HttpResponseMessage> GetOk()
+        {
+            return HttpClient.GetAsync($"Test/GetOk");
+        }
     }
 }

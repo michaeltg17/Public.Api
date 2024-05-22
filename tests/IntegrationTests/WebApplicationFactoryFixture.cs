@@ -16,6 +16,7 @@ namespace IntegrationTests
     public class WebApplicationFactoryFixture(IMessageSink messageSink) : WebApplicationFactory<Program>, IAsyncLifetime
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
+        public InMemorySink InMemorySink { get; set; } = default!;
         Database Database { get; set; } = default!;
 
         public async Task InitializeAsync()
@@ -37,11 +38,15 @@ namespace IntegrationTests
             builder.UseSerilog((context, services, configuration) =>
             {
                 Api.Startup.ApplyCommonSerilogConfiguration(context, services, configuration);
+                //Using Map sink to fix "Only first test is logged"
                 configuration.WriteTo.Map(
                     _ => TestOutputHelper,
                     (_, writeTo) => writeTo.TestOutput(TestOutputHelper),
                     sinkMapCountLimit: 1);
-                //configuration.WriteTo.s
+                configuration.WriteTo.Map(
+                    _ => InMemorySink,
+                    (_, writeTo) => writeTo.Sink(InMemorySink),
+                    sinkMapCountLimit: 1);
 
                 if (TestOptions.EnableSqlLogging)
                 {
