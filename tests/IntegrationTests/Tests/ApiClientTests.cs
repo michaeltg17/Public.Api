@@ -25,7 +25,7 @@ namespace IntegrationTests.Tests
                 "  \"instance\": \"/Test/ThrowInternalServerError\"\r\n" +
                 "}";
 
-            var func = async () => await response.To<ImageGroup>();
+            var func = response.To<ImageGroup>;
             await func.Should().ThrowAsync<ApiException>().WithMessage(expectedMessage);
         }
     }

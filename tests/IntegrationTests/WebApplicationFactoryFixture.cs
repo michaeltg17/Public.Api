@@ -9,6 +9,7 @@ using CrossCutting;
 using Persistence;
 using IntegrationTests.Extensions;
 using Serilog.Events;
+using Serilog.Sinks.InMemory;
 
 namespace IntegrationTests
 {
@@ -40,6 +41,7 @@ namespace IntegrationTests
                     _ => TestOutputHelper,
                     (_, writeTo) => writeTo.TestOutput(TestOutputHelper),
                     sinkMapCountLimit: 1);
+                configuration.WriteTo.s
 
                 if (TestOptions.EnableSqlLogging)
                 {

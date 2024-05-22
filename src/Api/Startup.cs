@@ -8,6 +8,8 @@ using Persistence;
 using Serilog;
 using System.Text.Json.Serialization;
 using Api.Extensions;
+using Application;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api
 {
@@ -38,18 +40,31 @@ namespace Api
                 .AddSerilog();
 
             builder.Services
-                .AddApplicationDependencies()
+                .AddMainDependencies()
                 .AddProblemDetails()
                 .AddInvalidModelStateResponseFactory()
                 .AddFilters();
+                //.AddSecurity();
 
             return builder;
         }
 
-        static IServiceCollection AddApplicationDependencies(this IServiceCollection services)
+        static IServiceCollection AddSecurity(this IServiceCollection services)
         {
-            return Application.DependencyConfigurator
-                .AddApplicationDependencies(services)
+            services.AddAuthentication();
+
+            services.AddAuthorizationBuilder()
+                .SetFallbackPolicy(new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build());
+
+            return services;
+        }
+
+        static IServiceCollection AddMainDependencies(this IServiceCollection services)
+        {
+            return services
+                .AddApplicationDependencies()
                 .AddCrossCuttingDependencies()
                 .AddPersistanceDependencies();
         }
@@ -127,6 +142,7 @@ namespace Api
 
             webApplication
                 .UseExceptionHandler()
+                .UseAuthentication()
                 .UseAuthorization()
                 .UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
                 .UseMiddleware<SampleMiddleware>();
