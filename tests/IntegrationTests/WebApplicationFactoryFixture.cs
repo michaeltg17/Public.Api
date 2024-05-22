@@ -41,7 +41,7 @@ namespace IntegrationTests
                     _ => TestOutputHelper,
                     (_, writeTo) => writeTo.TestOutput(TestOutputHelper),
                     sinkMapCountLimit: 1);
-                configuration.WriteTo.s
+                //configuration.WriteTo.s
 
                 if (TestOptions.EnableSqlLogging)
                 {
