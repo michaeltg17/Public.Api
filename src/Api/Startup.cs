@@ -10,6 +10,7 @@ using System.Text.Json.Serialization;
 using Api.Extensions;
 using Application;
 using Microsoft.AspNetCore.Authorization;
+using Asp.Versioning;
 
 namespace Api
 {
@@ -43,7 +44,8 @@ namespace Api
                 .AddMainDependencies()
                 .AddProblemDetails()
                 .AddInvalidModelStateResponseFactory()
-                .AddFilters();
+                .AddFilters()
+                .AddVersioning();
                 //.AddSecurity();
 
             return builder;
@@ -59,6 +61,19 @@ namespace Api
                     .Build());
 
             return services;
+        }
+
+        static IServiceCollection AddVersioning(this IServiceCollection services)
+        {
+            return services
+                .AddApiVersioning(options =>
+                {
+                    options.ReportApiVersions = true;
+                    options.DefaultApiVersion = new ApiVersion(1);
+                    options.AssumeDefaultVersionWhenUnspecified = true;
+                })
+                .AddMvc()
+                .Services;
         }
 
         static IServiceCollection AddMainDependencies(this IServiceCollection services)
@@ -134,6 +149,9 @@ namespace Api
 
         static WebApplication Configure(this WebApplication webApplication)
         {
+            //Exception middleware first to catch exceptions
+            webApplication.UseExceptionHandler();
+
             webApplication.MapControllers();
 
             webApplication
@@ -141,7 +159,6 @@ namespace Api
                 .AddObjectStorageFeature();
 
             webApplication
-                .UseExceptionHandler()
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())

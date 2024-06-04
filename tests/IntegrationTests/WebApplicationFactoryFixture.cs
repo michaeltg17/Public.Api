@@ -64,7 +64,6 @@ namespace IntegrationTests
                     settings.Url = "http://localhost";
                 });
 
-                
                 if (TestOptions.EnableSqlLogging)
                 {
                     #pragma warning disable CS0162 // Unreachable code detected

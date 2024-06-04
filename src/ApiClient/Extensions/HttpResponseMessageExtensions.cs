@@ -14,18 +14,17 @@ namespace ApiClient.Extensions
 
         public static async Task<T> To<T>(this HttpResponseMessage response)
         {
-            var stream = await response.Content.ReadAsStreamAsync();
+            var content = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrWhiteSpace(content)) throw new ApiClientException("Response content is null, empty or whitespace.");
 
             try
             {
-                var @object = await JsonSerializer.DeserializeAsync<T>(stream, JsonSerializerOptions);
-                return @object ?? throw new ApiClientException("Deserialization from JSON failed. Result is null.");
+                return JsonSerializer.Deserialize<T>(content, JsonSerializerOptions)!;
             }
             catch (JsonException)
             {
-                stream.Seek(0, SeekOrigin.Begin);
-                var problemDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(stream, JsonSerializerOptions);
-                throw new ApiException(problemDetails!);
+                var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content, JsonSerializerOptions)!;
+                throw new ApiException(problemDetails);
             }
         }
 

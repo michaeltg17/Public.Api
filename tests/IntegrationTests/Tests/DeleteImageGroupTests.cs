@@ -11,8 +11,10 @@ namespace IntegrationTests.Tests
     [Collection(nameof(ApiCollection))]
     public class DeleteImageGroupTests : Test
     {
-        [Fact]
-        public async Task GivenImageGroup_WhenDelete_IsDeleted()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task GivenImageGroup_WhenDelete_IsDeleted(int version)
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
@@ -21,7 +23,7 @@ namespace IntegrationTests.Tests
             imageGroup.Should().BeEquivalentTo(imageGroup2);
 
             //When
-            var deleteResponse = await ApiClient.DeleteImageGroup(imageGroup.Id);
+            var deleteResponse = await ApiClient.DeleteImageGroup(imageGroup.Id, version);
 
             //Then
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -59,9 +61,9 @@ namespace IntegrationTests.Tests
                 .WithError("id", "The value 'blabla' is not valid.")
                 .Build();
 
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

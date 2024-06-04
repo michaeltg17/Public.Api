@@ -58,9 +58,9 @@ namespace IntegrationTests.Tests
                 .WithError("id", "The value 'blabla' is not valid.")
                 .Build();
 
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

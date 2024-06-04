@@ -4,31 +4,13 @@ using Domain.Models;
 
 namespace Api.Controllers
 {
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ImageController(ImageService imageService) : ControllerBase
     {
-        [HttpGet("api/v1/Image/{id}")]
+        [HttpGet("{id}", Name = nameof(GetImage))]
         public Task<Image> GetImage(long id, CancellationToken cancellationToken)
         {
             return imageService.GetImage(id, cancellationToken);
-        }
-
-        [HttpGet("api/v1/ImageGroup/{id}")]
-        public async Task<ImageGroup> GetImageGroup(long id, CancellationToken cancellationToken)
-        {
-            return await imageService.GetImageGroup(id, cancellationToken);
-        }
-
-        [HttpPost("api/v1/ImageGroup")]
-        public async Task<ActionResult<ImageGroup>> SaveImageGroup(IFormFile file)
-        {
-            var imageGroup = await imageService.SaveImageGroup(file.FileName, () => file.OpenReadStream());
-            return CreatedAtAction(nameof(GetImageGroup), new { imageGroup.Id }, imageGroup);
-        }
-
-        [HttpDelete("api/v1/ImageGroup/{id}")]
-        public Task DeleteImageGroup(long id)
-        {
-            return imageService.DeleteImageGroup(id);
         }
     }
 }

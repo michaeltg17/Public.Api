@@ -8,7 +8,7 @@ using ApiClient.Extensions;
 namespace IntegrationTests.Tests
 {
     [Collection(nameof(ApiCollection))]
-    public class ThrowInternalServerErrorTests : Test
+    public class ApiBehaviourTests : Test
     {
         [Fact]
         public async Task WhenInternalServerError_ExpectedProblemDetails()

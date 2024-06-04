@@ -1,8 +1,10 @@
 ﻿namespace ApiClient
 {
-    public class ApiClient(HttpClient client)
+    public class ApiClient(HttpClient httpClient)
     {
-        public HttpClient HttpClient { get; } = client;
+        public HttpClient HttpClient { get; } = httpClient;
+
+        static string BuildBasePath(int version = 1) => $"api/v{version}";
 
         public Task<HttpResponseMessage> GetImage(long id)
         {
@@ -11,7 +13,7 @@
 
         public Task<HttpResponseMessage> GetImage(object id)
         {
-            return HttpClient.GetAsync($"api/v1/Image/{id}");
+            return HttpClient.GetAsync($"{BuildBasePath()}/Image/{id}");
         }
 
         public Task<HttpResponseMessage> GetImageGroup(long id)
@@ -21,12 +23,12 @@
 
         public Task<HttpResponseMessage> GetImageGroup(object id)
         {
-            return HttpClient.GetAsync($"api/v1/ImageGroup/{id}")!;
+            return HttpClient.GetAsync($"{BuildBasePath()}/ImageGroup/{id}")!;
         }
 
         public Task<HttpResponseMessage> SaveImageGroup(HttpContent? httpContent)
         {
-            return HttpClient.PostAsync("api/v1/ImageGroup", httpContent);
+            return HttpClient.PostAsync($"{BuildBasePath()}/ImageGroup", httpContent);
         }
 
         public Task<HttpResponseMessage> SaveImageGroup(string imagePath)
@@ -38,14 +40,14 @@
             return SaveImageGroup(multipartContent);
         }
 
-        public Task<HttpResponseMessage> DeleteImageGroup(long id)
+        public Task<HttpResponseMessage> DeleteImageGroup(long id, int version = 1)
         {
-            return DeleteImageGroup((object)id);
+            return DeleteImageGroup((object)id, version);
         }
 
-        public Task<HttpResponseMessage> DeleteImageGroup(object id)
+        public Task<HttpResponseMessage> DeleteImageGroup(object id, int version = 1)
         {
-            return HttpClient.DeleteAsync($"api/v1/ImageGroup/{id}");
+            return HttpClient.DeleteAsync($"{BuildBasePath(version)}/ImageGroup/{id}");
         }
 
         public Task<HttpResponseMessage> DeleteAllTestEntities()
@@ -61,6 +63,16 @@
         public Task<HttpResponseMessage> GetOk()
         {
             return HttpClient.GetAsync($"Test/GetOk");
+        }
+
+        public Task<HttpResponseMessage> Get()
+        {
+            return HttpClient.GetAsync($"Test/GetOk");
+        }
+
+        public Task<HttpResponseMessage> GetFromFakeRoute()
+        {
+            return HttpClient.GetAsync($"FakeRoute");
         }
     }
 }

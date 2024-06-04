@@ -3,6 +3,7 @@ using Xunit;
 using ApiClient.Extensions;
 using Domain.Models;
 using ApiClient.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationTests.Tests
 {
@@ -27,6 +28,17 @@ namespace IntegrationTests.Tests
 
             var func = response.To<ImageGroup>;
             await func.Should().ThrowAsync<ApiException>().WithMessage(expectedMessage);
+        }
+
+        [Fact]
+        public async Task WhenFakeRoute_ApiClientExceptionIsThrown()
+        {
+            //When
+            var response = await ApiClient.HttpClient.GetAsync($"FakeRoute");
+
+            //Then
+            var func = response.To<ProblemDetails>;
+            await func.Should().ThrowAsync<ApiClientException>().WithMessage("Response content is null, empty or whitespace.");
         }
     }
 }

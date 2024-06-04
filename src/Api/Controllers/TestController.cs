@@ -4,22 +4,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Route("Test")]
     public class TestController(TestService testService) : ControllerBase
     {
         [ServiceFilter<SampleFilter>]
-        [HttpGet("Test/GetOk")]
+        [HttpGet(nameof(GetOk), Name = nameof(GetOk))]
         public Task GetOk()
         {
             return Task.CompletedTask;
         }
 
-        [HttpPost("Test/ThrowInternalServerError")]
+        [HttpGet("Get/{id:int?}", Name = nameof(Get))]
+        public Task Get(int id)
+        {
+            return Task.CompletedTask;
+        }
+
+        [HttpPost(nameof(ThrowInternalServerError), Name = nameof(ThrowInternalServerError))]
         public Task ThrowInternalServerError()
         {
             throw new Exception("Sensitive data");
         }
 
-        [HttpDelete("Test/DeleteAllTestEntities")]
+        [HttpDelete(nameof(DeleteAllTestEntities), Name = nameof(DeleteAllTestEntities))]
         public Task DeleteAllTestEntities()
         {
             return testService.DeleteAllTestEntities();
