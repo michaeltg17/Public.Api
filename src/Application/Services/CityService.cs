@@ -10,11 +10,14 @@ namespace Application.Services
             ArgumentException.ThrowIfNullOrWhiteSpace(city, nameof(city));
             ArgumentException.ThrowIfNullOrWhiteSpace(candidate, nameof(candidate));
 
+            city = city.ToUpperInvariant();
+            candidate = candidate.ToUpperInvariant();
+
             if (city == candidate) return true;
 
             var similarity = new Levenstein().GetSimilarity(city, candidate);
 
-            return similarity > 0.70;
+            return similarity > 0.72;
         }
     }
 }

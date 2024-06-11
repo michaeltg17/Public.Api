@@ -18,6 +18,9 @@ namespace UnitTests
         [InlineData("TERRASSA", "TARRASA", true)]
         [InlineData("TERRASSA", "TARRASSA", true)]
         [InlineData("MANRESA", "MANRESA", true)] //Exact case
+        [InlineData("Huesca", "Huéscar", false)]
+        [InlineData("Cádiz", "Cáceres", false)]
+        [InlineData("Logroño", "Logrosán", false)]
         [Theory]
         public void IsSameCityTests(string city, string candidate, bool expected)
         {
