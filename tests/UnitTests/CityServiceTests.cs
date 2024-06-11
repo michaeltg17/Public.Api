@@ -1,6 +1,8 @@
 ﻿using Xunit;
 using Application.Services;
 using FluentAssertions;
+using Common.Testing.Extensions.AutoFixture;
+using AutoFixture.Xunit2;
 
 namespace UnitTests
 {
@@ -29,6 +31,13 @@ namespace UnitTests
 
             //Then
             result.Should().Be(expected);
+        }
+
+        [Theory, AutoData]
+        public void IsSameCityGuardClauseTests(StringGuardClauseAssertion assertion)
+        {
+            var sut = typeof(CityService).GetMethod(nameof(CityService.IsSameCity));
+            assertion.Verify(sut);
         }
     }
 }
