@@ -16,4 +16,8 @@
     <Folder Include="Models\Responses\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SimMetrics.Net" Version="1.0.5" />
+  </ItemGroup>
+
 </Project>
