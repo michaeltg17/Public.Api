@@ -24,7 +24,7 @@
 		<PackageReference Include="Serilog.Sinks.InMemory.Assertions" Version="0.11.0" />
 		<PackageReference Include="Serilog.Sinks.Map" Version="1.0.2" />
 		<PackageReference Include="Serilog.Sinks.XUnit" Version="3.0.5" />
-		<PackageReference Include="Testcontainers.MsSql" Version="3.8.0" />
+		<PackageReference Include="Testcontainers.MsSql" Version="3.9.0" />
 		<PackageReference Include="xunit" Version="2.8.1" />
 		<PackageReference Include="Xunit.DependencyInjection" Version="9.3.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
