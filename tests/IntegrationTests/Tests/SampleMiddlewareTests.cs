@@ -14,8 +14,8 @@ namespace IntegrationTests.Tests
             await ApiClient.GetOk();
 
             //Then
-            ValidateMessage("{MiddlewareName} started.");
-            ValidateMessage("{MiddlewareName} finished.");
+            ValidateMessage("{middlewareName} started.");
+            ValidateMessage("{middlewareName} finished.");
 
             void ValidateMessage(string message)
             {
@@ -23,7 +23,7 @@ namespace IntegrationTests.Tests
                     .Should()
                     .HaveMessage(message)
                     .Appearing().Once()
-                    .WithProperty("MiddlewareName")
+                    .WithProperty("middlewareName")
                     .WithValue("SampleMiddleware");
             }
         }

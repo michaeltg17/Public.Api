@@ -1,12 +1,30 @@
-﻿namespace Api.Middlewares
+﻿using CrossCutting.Logging;
+
+namespace Api.Middlewares
 {
-    public class SampleMiddleware(RequestDelegate next, ILogger<SampleMiddleware> logger)
+    public partial class SampleMiddleware(RequestDelegate next, ILogger<SampleMiddleware> logger)
     {
         public async Task InvokeAsync(HttpContext context)
         {
-            logger.LogInformation("{MiddlewareName} started.", nameof(SampleMiddleware));
+            MiddlewareStarted(logger, nameof(SampleMiddleware));
             await next.Invoke(context);
-            logger.LogInformation("{MiddlewareName} finished.", nameof(SampleMiddleware));
+            MiddlewareFinished(logger, nameof(SampleMiddleware));
         }
+
+        [LoggerMessage(
+            EventId = LoggingEventIds.MiddlewareStarted, 
+            EventName = nameof(MiddlewareStarted), 
+            Level = LogLevel.Information,
+            Message = "{middlewareName} started.",
+            SkipEnabledCheck = true)]
+        static partial void MiddlewareStarted(ILogger<SampleMiddleware> logger, string middlewareName);
+
+        [LoggerMessage(
+            EventId = LoggingEventIds.MiddlewareFinished,
+            EventName = nameof(MiddlewareFinished),
+            Level = LogLevel.Information,
+            Message = "{middlewareName} finished.",
+            SkipEnabledCheck = true)]
+        static partial void MiddlewareFinished(ILogger<SampleMiddleware> logger, string middlewareName);
     }
 }
