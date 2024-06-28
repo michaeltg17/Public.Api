@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="Michael.Net" Version="1.0.10" />
+		<PackageReference Include="Michael.Net" />
 	</ItemGroup>
 
 	<ItemGroup>
