@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
 using Serilog.Sinks.InMemory.Assertions;
+using Serilog.Events;
 
 namespace IntegrationTests.Tests
 {
@@ -23,6 +24,7 @@ namespace IntegrationTests.Tests
                     .Should()
                     .HaveMessage(message)
                     .Appearing().Once()
+                    .WithLevel(LogEventLevel.Information)
                     .WithProperty("middlewareName")
                     .WithValue("SampleMiddleware");
             }

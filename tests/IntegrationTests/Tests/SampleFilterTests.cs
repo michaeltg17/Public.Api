@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
 using Serilog.Sinks.InMemory.Assertions;
+using Serilog.Events;
 
 namespace IntegrationTests.Tests
 {
@@ -14,8 +15,8 @@ namespace IntegrationTests.Tests
             await ApiClient.GetOk();
 
             //Then
-            ValidateMessage("{FilterName} started on {ActionName}.");
-            ValidateMessage("{FilterName} finished on {ActionName}.");
+            ValidateMessage("{filterName} started on {actionName}.");
+            ValidateMessage("{filterName} finished on {actionName}.");
 
             void ValidateMessage(string message)
             {
@@ -23,10 +24,11 @@ namespace IntegrationTests.Tests
                     .Should()
                     .HaveMessage(message)
                     .Appearing().Once()
-                    .WithProperty("FilterName")
+                    .WithLevel(LogEventLevel.Information)
+                    .WithProperty("filterName")
                     .WithValue("SampleFilter")
                     .And
-                    .WithProperty("ActionName")
+                    .WithProperty("actionName")
                     .WithValue("Api.Controllers.TestController.GetOk (Api)");
             }
         }
