@@ -25,7 +25,7 @@ namespace IntegrationTests
         }
 
         /// <summary>
-        /// To be called at the end of each test so that log from previous test doesn't get mixed with the next one.
+        /// To be called at the end of each test so that logs from previous test doesn't get mixed with the next one.
         /// </summary>
         public static void FlushLogger()
         {
