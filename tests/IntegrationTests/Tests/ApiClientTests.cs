@@ -31,10 +31,10 @@ namespace IntegrationTests.Tests
         }
 
         [Fact]
-        public async Task WhenFakeRoute_ApiClientExceptionIsThrown()
+        public async Task WhenNoContent_ApiClientExceptionIsThrown()
         {
             //When
-            var response = await ApiClient.HttpClient.GetAsync($"FakeRoute");
+            var response = await ApiClient.GetOk();
 
             //Then
             var func = response.To<ProblemDetails>;

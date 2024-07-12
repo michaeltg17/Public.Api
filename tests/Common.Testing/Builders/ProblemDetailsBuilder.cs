@@ -7,6 +7,15 @@ namespace Common.Testing.Builders
 {
     public class ProblemDetailsBuilder : BuilderWithNew<ProblemDetailsBuilder, ProblemDetails>
     {
+        public ProblemDetailsBuilder WithNotFound()
+        {
+            Item.Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5";
+            Item.Title = "Not Found";
+            Item.Status = (int)HttpStatusCode.NotFound;
+
+            return this;
+        }
+
         public ProblemDetailsBuilder WithNotFoundException(string instance, string entity, long id)
         {
             Item.Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5";

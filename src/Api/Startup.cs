@@ -11,6 +11,7 @@ using Api.Extensions;
 using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
+using Api.Endpoints;
 
 namespace Api
 {
@@ -150,9 +151,11 @@ namespace Api
         static WebApplication Configure(this WebApplication webApplication)
         {
             //Exception middleware first to catch exceptions
-            webApplication.UseExceptionHandler();
+            webApplication.UseExceptionHandler().UseStatusCodePages();
 
             webApplication.MapControllers();
+
+            //webApplication.AddEndpoints();
 
             webApplication
                 .AddSwaggerIfDevelopment()
@@ -185,6 +188,12 @@ namespace Api
             });
 
             return webApplication;
+        }
+
+        static WebApplication AddEndpoints(this WebApplication webApplication)
+        {
+            return webApplication
+                .AddGetImageEndpoint();
         }
     }
 }

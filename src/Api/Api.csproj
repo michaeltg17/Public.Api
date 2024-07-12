@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Expressions" />
     <PackageReference Include="Swashbuckle.AspNetCore" />

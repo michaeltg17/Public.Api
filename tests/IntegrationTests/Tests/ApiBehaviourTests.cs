@@ -28,5 +28,21 @@ namespace IntegrationTests.Tests
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
+
+        [Fact]
+        public async Task WhenBadRequest_ExpectedProblemDetails()
+        {
+            //When
+            var response = await ApiClient.Get("this has to be an int");
+
+            //Then
+            var expected = new ProblemDetailsBuilder()
+                .WithNotFound()
+                .Build();
+
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }

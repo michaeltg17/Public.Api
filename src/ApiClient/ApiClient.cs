@@ -65,9 +65,9 @@
             return HttpClient.GetAsync($"Test/GetOk");
         }
 
-        public Task<HttpResponseMessage> Get()
+        public Task<HttpResponseMessage> Get(object id)
         {
-            return HttpClient.GetAsync($"Test/GetOk");
+            return HttpClient.GetAsync($"Test/Get/{id}");
         }
 
         public Task<HttpResponseMessage> GetFromFakeRoute()
