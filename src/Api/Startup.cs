@@ -12,6 +12,7 @@ using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Endpoints;
+using System.Net;
 
 namespace Api
 {
@@ -115,7 +116,7 @@ namespace Api
                     {
                         Type = apiBehaviorOptions.ClientErrorMapping[400].Link,
                         Title = "ValidationException",
-                        Status = StatusCodes.Status400BadRequest,
+                        Status = (int)HttpStatusCode.BadRequest,
                         Detail = "Please check the errors property for additional details.",
                         Instance = actionContext.HttpContext.Request.Path
                     };
