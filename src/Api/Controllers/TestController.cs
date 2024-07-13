@@ -14,7 +14,7 @@ namespace Api.Controllers
             return Task.CompletedTask;
         }
 
-        [HttpGet("Get/{id:int?}", Name = nameof(Get))]
+        [HttpGet("Get/{id}", Name = nameof(Get))]
         public Task Get(int id)
         {
             return Task.CompletedTask;

@@ -30,10 +30,10 @@ namespace IntegrationTests.Tests
         }
 
         [Fact]
-        public async Task WhenBadRequest_ExpectedProblemDetails()
+        public async Task WhenUnexistingRoute_ExpectedProblemDetails()
         {
             //When
-            var response = await ApiClient.Get("this has to be an int");
+            var response = await ApiClient.RequestUnexistingRoute();
 
             //Then
             var expected = new ProblemDetailsBuilder()
@@ -43,6 +43,23 @@ namespace IntegrationTests.Tests
             var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task WhenBadRequest_ExpectedProblemDetails()
+        {
+            //When
+            var response = await ApiClient.Get("this has to be an int");
+
+            //Then
+            var expected = new ProblemDetailsBuilder()
+                .WithValidationException("/Test/Get/this%20has%20to%20be%20an%20int")
+                .WithError("id", "The value 'this has to be an int' is not valid.")
+                .Build();
+
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

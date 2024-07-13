@@ -65,14 +65,19 @@
             return HttpClient.GetAsync($"Test/GetOk");
         }
 
+        public Task<HttpResponseMessage> Get(int id)
+        {
+            return Get((object)id);
+        }
+
         public Task<HttpResponseMessage> Get(object id)
         {
             return HttpClient.GetAsync($"Test/Get/{id}");
         }
 
-        public Task<HttpResponseMessage> GetFromFakeRoute()
+        public Task<HttpResponseMessage> RequestUnexistingRoute()
         {
-            return HttpClient.GetAsync($"FakeRoute");
+            return HttpClient.GetAsync($"UnexistingRoute");
         }
     }
 }

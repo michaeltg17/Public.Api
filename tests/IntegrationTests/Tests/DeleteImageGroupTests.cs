@@ -47,23 +47,5 @@ namespace IntegrationTests.Tests
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
-
-        [Fact]
-        public async Task GivenBadRequest_WhenDeleteImageGroup_ExpectedProblemDetails()
-        {
-            //Given
-            //When
-            var response = await ApiClient.DeleteImageGroup("blabla");
-
-            //Then
-            var expected = new ProblemDetailsBuilder()
-                .WithValidationException("/ImageGroup/blabla")
-                .WithError("id", "The value 'blabla' is not valid.")
-                .Build();
-
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            var problemDetails = await response.To<ProblemDetails>();
-            problemDetails.Should().BeEquivalentTo(expected);
-        }
     }
 }

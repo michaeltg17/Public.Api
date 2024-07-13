@@ -33,7 +33,7 @@ namespace Common.Testing.Builders
             Item.Title = "ValidationException";
             Item.Status = (int)HttpStatusCode.BadRequest;
             Item.Detail = "Please check the errors property for additional details.";
-            Item.Instance = "/api/v1" + instance;
+            Item.Instance = instance;
             Item.Extensions = new Dictionary<string, object?>() { { "errors", null } };
 
             return this;

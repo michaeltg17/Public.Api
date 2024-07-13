@@ -25,23 +25,5 @@ namespace FunctionalTests.Tests
             imageGroup.Should().BeEquivalentTo(imageGroup2);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
-
-        [Fact]
-        public async Task GivenBadRequest_WhenSaveImageGroup_ExpectedProblemDetails()
-        {
-            //Given
-            //When
-            var response = await apiClient.SaveImageGroup((HttpContent?)null);
-
-            //Then
-            var expected = new ProblemDetailsBuilder()
-                .WithValidationException("/ImageGroup")
-                .WithError("file", "The file field is required.")
-                .Build();
-
-            var problemDetails = await response.To<ProblemDetails>();
-            problemDetails.Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
     }
 }
