@@ -29,9 +29,8 @@ namespace IntegrationTests.Tests
         }
 
         [Fact]
-        public async Task GivenUnexistingImage_WhenGetImage_ExpectedProblemDetails()
+        public async Task WhenGetNonexistentImage_ExpectedProblemDetails()
         {
-            //Given
             //When
             var response = await ApiClient.GetImage(id: 600);
 

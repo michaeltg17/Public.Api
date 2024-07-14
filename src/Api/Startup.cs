@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Endpoints;
 using System.Net;
+using Asp.Versioning.Builder;
+using Application.Services;
 
 namespace Api
 {
@@ -156,7 +158,7 @@ namespace Api
 
             webApplication.MapControllers();
 
-            //webApplication.AddEndpoints();
+            webApplication.AddEndpoints();
 
             webApplication
                 .AddSwaggerIfDevelopment()
@@ -193,8 +195,22 @@ namespace Api
 
         static WebApplication AddEndpoints(this WebApplication webApplication)
         {
-            return webApplication
-                .AddGetImageEndpoint();
+            var builder = webApplication.NewVersionedApi();
+
+            return webApplication.AddImageEndpoints(builder);
+        }
+
+        static WebApplication AddImageEndpoints(this WebApplication webApplication, IVersionedEndpointRouteBuilder builder)
+        {
+            var group = builder.MapGroup("/api/v{version:apiVersion}/image");
+
+            group.MapGet("{id}",
+                (ImageService imageService,
+                long id,
+                CancellationToken cancellationToken)
+                => imageService.GetImage(id, cancellationToken));
+
+            return webApplication;
         }
     }
 }

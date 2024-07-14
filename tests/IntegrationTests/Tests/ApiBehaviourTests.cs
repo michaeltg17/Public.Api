@@ -30,7 +30,7 @@ namespace IntegrationTests.Tests
         }
 
         [Fact]
-        public async Task WhenUnexistingRoute_ExpectedProblemDetails()
+        public async Task WhenNonexistentRoute_ExpectedProblemDetails()
         {
             //When
             var response = await ApiClient.RequestUnexistingRoute();

@@ -32,9 +32,8 @@ namespace IntegrationTests.Tests
         }
 
         [Fact]
-        public async Task GivenUnexistingImageGroup_WhenDeleteImageGroup_ExpectedProblemDetails()
+        public async Task WhenDeleteNonexistentImageGroup_ExpectedProblemDetails()
         {
-            //Given
             //When
             var response = await ApiClient.DeleteImageGroup(id: 600);
 

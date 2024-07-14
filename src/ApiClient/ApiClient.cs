@@ -77,7 +77,7 @@
 
         public Task<HttpResponseMessage> RequestUnexistingRoute()
         {
-            return HttpClient.GetAsync($"UnexistingRoute");
+            return HttpClient.GetAsync($"UnexistingRoute/UnexistingRoute");
         }
     }
 }
