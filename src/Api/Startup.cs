@@ -40,6 +40,9 @@ namespace Api
                 .AddControllers()
                 .AddJsonOptions(c => c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+            builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => 
+                options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
             builder
                 .AddSwaggerIfDevelopment()
                 .AddSerilog();
@@ -205,10 +208,10 @@ namespace Api
             var group = builder.MapGroup("/api/v{version:apiVersion}/image");
 
             group.MapGet("{id}",
-                (ImageService imageService,
+                async (ImageService imageService,
                 long id,
                 CancellationToken cancellationToken)
-                => imageService.GetImage(id, cancellationToken));
+                => await imageService.GetImage(id, cancellationToken));
 
             return webApplication;
         }
