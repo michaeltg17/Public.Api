@@ -17,11 +17,9 @@ namespace ApiClient.Extensions
             var content = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrWhiteSpace(content)) throw new ApiClientException("Response content is null, empty or whitespace.");
 
-            try
-            {
+            if (response.IsSuccessStatusCode || typeof(T) == typeof(ProblemDetails))
                 return JsonSerializer.Deserialize<T>(content, JsonSerializerOptions)!;
-            }
-            catch (JsonException)
+            else
             {
                 var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content, JsonSerializerOptions)!;
                 throw new ApiException(problemDetails);
