@@ -40,6 +40,7 @@ namespace Api
                 .AddControllers()
                 .AddJsonOptions(c => c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+            //Minimal apis
             builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => 
                 options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
@@ -140,6 +141,7 @@ namespace Api
         {
             if (builder.Environment.IsDevelopment())
             {
+                builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen(options =>
                 {
                     options.SwaggerDoc("v1", new OpenApiInfo
@@ -205,13 +207,16 @@ namespace Api
 
         static WebApplication AddImageEndpoints(this WebApplication webApplication, IVersionedEndpointRouteBuilder builder)
         {
-            var group = builder.MapGroup("/api/v{version:apiVersion}/image");
+            var imageEndpoints = builder.MapGroup("/api/v{version:apiVersion}/image");
 
-            group.MapGet("{id}",
-                async (ImageService imageService,
-                long id,
-                CancellationToken cancellationToken)
-                => await imageService.GetImage(id, cancellationToken));
+            imageEndpoints
+                .MapGet("{id}",
+                    async (ImageService imageService,
+                    long id,
+                    CancellationToken cancellationToken)
+                    => await imageService.GetImage(id, cancellationToken))
+                .WithName("GetImage")
+                .WithOpenApi();
 
             return webApplication;
         }
