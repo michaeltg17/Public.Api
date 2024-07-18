@@ -204,21 +204,5 @@ namespace Api
 
             return webApplication.AddImageEndpoints(builder);
         }
-
-        static WebApplication AddImageEndpoints(this WebApplication webApplication, IVersionedEndpointRouteBuilder builder)
-        {
-            var imageEndpoints = builder.MapGroup("/api/v{version:apiVersion}/image");
-
-            imageEndpoints
-                .MapGet("{id}",
-                    async (ImageService imageService,
-                    long id,
-                    CancellationToken cancellationToken)
-                    => await imageService.GetImage(id, cancellationToken))
-                .WithName("GetImage")
-                .WithOpenApi();
-
-            return webApplication;
-        }
     }
 }
