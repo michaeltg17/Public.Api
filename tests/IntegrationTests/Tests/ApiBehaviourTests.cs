@@ -14,11 +14,11 @@ namespace IntegrationTests.Tests
         public async Task WhenInternalServerError_ExpectedProblemDetails()
         {
             //When
-            var response = await ApiClient.ThrowInternalServerError();
+            var response = await ApiClient.TestController.ThrowInternalServerError();
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithInternalServerError("/Test/ThrowInternalServerError")
+                .WithInternalServerError("/TestController/ThrowInternalServerError")
                 .Build();
 
             var responseAsString = (await response.Content.ReadAsStringAsync()).ToLowerInvariant();
@@ -49,11 +49,11 @@ namespace IntegrationTests.Tests
         public async Task WhenBadRequest_ExpectedProblemDetails()
         {
             //When
-            var response = await ApiClient.Get("this has to be an int");
+            var response = await ApiClient.TestController.Get("this has to be an int");
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithValidationException("/Test/Get/this%20has%20to%20be%20an%20int")
+                .WithValidationException("/TestController/Get/this%20has%20to%20be%20an%20int")
                 .WithError("id", "The value 'this has to be an int' is not valid.")
                 .Build();
 

@@ -15,10 +15,10 @@ namespace FunctionalTests.Tests
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup = await apiClient.Api.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var image = await apiClient.GetImage(imageGroup.Images.First().Id).To<Image>();
+            var image = await apiClient.Api.GetImage(imageGroup.Images.First().Id).To<Image>();
 
             //Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
@@ -32,7 +32,7 @@ namespace FunctionalTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.GetImage(id: 600);
+            var response = await apiClient.Api.GetImage(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()

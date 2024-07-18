@@ -12,7 +12,7 @@ namespace IntegrationTests.Tests
         public async Task LogsExpectedMessages()
         {
             //When
-            await ApiClient.GetOk();
+            await ApiClient.TestController.GetOk();
 
             //Then
             ValidateMessage("{middlewareName} started.");

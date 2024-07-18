@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("Test")]
+    [Route("TestController")]
     public class TestController(TestService testService) : ControllerBase
     {
         [ServiceFilter<SampleFilter>]
@@ -14,7 +14,7 @@ namespace Api.Controllers
             return Task.CompletedTask;
         }
 
-        [HttpGet("Get/{id}", Name = nameof(Get))]
+        [HttpGet("Get/{id}", Name = "TestController.Get")]
         public Task Get(int id)
         {
             return Task.CompletedTask;

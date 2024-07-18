@@ -16,10 +16,10 @@ namespace IntegrationTests.Tests
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await ApiClient.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup = await ApiClient.Api.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var response = await ApiClient.GetImageGroup(imageGroup.Id);
+            var response = await ApiClient.Api.GetImageGroup(imageGroup.Id);
             var imageGroup2 = await response.To<ImageGroup>();
 
             //Then
@@ -32,7 +32,7 @@ namespace IntegrationTests.Tests
         public async Task WhenGetNonexistentImageGroup_ExpectedProblemDetails()
         {
             //When
-            var response = await ApiClient.GetImageGroup(id: 600);
+            var response = await ApiClient.Api.GetImageGroup(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()

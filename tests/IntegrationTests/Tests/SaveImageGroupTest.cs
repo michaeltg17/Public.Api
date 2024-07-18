@@ -18,11 +18,11 @@ namespace IntegrationTests.Tests
             const string imagePath = @"Images\didi.jpeg";
 
             //When
-            var response = await ApiClient.SaveImageGroup(imagePath);
+            var response = await ApiClient.Api.SaveImageGroup(imagePath);
             var imageGroup = await response.To<ImageGroup>();
 
             //Then
-            var imageGroup2 = await ApiClient.GetImageGroup(imageGroup.Id).To<ImageGroup>();
+            var imageGroup2 = await ApiClient.Api.GetImageGroup(imageGroup.Id).To<ImageGroup>();
             imageGroup.Should().BeEquivalentTo(imageGroup2);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }

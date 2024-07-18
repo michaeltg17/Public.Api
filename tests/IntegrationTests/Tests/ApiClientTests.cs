@@ -14,7 +14,7 @@ namespace IntegrationTests.Tests
         public async Task WhenInternalServerError_ApiExceptionIsThrownWithExpectedProblemDetails()
         {
             //When
-            var response = await ApiClient.ThrowInternalServerError();
+            var response = await ApiClient.TestController.ThrowInternalServerError();
 
             //Then
             var expectedMessage =
@@ -23,7 +23,7 @@ namespace IntegrationTests.Tests
                 "  \"title\": \"InternalServerError\",\r\n" +
                 "  \"status\": 500,\r\n" +
                 "  \"detail\": \"Internal server error. Please contact the API support.\",\r\n" +
-                "  \"instance\": \"/Test/ThrowInternalServerError\"\r\n" +
+                "  \"instance\": \"/TestController/ThrowInternalServerError\"\r\n" +
                 "}";
 
             var func = response.To<ImageGroup>;
@@ -34,7 +34,7 @@ namespace IntegrationTests.Tests
         public async Task WhenNoContent_ApiClientExceptionIsThrown()
         {
             //When
-            var response = await ApiClient.GetOk();
+            var response = await ApiClient.TestController.GetOk();
 
             //Then
             var func = response.To<ProblemDetails>;

@@ -202,7 +202,9 @@ namespace Api
         {
             var builder = webApplication.NewVersionedApi();
 
-            return webApplication.AddImageEndpoints(builder);
+            return webApplication
+                .AddTestEndpoints(builder)
+                .AddImageEndpoints(builder);
         }
     }
 }
