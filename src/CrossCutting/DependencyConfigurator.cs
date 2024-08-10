@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CrossCutting.Settings;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace CrossCutting
@@ -8,13 +9,13 @@ namespace CrossCutting
         public static IServiceCollection AddCrossCuttingDependencies(this IServiceCollection services)
         {
             services
-                .AddOptions<Settings>()
-                .BindConfiguration(Settings.SectionOrPrefix)
+                .AddOptions<ApiSettings>()
+                .BindConfiguration(ApiSettings.SectionOrPrefix)
                 .ValidateOnStart();
 
-            services.AddSingleton<IValidateOptions<Settings>, SettingsValidator>();
+            services.AddSingleton<IValidateOptions<ApiSettings>, ApiSettingsValidator>();
 
-            services.AddSingleton<ISettings>(provider => provider.GetRequiredService<IOptions<Settings>>().Value);
+            services.AddSingleton<IApiSettings>(provider => provider.GetRequiredService<IOptions<ApiSettings>>().Value);
 
             return services;
         }

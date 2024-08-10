@@ -1,6 +1,6 @@
-﻿namespace CrossCutting
+﻿namespace CrossCutting.Settings
 {
-    public interface ISettings
+    public interface IApiSettings
     {
         public string Url { get; }
         public string ImagesStoragePath { get; }

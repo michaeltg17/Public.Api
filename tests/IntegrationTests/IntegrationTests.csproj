@@ -1,27 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="coverlet.collector" >
+		<PackageReference Include="coverlet.collector">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Docker.DotNet" />
 		<PackageReference Include="FluentAssertions" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk"  />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="Microsoft.SqlServer.DacFx" />
-		<PackageReference Include="Microsoft.TestPlatform.TestHost"  />
-		<PackageReference Include="Public.Database.Dacpac" >
+		<PackageReference Include="Microsoft.TestPlatform.TestHost" />
+		<PackageReference Include="Public.Database.Dacpac">
 			<GeneratePathProperty>true</GeneratePathProperty>
 		</PackageReference>
 		<PackageReference Include="Serilog.Sinks.InMemory" />
 		<PackageReference Include="Serilog.Sinks.InMemory.Assertions" />
 		<PackageReference Include="Serilog.Sinks.Map" />
-		<PackageReference Include="Serilog.Sinks.XUnit"  />
+		<PackageReference Include="Serilog.Sinks.XUnit" />
 		<PackageReference Include="Testcontainers.MsSql" />
 		<PackageReference Include="xunit" />
-		<PackageReference Include="Xunit.DependencyInjection"  />
-		<PackageReference Include="xunit.runner.visualstudio" >
+		<PackageReference Include="Xunit.DependencyInjection" />
+		<PackageReference Include="xunit.runner.visualstudio">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

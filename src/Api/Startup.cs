@@ -16,6 +16,7 @@ using System.Net;
 using Asp.Versioning.Builder;
 using Application.Services;
 using FluentAssertions.Common;
+using CrossCutting.Settings;
 
 namespace Api
 {
@@ -189,11 +190,11 @@ namespace Api
 
         static WebApplication AddObjectStorageFeature(this WebApplication webApplication)
         {
-            var settings = webApplication.Services.GetRequiredService<ISettings>();
+            var apiSettings = webApplication.Services.GetRequiredService<IApiSettings>();
             webApplication.UseStaticFiles(new StaticFileOptions
             {
-                RequestPath = settings.ImagesRequestPath,
-                FileProvider = new PhysicalFileProvider(settings.ImagesStoragePath)
+                RequestPath = apiSettings.ImagesRequestPath,
+                FileProvider = new PhysicalFileProvider(apiSettings.ImagesStoragePath)
             });
 
             return webApplication;

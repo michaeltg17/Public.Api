@@ -1,4 +1,4 @@
-﻿using CrossCutting;
+﻿using CrossCutting.Settings;
 using Domain.Models;
 using Michael.Net.Domain;
 using Michael.Net.Persistance.EntityFrameworkCore.Interceptors;
@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options, ISettings settings) : DbContext(options)
+    public class AppDbContext(DbContextOptions<AppDbContext> options, IApiSettings apiSettings) : DbContext(options)
     {
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ImageGroup> ImageGroups { get; set; }
@@ -16,12 +16,10 @@ namespace Persistence
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<ImageFileExtension> ImageFileExtensions { get; set; }
 
-        readonly ISettings settings = settings;
-
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options
-                .UseSqlServer(settings.SqlServerConnectionString, options => options.EnableRetryOnFailure())
+                .UseSqlServer(apiSettings.SqlServerConnectionString, options => options.EnableRetryOnFailure())
                 .AddInterceptors(new SetAuditInfoSaveChangesInterceptor());
         }
 

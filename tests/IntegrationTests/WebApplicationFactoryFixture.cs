@@ -5,7 +5,6 @@ using Serilog;
 using Xunit;
 using Xunit.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
-using CrossCutting;
 using Persistence;
 using IntegrationTests.Extensions;
 using Serilog.Events;
@@ -14,10 +13,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using WebStartup.Middleware;
 using Microsoft.AspNetCore.HttpLogging;
+using CrossCutting.Settings;
+using IntegrationTests.Settings;
 
 namespace IntegrationTests
 {
-    public class WebApplicationFactoryFixture(IMessageSink messageSink) : WebApplicationFactory<Program>, IAsyncLifetime
+    public class WebApplicationFactoryFixture(IMessageSink messageSink, ITestSettings testSettings) 
+        : WebApplicationFactory<Program>, IAsyncLifetime
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
         public InMemorySink InMemorySink { get; set; } = default!;
@@ -25,7 +27,7 @@ namespace IntegrationTests
 
         public async Task InitializeAsync()
         {
-            Database = await Database.Initialize(messageSink);
+            Database = await Database.Initialize(messageSink, testSettings);
         }
 
         /// <summary>
@@ -52,11 +54,9 @@ namespace IntegrationTests
                     (_, writeTo) => writeTo.Sink(InMemorySink),
                     sinkMapCountLimit: 1);
 
-                if (TestOptions.EnableSqlLogging)
+                if (testSettings.EnableSqlLogging)
                 {
-                    #pragma warning disable CS0162 // Unreachable code detected
                     configuration.MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Information);
-                    #pragma warning restore CS0162 // Unreachable code detected
                 }
             });
 
@@ -65,18 +65,16 @@ namespace IntegrationTests
                 services.AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.ResponseBody);
                 services.AddTransient<IStartupFilter, TestStartupFilter>();
 
-                services.Configure<Settings>(settings =>
+                services.Configure<ApiSettings>(apiSettings =>
                 {
-                    settings.SqlServerConnectionString = Database.ConnectionString;
-                    settings.Url = "http://localhost";
+                    apiSettings.SqlServerConnectionString = Database.ConnectionString;
+                    apiSettings.Url = "http://localhost";
                 });
 
-                if (TestOptions.EnableSqlLogging)
+                if (testSettings.EnableSqlLogging)
                 {
-                    #pragma warning disable CS0162 // Unreachable code detected
                     services.RemoveDbContextOptions<AppDbContext>();
                     services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
-                    #pragma warning restore CS0162 // Unreachable code detected
                 }
             });
 

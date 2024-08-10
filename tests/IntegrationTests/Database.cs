@@ -1,5 +1,6 @@
 ﻿using Docker.DotNet;
 using Docker.DotNet.Models;
+using IntegrationTests.Settings;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Dac;
 using Testcontainers.MsSql;
@@ -15,17 +16,20 @@ namespace IntegrationTests
         const int HostPort = 50000;
 
         public string ConnectionString { get; private set; } = default!;
-        MsSqlContainer? SqlServerContainer;
-        readonly IMessageSink MessageSink;
 
-        Database(IMessageSink messageSink)
+        MsSqlContainer? sqlServerContainer;
+        readonly IMessageSink messageSink;
+        readonly ITestSettings testSettings;
+
+        Database(IMessageSink messageSink, ITestSettings testSettings)
         {
-            MessageSink = messageSink;
+            this.messageSink = messageSink;
+            this.testSettings = testSettings;
         }
 
-        public static async Task<Database> Initialize(IMessageSink messageSink)
+        public static async Task<Database> Initialize(IMessageSink messageSink, ITestSettings testSettings)
         {
-            var database = new Database(messageSink);
+            var database = new Database(messageSink, testSettings);
             database.WriteMessage("Initializing database.");
 
             database.WriteMessage("Using existing container if exists.");
@@ -38,7 +42,7 @@ namespace IntegrationTests
                 database.WriteMessage("Container created.");
             }
             
-            if (TestOptions.ShouldDeployDacpac)
+            if (testSettings.ShouldDeployDacpac)
             {
                 database.WriteMessage("Deploying dacpac.");
                 database.DeployDacpac();
@@ -72,24 +76,24 @@ namespace IntegrationTests
 
         async Task CreateContainer()
         {
-            SqlServerContainer = new MsSqlBuilder()
+            sqlServerContainer = new MsSqlBuilder()
                 .WithName(ContainerName)
                 .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                 .WithPortBinding(HostPort, 1433)
-                .WithCleanUp(!TestOptions.KeepAliveDatabase)
-                .WithAutoRemove(!TestOptions.KeepAliveDatabase)
+                .WithCleanUp(!testSettings.KeepAliveDatabase)
+                .WithAutoRemove(!testSettings.KeepAliveDatabase)
                 .Build();
 
-            await SqlServerContainer.StartAsync();
+            await sqlServerContainer.StartAsync();
 
-            var builder = new SqlConnectionStringBuilder(SqlServerContainer.GetConnectionString())
+            var builder = new SqlConnectionStringBuilder(sqlServerContainer.GetConnectionString())
             {
                 InitialCatalog = DatabaseName
             };
 
             ConnectionString = builder.ConnectionString;
 
-            await SqlServerContainer.StartAsync();
+            await sqlServerContainer.StartAsync();
         }
 
         void DeployDacpac()
@@ -100,19 +104,17 @@ namespace IntegrationTests
             services.Deploy(package, DatabaseName, true);
         }
 
-        void WriteMessage(string message) => MessageSink.OnMessage(new DiagnosticMessage(message));
+        void WriteMessage(string message) => messageSink.OnMessage(new DiagnosticMessage(message));
 
         public ValueTask DisposeAsync()
         {
-            if (TestOptions.KeepAliveDatabase)
+            if (testSettings.KeepAliveDatabase)
             {
-#pragma warning disable CS0162 // Unreachable code detected
                 return ValueTask.CompletedTask;
-#pragma warning restore CS0162 // Unreachable code detected
             }
 
             GC.SuppressFinalize(this);
-            return SqlServerContainer?.DisposeAsync() ?? ValueTask.CompletedTask;
+            return sqlServerContainer?.DisposeAsync() ?? ValueTask.CompletedTask;
         }
     }
 }

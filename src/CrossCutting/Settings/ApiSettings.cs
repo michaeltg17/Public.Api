@@ -1,6 +1,6 @@
-﻿namespace CrossCutting
+﻿namespace CrossCutting.Settings
 {
-    public class Settings : ISettings
+    public class ApiSettings : IApiSettings
     {
         /// <summary>
         /// Section or prefix for the api settings. In JSON parent level, in ENV Api__X

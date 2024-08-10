@@ -3,7 +3,7 @@ using Application.Services;
 using ChinhDo.Transactions;
 using Michael.Net.Persistence;
 using Michael.Net.Persistence.AspNetCore;
-using CrossCutting;
+using CrossCutting.Settings;
 
 namespace Application
 {
@@ -16,7 +16,7 @@ namespace Application
 
             services.AddScoped<IObjectStorage, AspNetCoreStorage>(provider =>
             {
-                var settings = provider.GetRequiredService<ISettings>();
+                var settings = provider.GetRequiredService<IApiSettings>();
                 return new AspNetCoreStorage(
                     settings.ImagesStoragePath,
                     settings.ImagesUrl,
