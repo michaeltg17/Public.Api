@@ -4,8 +4,8 @@ namespace Domain.Models
 {
     public class ImageGroup : Entity
     {
-        public string Name { get; set; } = default!;
-        public long Type { get; set; }
+        public required string Name { get; init; }
+        public long Type { get; init; }
 
         public virtual ImageType TypeNavigation { get; set; } = default!;
 

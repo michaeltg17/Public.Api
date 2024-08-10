@@ -37,6 +37,7 @@ namespace Application.Services
                 ?? throw new NotFoundException<ImageGroup>(id);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Dapper sample")]
         async Task<ImageGroup> GetImageGroupWithDapper(long id)
         {
             return await db.Get(new GetImageGroupQuery(id));

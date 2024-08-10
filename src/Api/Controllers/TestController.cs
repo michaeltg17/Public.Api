@@ -15,6 +15,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("Get/{id}", Name = "TestController.Get")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Test Api")]
         public Task Get(int id)
         {
             return Task.CompletedTask;

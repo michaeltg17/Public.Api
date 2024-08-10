@@ -2,8 +2,8 @@
 {
     public class Product : Entity
     {
-        public string Name { get; set; } = default!;
-        public string Description { get; set; } = default!;
-        public decimal Price { get; set; } = default!;
+        public required string Name { get; init; }
+        public required string Description { get; init; }
+        public decimal Price { get; init; }
     }
 }

@@ -15,6 +15,7 @@ using Api.Endpoints;
 using System.Net;
 using Asp.Versioning.Builder;
 using Application.Services;
+using FluentAssertions.Common;
 
 namespace Api
 {
@@ -114,13 +115,13 @@ namespace Api
 
         static IServiceCollection AddInvalidModelStateResponseFactory(this IServiceCollection services)
         {
-            return services.Configure<ApiBehaviorOptions>(apiBehaviorOptions =>
+            return services.Configure<ApiBehaviorOptions>(options =>
             {
-                apiBehaviorOptions.InvalidModelStateResponseFactory = actionContext =>
+                options.InvalidModelStateResponseFactory = actionContext =>
                 {
                     var problemDetails = new ValidationProblemDetails(actionContext.ModelState)
                     {
-                        Type = apiBehaviorOptions.ClientErrorMapping[400].Link,
+                        Type = options.ClientErrorMapping[400].Link,
                         Title = "ValidationException",
                         Status = (int)HttpStatusCode.BadRequest,
                         Detail = "Please check the errors property for additional details.",
@@ -163,7 +164,7 @@ namespace Api
 
             webApplication.MapControllers();
 
-            webApplication.AddEndpoints();
+            webApplication.MapMinimalApi();
 
             webApplication
                 .AddSwaggerIfDevelopment()
@@ -198,13 +199,13 @@ namespace Api
             return webApplication;
         }
 
-        static WebApplication AddEndpoints(this WebApplication webApplication)
+        static WebApplication MapMinimalApi(this WebApplication webApplication)
         {
             var builder = webApplication.NewVersionedApi();
 
             return webApplication
-                .AddTestEndpoints(builder)
-                .AddImageEndpoints(builder);
+                .MapTestEndpoints(builder)
+                .MapImageEndpoints(builder);
         }
     }
 }

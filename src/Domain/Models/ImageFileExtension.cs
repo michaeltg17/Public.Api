@@ -2,8 +2,8 @@
 {
     public class ImageFileExtension : Entity
     {
-        public long ImageType { get; set; }
-        public string FileExtension { get; set; } = default!;
+        public long ImageType { get; init; }
+        public required string FileExtension { get; init; }
 
         public virtual ImageType ImageTypeNavigation { get; set; } = default!;
     }

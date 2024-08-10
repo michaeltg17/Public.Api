@@ -2,9 +2,9 @@
 {
     public class Customer : Entity
     {
-        public string Name { get; set; } = default!;
-        public string Address { get; set; } = default!;
-        public string Email { get; set; } = default!;
-        public string Phone { get; set; } = default!;
+        public required string Name { get; init; }
+        public required string Address { get; init; }
+        public required string Email { get; init; }
+        public required string Phone { get; init; }
     }
 }

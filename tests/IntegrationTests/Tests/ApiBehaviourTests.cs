@@ -10,15 +10,17 @@ namespace IntegrationTests.Tests
     [Collection(nameof(ApiCollection))]
     public class ApiBehaviourTests : Test
     {
-        [Fact]
-        public async Task WhenInternalServerError_ExpectedProblemDetails()
+        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestMinimalApi))]
+        [Theory]
+        public async Task WhenInternalServerError_ExpectedProblemDetails(string testEndpointsName)
         {
             //When
-            var response = await ApiClient.TestController.ThrowInternalServerError();
+            var response = await ApiClient.GetTestEndpoints(testEndpointsName).ThrowInternalServerError();
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithInternalServerError("/TestController/ThrowInternalServerError")
+                .WithInternalServerError($"/{testEndpointsName}/ThrowInternalServerError")
                 .Build();
 
             var responseAsString = (await response.Content.ReadAsStringAsync()).ToLowerInvariant();
@@ -45,15 +47,17 @@ namespace IntegrationTests.Tests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Fact]
-        public async Task WhenBadRequest_ExpectedProblemDetails()
+        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestMinimalApi))]
+        [Theory]
+        public async Task WhenBadRequest_ExpectedProblemDetails(string testEndpointsName)
         {
             //When
-            var response = await ApiClient.TestController.Get("this has to be an int");
+            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Get("this has to be an int");
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithValidationException("/TestController/Get/this%20has%20to%20be%20an%20int")
+                .WithValidationException($"/{testEndpointsName}/Get/this%20has%20to%20be%20an%20int")
                 .WithError("id", "The value 'this has to be an int' is not valid.")
                 .Build();
 

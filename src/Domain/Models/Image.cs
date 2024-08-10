@@ -2,13 +2,13 @@
 {
     public class Image : Entity
     {
-        public string Url { get; set; } = default!;
-        public long Resolution { get; set; }
-        public long Group { get; set; }
+        public required string Url { get; init; }
+        public long Resolution { get; init; }
+        public long Group { get; init; }
 
         public virtual ImageResolution ResolutionNavigation { get; set; } = default!;
         public virtual ImageGroup GroupNavigation { get; set; } = default!;
 
-        public string FileName => Guid + "." + GroupNavigation.TypeNavigation.GetDefaultFileExtension();
+        public string FileName => Guid + "." + GroupNavigation!.TypeNavigation!.GetDefaultFileExtension();
     }
 }

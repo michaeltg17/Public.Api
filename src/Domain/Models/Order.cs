@@ -2,12 +2,12 @@
 {
     public class Order : Entity
     {
-        public long CustomerId { get; set; } = default!;
-        public IEnumerable<OrderLine> Lines { get; set; } = default!;
+        public long CustomerId { get; init; }
+        public required IEnumerable<OrderLine> Lines { get; init; }
         public decimal TotalAmount => Lines.Sum(l => l.ProductNavigation.Price);
-        public string PaymentMethod { get; set; } = default!;
-        public string OrderStatus { get; set; } = default!;
-        public string Currency { get; set; } = default!;
-        public string ShippingCarrier { get; set; } = default!;
+        public string PaymentMethod { get; init; } = default!;
+        public string OrderStatus { get; init; } = default!;
+        public string Currency { get; init; } = default!;
+        public string ShippingCarrier { get; init; } = default!;
     }
 }

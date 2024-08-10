@@ -10,6 +10,10 @@ using Persistence;
 using IntegrationTests.Extensions;
 using Serilog.Events;
 using Serilog.Sinks.InMemory;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using WebStartup.Middleware;
+using Microsoft.AspNetCore.HttpLogging;
 
 namespace IntegrationTests
 {
@@ -58,6 +62,9 @@ namespace IntegrationTests
 
             builder.ConfigureServices(services =>
             {
+                services.AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.ResponseBody);
+                services.AddTransient<IStartupFilter, TestStartupFilter>();
+
                 services.Configure<Settings>(settings =>
                 {
                     settings.SqlServerConnectionString = Database.ConnectionString;
@@ -71,7 +78,6 @@ namespace IntegrationTests
                     services.AddDbContext<AppDbContext>(options => options.EnableSensitiveDataLogging());
                     #pragma warning restore CS0162 // Unreachable code detected
                 }
-
             });
 
             return base.CreateHost(builder);

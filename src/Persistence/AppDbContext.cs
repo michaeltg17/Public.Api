@@ -33,7 +33,7 @@ namespace Persistence
 
         public Task<T> Get<T>(IQuery<T> query) => query.Execute(Database.GetDbConnection());
 
-        public Task<int> Delete<T>(long id) where T : class, IIdentifiable, new()
+        public Task<int> Delete<T>(long id) where T : class, IIdentifiable
         {
             return Set<T>().Where(e => e.Id == id).ExecuteDeleteAsync();
         }

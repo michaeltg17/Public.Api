@@ -5,7 +5,7 @@ namespace Api.Endpoints
 {
     public static class ImageEndpoints
     {
-        public static WebApplication AddImageEndpoints(this WebApplication webApplication, IVersionedEndpointRouteBuilder builder)
+        public static WebApplication MapImageEndpoints(this WebApplication webApplication, IVersionedEndpointRouteBuilder builder)
         {
             var imageEndpoints = builder.MapGroup("/api/v{version:apiVersion}/image");
 

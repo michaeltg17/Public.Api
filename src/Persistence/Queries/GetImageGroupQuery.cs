@@ -5,15 +5,8 @@ using System.Data;
 
 namespace Persistence.Queries
 {
-    public class GetImageGroupQuery : IQuery<ImageGroup>
+    public class GetImageGroupQuery(long id) : IQuery<ImageGroup>
     {
-        readonly long id;
-
-        public GetImageGroupQuery(long id)
-        {
-            this.id = id;
-        }
-
         public async Task<ImageGroup> Execute(IDbConnection connection)
         {
             var sql =
