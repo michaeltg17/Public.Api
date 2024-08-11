@@ -10,20 +10,28 @@ namespace FunctionalTests
     {
         public static void ConfigureHost(IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureHostConfiguration(builder => builder
-                .AddJsonFile("Settings/testsettings.json")
-                .AddEnvironmentVariables());
+            hostBuilder.AddConfiguration();
         }
 
-        public static void ConfigureServices(IServiceCollection services)
+        static IHostBuilder AddConfiguration(this IHostBuilder builder)
         {
-            services
-                .AddOptions<TestSettings>()
-                .BindConfiguration("")
-                .ValidateOnStart()
-                .ValidateDataAnnotations();
+            builder
+                .ConfigureHostConfiguration(builder => builder
+                .AddJsonFile("Settings/testsettings.json")
+                .AddEnvironmentVariables());
 
-            services.AddSingleton<ITestSettings>(provider => provider.GetRequiredService<IOptions<TestSettings>>().Value);
+            builder.ConfigureServices(services =>
+            {
+                services
+                    .AddOptions<TestSettings>()
+                    .BindConfiguration("")
+                    .ValidateOnStart()
+                    .ValidateDataAnnotations();
+
+                services.AddSingleton<ITestSettings>(provider => provider.GetRequiredService<IOptions<TestSettings>>().Value);
+            });
+
+            return builder;
         }
     }
 }
