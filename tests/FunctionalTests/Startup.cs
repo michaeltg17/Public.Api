@@ -3,11 +3,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using FunctionalTests.Settings;
+using Xunit.DependencyInjection;
 
 namespace FunctionalTests
 {
     public static class Startup
     {
+        public static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddScoped<BeforeAfterTest, BeforeAfterTestConfiguration>();
+        }
+
         public static void ConfigureHost(IHostBuilder hostBuilder)
         {
             hostBuilder.AddConfiguration();

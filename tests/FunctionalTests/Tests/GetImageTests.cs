@@ -2,28 +2,27 @@
 using Common.Testing.Builders;
 using Common.Testing.Models;
 using FluentAssertions;
-using FunctionalTests.Settings;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
 namespace FunctionalTests.Tests
 {
-    public class GetImageTests(ITestSettings settings) : Test(settings)
+    public class GetImageTests() : Test()
     {
         [Fact]
         public async Task GivenImageGroup_WhenGetImage_IsGot()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.Api.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup = await ApiClient.Api.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var image = await apiClient.Api.GetImage(imageGroup.Images.First().Id).To<Image>();
+            var image = await ApiClient.Api.GetImage(imageGroup.Images.First().Id).To<Image>();
 
             //Then
             var uploadedImageBytes = File.ReadAllBytes(imagePath);
-            var downloadedImageBytes = await apiClient.HttpClient.GetByteArrayAsync(image!.Url);
+            var downloadedImageBytes = await ApiClient.HttpClient.GetByteArrayAsync(image!.Url);
 
             uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
         }
@@ -33,7 +32,7 @@ namespace FunctionalTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.Api.GetImage(id: 600);
+            var response = await ApiClient.Api.GetImage(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()

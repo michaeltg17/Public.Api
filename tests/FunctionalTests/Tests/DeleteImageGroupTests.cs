@@ -5,27 +5,26 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
-using FunctionalTests.Settings;
 
 namespace FunctionalTests.Tests
 {
-    public class DeleteImageGroupTests(ITestSettings settings) : Test(settings)
+    public class DeleteImageGroupTests() : Test()
     {
         [Fact]
         public async Task GivenImageGroup_WhenDelete_IsDeleted()
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            var imageGroup = await apiClient.Api.SaveImageGroup(imagePath).To<ImageGroup>();
-            var imageGroup2 = await apiClient.Api.GetImageGroup(imageGroup.Id).To<ImageGroup>();
+            var imageGroup = await ApiClient.Api.SaveImageGroup(imagePath).To<ImageGroup>();
+            var imageGroup2 = await ApiClient.Api.GetImageGroup(imageGroup.Id).To<ImageGroup>();
             imageGroup.Should().BeEquivalentTo(imageGroup2);
 
             //When
-            var deleteResponse = await apiClient.Api.DeleteImageGroup(imageGroup.Id);
+            var deleteResponse = await ApiClient.Api.DeleteImageGroup(imageGroup.Id);
 
             //Then
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-            var getResponse = await apiClient.Api.GetImageGroup(imageGroup.Id);
+            var getResponse = await ApiClient.Api.GetImageGroup(imageGroup.Id);
             getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
@@ -34,7 +33,7 @@ namespace FunctionalTests.Tests
         {
             //Given
             //When
-            var response = await apiClient.Api.DeleteImageGroup(id: 600);
+            var response = await ApiClient.Api.DeleteImageGroup(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()

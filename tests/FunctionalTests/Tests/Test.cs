@@ -4,11 +4,12 @@ namespace FunctionalTests.Tests
 {
     public abstract class Test
     {
-        protected readonly ApiClient.ApiClient apiClient;
+        internal ApiClient.ApiClient ApiClient { get; private set; } = default!;
+        internal ITestSettings TestSettings { get; set; } = default!;
 
-        public Test(ITestSettings settings)
+        internal void Initialize()
         {
-            apiClient = new ApiClient.ApiClient(new HttpClient() { BaseAddress = new Uri(settings.ApiUrl) });
+            ApiClient = new ApiClient.ApiClient(new HttpClient() { BaseAddress = new Uri(TestSettings.ApiUrl) });
         }
     }
 }
