@@ -6,7 +6,7 @@ namespace IntegrationTests.Tests
     public abstract class Test : IDisposable
     {
         public ApiClient.ApiClient ApiClient { get; private set; } = default!;
-        public WebApplicationFactoryFixture WebApplicationFactoryFixture { get; set; } = default!;
+        internal WebApplicationFactoryFixture WebApplicationFactoryFixture { get; set; } = default!;
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
 
         public void Initialize()

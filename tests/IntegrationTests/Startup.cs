@@ -1,4 +1,5 @@
-﻿using IntegrationTests.Settings;
+﻿using IntegrationTests.Database;
+using IntegrationTests.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ namespace IntegrationTests
         {
             services.AddScoped<BeforeAfterTest, BeforeAfterTestConfiguration>();
             services.AddSingleton<WebApplicationFactoryFixture>();
+            services.AddSingleton<DatabaseFactory>();
         }
 
         public static void ConfigureHost(IHostBuilder hostBuilder)

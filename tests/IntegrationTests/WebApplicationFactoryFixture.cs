@@ -15,19 +15,20 @@ using WebStartup.Middleware;
 using Microsoft.AspNetCore.HttpLogging;
 using CrossCutting.Settings;
 using IntegrationTests.Settings;
+using IntegrationTests.Database;
 
 namespace IntegrationTests
 {
-    public class WebApplicationFactoryFixture(IMessageSink messageSink, ITestSettings testSettings) 
+    internal class WebApplicationFactoryFixture(ITestSettings testSettings, DatabaseFactory databaseFactory) 
         : WebApplicationFactory<Program>, IAsyncLifetime
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
         public InMemorySink InMemorySink { get; set; } = default!;
-        Database Database { get; set; } = default!;
+        Database.Database Database { get; set; } = default!;
 
         public async Task InitializeAsync()
         {
-            Database = await Database.Initialize(messageSink, testSettings);
+            Database = await databaseFactory.Create();
         }
 
         /// <summary>

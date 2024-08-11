@@ -4,7 +4,7 @@ using Xunit.DependencyInjection;
 
 namespace IntegrationTests
 {
-    public class BeforeAfterTestConfiguration(
+    internal class BeforeAfterTestConfiguration(
         WebApplicationFactoryFixture webApplicationFactoryFixture, 
         ITestOutputHelperAccessor testOutputHelperAccessor)
         : BeforeAfterTest
