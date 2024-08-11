@@ -5,10 +5,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
+using FunctionalTests.Settings;
 
 namespace FunctionalTests.Tests
 {
-    public class DeleteImageGroupTests(ISettings settings) : Test(settings)
+    public class DeleteImageGroupTests(ITestSettings settings) : Test(settings)
     {
         [Fact]
         public async Task GivenImageGroup_WhenDelete_IsDeleted()

@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="testsettings.json">
+    <Content Include="Settings\testsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.TestPlatform.TestHost" />
     <PackageReference Include="xunit" />
     <PackageReference Include="Xunit.DependencyInjection" />
-    <PackageReference Include="xunit.runner.visualstudio" >
+    <PackageReference Include="xunit.runner.visualstudio">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

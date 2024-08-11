@@ -1,14 +1,13 @@
 ﻿using ApiClient.Extensions;
-using Common.Testing.Builders;
 using Common.Testing.Models;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
+using FunctionalTests.Settings;
 
 namespace FunctionalTests.Tests
 {
-    public class SaveImageGroupTests(ISettings settings) : Test(settings)
+    public class SaveImageGroupTests(ITestSettings settings) : Test(settings)
     {
         [Fact]
         public async Task GivenImage_WhenSaveImageGroup_IsSaved()

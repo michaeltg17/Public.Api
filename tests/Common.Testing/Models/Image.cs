@@ -2,9 +2,9 @@
 {
     public class Image : Entity
     {
-        public string Url { get; set; } = default!;
+        public required string Url { get; set; }
         public long Resolution { get; set; }
         public long Group { get; set; }
-        public string FileName { get; set; } = default!;
+        public required string FileName { get; set; }
     }
 }

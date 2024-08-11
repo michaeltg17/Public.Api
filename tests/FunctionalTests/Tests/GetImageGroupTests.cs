@@ -2,13 +2,14 @@
 using Common.Testing.Builders;
 using Common.Testing.Models;
 using FluentAssertions;
+using FunctionalTests.Settings;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
 namespace FunctionalTests.Tests
 {
-    public class GetImageGroupTests(ISettings settings) : Test(settings)
+    public class GetImageGroupTests(ITestSettings settings) : Test(settings)
     {
         [Fact]
         public async Task GivenImageGroup_WhenSaveAndGetImageGroup_IsGot()

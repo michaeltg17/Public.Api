@@ -68,7 +68,7 @@ namespace IntegrationTests
                 services.Configure<ApiSettings>(apiSettings =>
                 {
                     apiSettings.SqlServerConnectionString = Database.ConnectionString;
-                    apiSettings.Url = "http://localhost";
+                    //apiSettings.Url = "http://localhost";
                 });
 
                 if (testSettings.EnableSqlLogging)

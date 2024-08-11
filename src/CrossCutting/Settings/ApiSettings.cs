@@ -7,14 +7,14 @@
         /// </summary>
         public const string SectionOrPrefix = "Api";
 
-        public string Url { get; set; } = default!;
+        public required string Url { get; set; }
 
         /// <summary>
         /// Path where images will be stored. Directory will be created if not exists.
         /// </summary>
-        public string ImagesStoragePath { get; set; } = default!;
-        public string ImagesRequestPath { get; set; } = default!;
-        public string SqlServerConnectionString { get; set; } = default!;
+        public required string ImagesStoragePath { get; set; }
+        public required string ImagesRequestPath { get; set; }
+        public required string SqlServerConnectionString { get; set; }
 
         public string ImagesUrl => Flurl.Url.Combine(Url, ImagesRequestPath);
     }

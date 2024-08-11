@@ -2,7 +2,7 @@
 {
     public class ImageGroup : Entity
     {
-        public string Name { get; set; } = default!;
-        public IEnumerable<Image> Images { get; set; } = default!;
+        public required string Name { get; set; }
+        public required IEnumerable<Image> Images { get; set; }
     }
 }
