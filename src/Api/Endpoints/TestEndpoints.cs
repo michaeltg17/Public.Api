@@ -11,8 +11,8 @@ namespace Api.Endpoints
             testEndpoints
                 .MapGet("get/{id}", (long id, CancellationToken cancellationToken) => Task.CompletedTask)
                 .WithName("TestMinimalApi.Get")
-                .WithOpenApi();
-                //.AddEndpointFilter<ValidationFilter>();
+                .WithOpenApi()
+                .AddEndpointFilter<ValidationFilter>();
 
             testEndpoints
                 .MapPost("ThrowInternalServerError", _ => throw new Exception("Sensitive data"))

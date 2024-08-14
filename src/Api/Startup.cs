@@ -13,9 +13,6 @@ using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Endpoints;
 using System.Net;
-using Asp.Versioning.Builder;
-using Application.Services;
-using FluentAssertions.Common;
 using CrossCutting.Settings;
 
 namespace Api

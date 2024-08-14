@@ -53,7 +53,7 @@ namespace IntegrationTests.Tests
         public async Task WhenBadRequest_ExpectedProblemDetails(string testEndpointsName)
         {
             //When
-            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Get("this has to be an int");
+            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Get("this has to be an int");//.Get(1);
 
             //Then
             var expected = new ProblemDetailsBuilder()

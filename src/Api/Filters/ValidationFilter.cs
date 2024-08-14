@@ -1,60 +1,70 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.Filters;
-//using Microsoft.Extensions.Options;
-//using System.Net;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 
-//namespace Api.Filters
-//{
-//    public class ValidationFilter(ILogger<SampleFilter> logger) : IEndpointFilter
-//    {
+namespace Api.Filters
+{
+    public class ValidationFilter : IEndpointFilter
+    {
+        public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+        {
+            Dictionary<string, string[]> validationErrors = [];
+            foreach (var argument in context.Arguments)
+            {
+                if (argument == null) continue;
 
-//        //public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
-//        //{
-//        //    var obj = context.Arguments.FirstOrDefault(x => x?.GetType() == typeof(T)) as T;
+                var validationResult = Validate(argument);
 
-//        //    if (obj is null)
-//        //    {
-//        //        return Results.BadRequest();
-//        //    }
+                if (validationResult.IsValid) continue;
 
-//        //    var validationResult = await _validator.ValidateAsync(obj);
+                // Group error messages by member name
+                var validationResults = validationResult.Details
+                    .SelectMany(vr => vr.MemberNames.Select(member => new { member, vr.ErrorMessage }))
+                    .GroupBy(item => item.member)
+                    .ToDictionary(
+                        group => group.Key,
+                        group => group.Select(item => item.ErrorMessage).ToArray()
+                    );
 
-//        //    if (!validationResult.IsValid)
-//        //    {
-//        //        return Results.BadRequest(string.Join("/n", validationResult.Errors));
-//        //    }
+                // Merge with the existing dictionary
+                foreach (var kvp in validationResults)
+                {
+                    if (validationErrors.TryGetValue(kvp.Key, out string[]? value))
+                    {
+                        validationErrors[kvp.Key] = [.. value, .. kvp.Value];
+                    }
+                    else
+                    {
+                        validationErrors[kvp.Key] = kvp.Value.Select(s => s ?? "Null error message detected").ToArray();
+                    }
+                }
+            }
 
-//        //    return await next(context);
-//        //}
+            if (validationErrors.Count > 0)
+            {
+                var problemDetails = new ValidationProblemDetails(validationErrors)
+                {
+                    //Type = options.ClientErrorMapping[400].Link,
+                    Title = "ValidationException",
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Detail = "Please check the errors property for additional details.",
+                    Instance = context.HttpContext.Request.Path
+                };
 
-//        public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
-//        {
-//            var problemDetails = new ValidationProblemDetails(context.HttpContext.)
-//            {
-//                //Type = options.ClientErrorMapping[400].Link,
-//                Title = "ValidationException",
-//                Status = (int)HttpStatusCode.BadRequest,
-//                Detail = "Please check the errors property for additional details.",
-//                Instance = context.HttpContext.Request.Path
-//            };
+                return Results.ValidationProblem(validationErrors);
+            };
 
-//            return Results.BadRequest(problemDetails);
-//        }
+            return await next(context);
+        }
 
-//        //public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-//        //{
-//        //    var problemDetails = new ValidationProblemDetails(context.ModelState)
-//        //    {
-//        //        //Type = options.ClientErrorMapping[400].Link,
-//        //        Title = "ValidationException",
-//        //        Status = (int)HttpStatusCode.BadRequest,
-//        //        Detail = "Please check the errors property for additional details.",
-//        //        Instance = context.HttpContext.Request.Path
-//        //    };
+        public static (List<ValidationResult> Details, bool IsValid) Validate(object @object)
+        {
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(@object);
 
-//        //    return new BadRequestObjectResult(problemDetails);
-//        //    await next();
-//        //    Log.FilterFinished(logger, nameof(SampleFilter), context.ActionDescriptor.DisplayName);
-//        //}
-//    }
-//}
+            var isValid = Validator.TryValidateObject(@object, context, results, true);
+
+            return (results, isValid);
+        }
+    }
+}
