@@ -42,6 +42,7 @@ namespace Api
             //Minimal apis
             builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => 
                 options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            builder.Services.Configure<RouteHandlerOptions>(options => options.ThrowOnBadRequest = false);
 
             builder
                 .AddSwaggerIfDevelopment()
@@ -172,7 +173,8 @@ namespace Api
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-                .UseMiddleware<SampleMiddleware>();
+                .UseMiddleware<SampleMiddleware>()
+                .UseMiddleware<ValidationMiddleware>();
 
             return webApplication;
         }

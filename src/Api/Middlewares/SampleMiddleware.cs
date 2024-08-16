@@ -2,7 +2,7 @@
 
 namespace Api.Middlewares
 {
-    public partial class SampleMiddleware(RequestDelegate next, ILogger<SampleMiddleware> logger)
+    public class SampleMiddleware(RequestDelegate next, ILogger<SampleMiddleware> logger)
     {
         public async Task InvokeAsync(HttpContext context)
         {
