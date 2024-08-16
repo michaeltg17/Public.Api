@@ -4,7 +4,7 @@ using FluentAssertions;
 using Common.Testing.Extensions.AutoFixture;
 using AutoFixture.Xunit2;
 
-namespace UnitTests
+namespace UnitTests.Application.Services
 {
     public class CityServiceTests
     {

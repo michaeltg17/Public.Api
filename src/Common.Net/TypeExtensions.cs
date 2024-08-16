@@ -4,7 +4,7 @@
     {
         public static string GetNameWithoutGenericArity(this Type type)
         {
-            int index = type.Name.IndexOf('`');
+            var index = type.Name.IndexOf('`');
             return index == -1 ? type.Name : type.Name[..index];
         }
     }
