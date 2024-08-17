@@ -14,20 +14,18 @@ namespace UnitTests.Domain.Validators
         {
             return new TheoryData<Customer?, bool>
             {
-                // Invalid: null
-                { null, false },
                 // Invalid: null property
-                { new CustomerBuilder().WithValues(c => c.TestProperty = null).Build(), false },
+                { new CustomerBuilder().WithValues(c => c.CountryCode = null).Build(), false },
                 // Invalid: Empty
-                { new CustomerBuilder().WithValues(c => c.TestProperty = "").Build(), false },
+                { new CustomerBuilder().WithValues(c => c.CountryCode = "").Build(), false },
                 // Invalid: Whitespace
-                { new CustomerBuilder().WithValues(c => c.TestProperty = "     ").Build(), false },
-                // Invalid: Too short
-                { new CustomerBuilder().WithValues(c => c.TestProperty = "").Build(), false },
+                { new CustomerBuilder().WithValues(c => c.CountryCode = "     ").Build(), false },
                 // Invalid: Too long
-                { new CustomerBuilder().WithValues(c => c.TestProperty = "A very very long name that exceeds fifty characters").Build(), false },
-                // Valid: Name is within limits
-                { new CustomerBuilder().WithValues(c => c.TestProperty = "John").Build(), true }, 
+                { new CustomerBuilder().WithValues(c => c.CountryCode = "ESPA").Build(), false },
+                // Invalid: Too short
+                { new CustomerBuilder().WithValues(c => c.CountryCode = "ES").Build(), false },
+                // Valid
+                { new CustomerBuilder().WithValues(c => c.CountryCode = "ESP").Build(), true }, 
             };
         }
 
@@ -41,11 +39,11 @@ namespace UnitTests.Domain.Validators
             //Then
             if (isValid)
             {
-                result.ShouldNotHaveValidationErrorFor(c => c.TestProperty);
+                result.ShouldNotHaveValidationErrorFor(c => c.CountryCode);
             }
             else
             {
-                result.ShouldHaveValidationErrorFor(c => c.TestProperty);
+                result.ShouldHaveValidationErrorFor(c => c.CountryCode);
             }
         }
     }

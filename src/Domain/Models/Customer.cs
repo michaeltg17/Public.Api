@@ -9,6 +9,6 @@ namespace Domain.Models
         public required string Email { get; set; }
         public required string Phone { get; set; }
 
-        public string? TestProperty { get; set; }
+        public string? CountryCode { get; set; }
     }
 }
