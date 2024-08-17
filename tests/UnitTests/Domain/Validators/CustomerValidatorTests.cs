@@ -2,6 +2,7 @@
 using Domain.Validators;
 using Domain.Models;
 using FluentValidation.TestHelper;
+using Common.Testing.Builders;
 
 namespace UnitTests.Domain.Validators
 {
@@ -9,32 +10,42 @@ namespace UnitTests.Domain.Validators
     {
         readonly CustomerValidator validator = new();
 
-        public static TheoryData<Customer, bool> GetTestCases()
+        public static TheoryData<Customer?, bool> GetTestCases()
         {
-            return new TheoryData<Customer, bool>
+            return new TheoryData<Customer?, bool>
             {
-                { new Customer { Name = "" }, false }, // Invalid: Name is empty
-                { new Customer { Name = "A" }, false }, // Invalid: Name is too short
-                { new Customer { Name = "A very very long name that exceeds fifty characters" }, false } // Invalid: Name is too long
-                { new Customer { Name = "John" }, true }, // Valid: Name is within limits
+                // Invalid: null
+                { null, false },
+                // Invalid: null property
+                { new CustomerBuilder().WithValues(c => c.TestProperty = null).Build(), false },
+                // Invalid: Empty
+                { new CustomerBuilder().WithValues(c => c.TestProperty = "").Build(), false },
+                // Invalid: Whitespace
+                { new CustomerBuilder().WithValues(c => c.TestProperty = "     ").Build(), false },
+                // Invalid: Too short
+                { new CustomerBuilder().WithValues(c => c.TestProperty = "").Build(), false },
+                // Invalid: Too long
+                { new CustomerBuilder().WithValues(c => c.TestProperty = "A very very long name that exceeds fifty characters").Build(), false },
+                // Valid: Name is within limits
+                { new CustomerBuilder().WithValues(c => c.TestProperty = "John").Build(), true }, 
             };
         }
 
         [Theory]
         [MemberData(nameof(GetTestCases))]
-        public async Task ValidateCustomer_ShouldHaveExpectedResult(Customer customer, bool isValid)
+        public async Task ValidateCustomer_ShouldHaveExpectedResult(Customer? customer, bool isValid)
         {
             //When
-            var result = await validator.TestValidateAsync(customer);
+            var result = await validator.TestValidateAsync(customer!);
 
             //Then
             if (isValid)
             {
-                result.ShouldNotHaveValidationErrorFor(c => c.Name);
+                result.ShouldNotHaveValidationErrorFor(c => c.TestProperty);
             }
             else
             {
-                result.ShouldHaveValidationErrorFor(c => c.Name);
+                result.ShouldHaveValidationErrorFor(c => c.TestProperty);
             }
         }
     }
