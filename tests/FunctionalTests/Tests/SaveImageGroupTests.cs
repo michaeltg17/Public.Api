@@ -1,5 +1,5 @@
 ﻿using ApiClient.Extensions;
-using Common.Testing.Models;
+using Core.Testing.Models;
 using FluentAssertions;
 using System.Net;
 using Xunit;

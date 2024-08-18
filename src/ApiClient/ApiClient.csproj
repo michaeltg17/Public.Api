@@ -1,10 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="Michael.Net" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
 

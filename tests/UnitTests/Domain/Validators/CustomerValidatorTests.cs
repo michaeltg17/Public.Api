@@ -2,7 +2,7 @@
 using Domain.Validators;
 using Domain.Models;
 using FluentValidation.TestHelper;
-using Common.Testing.Builders;
+using Core.Testing.Builders;
 
 namespace UnitTests.Domain.Validators
 {

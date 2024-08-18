@@ -1,7 +1,7 @@
 ﻿using AutoFixture.Kernel;
 using AutoFixture.Idioms;
 
-namespace Common.Testing.Extensions.AutoFixture
+namespace Core.Testing.Extensions.AutoFixture
 {
     public class StringGuardClauseAssertion(ISpecimenBuilder builder) : GuardClauseAssertion(
         builder,

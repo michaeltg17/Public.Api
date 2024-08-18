@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Xunit;
-using Common.Testing.Builders;
+using Core.Testing.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using ApiClient.Extensions;

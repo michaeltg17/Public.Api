@@ -1,4 +1,4 @@
-﻿namespace Common.Net
+﻿namespace Core.Extensions
 {
     public static class TypeExtensions
     {

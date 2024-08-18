@@ -2,7 +2,6 @@
 using Api.Middlewares;
 using CrossCutting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Serilog;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Endpoints;
 using System.Net;
-using CrossCutting.Settings;
+using Api.Storage;
 
 namespace Api
 {
@@ -166,8 +165,8 @@ namespace Api
             webApplication.MapMinimalApi();
 
             webApplication
-                .AddSwaggerIfDevelopment()
-                .AddObjectStorageFeature();
+                .UseSwaggerIfDevelopment()
+                .UseObjectStorage();
 
             webApplication
                 .UseAuthentication()
@@ -179,7 +178,7 @@ namespace Api
             return webApplication;
         }
 
-        static WebApplication AddSwaggerIfDevelopment(this WebApplication webApplication)
+        static WebApplication UseSwaggerIfDevelopment(this WebApplication webApplication)
         {
             if (webApplication.Environment.IsDevelopment())
                 webApplication.UseSwagger().UseSwaggerUI();
@@ -187,17 +186,7 @@ namespace Api
             return webApplication;
         }
 
-        static WebApplication AddObjectStorageFeature(this WebApplication webApplication)
-        {
-            var apiSettings = webApplication.Services.GetRequiredService<IApiSettings>();
-            webApplication.UseStaticFiles(new StaticFileOptions
-            {
-                RequestPath = apiSettings.ImagesRequestPath,
-                FileProvider = new PhysicalFileProvider(apiSettings.ImagesStoragePath)
-            });
 
-            return webApplication;
-        }
 
         static WebApplication MapMinimalApi(this WebApplication webApplication)
         {

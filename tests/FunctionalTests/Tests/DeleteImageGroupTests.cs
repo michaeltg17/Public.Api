@@ -1,6 +1,6 @@
 ﻿using ApiClient.Extensions;
-using Common.Testing.Builders;
-using Common.Testing.Models;
+using Core.Testing.Builders;
+using Core.Testing.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

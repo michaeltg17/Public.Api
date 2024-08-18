@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using Application.Services;
 using FluentAssertions;
-using Common.Testing.Extensions.AutoFixture;
+using Core.Testing.Extensions.AutoFixture;
 using AutoFixture.Xunit2;
 
 namespace UnitTests.Application.Services

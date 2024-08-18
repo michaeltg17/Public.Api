@@ -1,4 +1,4 @@
-﻿namespace Common.Builders
+﻿namespace Core.Builders
 {
     public abstract class Builder<T> : IBuilder<T>
     {

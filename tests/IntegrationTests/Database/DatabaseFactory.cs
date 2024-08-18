@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Core;
 using Xunit.Abstractions;
 using IntegrationTests.Settings;
 using Docker.DotNet.Models;

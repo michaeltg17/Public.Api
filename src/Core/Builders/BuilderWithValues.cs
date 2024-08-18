@@ -1,4 +1,4 @@
-﻿namespace Common.Builders
+﻿namespace Core.Builders
 {
     public abstract class BuilderWithValues<BuilderType, ObjectToBuildType> : Builder<ObjectToBuildType>
         where BuilderType : BuilderWithValues<BuilderType, ObjectToBuildType>

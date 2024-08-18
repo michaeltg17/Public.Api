@@ -31,8 +31,8 @@
 		<ProjectReference Include="..\..\src\ApiClient\ApiClient.csproj" />
 		<ProjectReference Include="..\..\src\Api\Api.csproj" />
 		<ProjectReference Include="..\..\src\Application\Application.csproj" />
-		<ProjectReference Include="..\..\src\Common\Common.csproj" />
-		<ProjectReference Include="..\Common.Testing\Common.Testing.csproj" />
+		<ProjectReference Include="..\..\src\Core\Core.csproj" />
+		<ProjectReference Include="..\Core.Testing\Core.Testing.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

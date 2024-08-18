@@ -1,9 +1,9 @@
-﻿using Common.Builders;
+﻿using Core.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Net;
 
-namespace Common.Testing.Builders
+namespace Core.Testing.Builders
 {
     public class ProblemDetailsBuilder : BuilderWithNew<ProblemDetailsBuilder, ProblemDetails>
     {

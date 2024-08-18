@@ -1,7 +1,7 @@
-﻿using Common.Builders;
+﻿using Core.Builders;
 using Domain.Models;
 
-namespace Common.Testing.Builders
+namespace Core.Testing.Builders
 {
     public class CustomerBuilder : BuilderWithValues<CustomerBuilder, Customer>
     {

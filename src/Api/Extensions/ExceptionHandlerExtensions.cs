@@ -1,5 +1,5 @@
 ﻿using Application.Exceptions;
-using Common.Net;
+using Core.Extensions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http.Features;
 using System.Net;

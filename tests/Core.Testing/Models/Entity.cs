@@ -1,4 +1,4 @@
-﻿namespace Common.Testing.Models
+﻿namespace Core.Testing.Models
 {
     public abstract class Entity
     {

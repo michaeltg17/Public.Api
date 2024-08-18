@@ -1,4 +1,4 @@
-﻿namespace Common
+﻿namespace Core
 {
     public interface IFactory<T>
     {
