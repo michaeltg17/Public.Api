@@ -86,6 +86,7 @@ namespace Api
         static IServiceCollection AddMainDependencies(this IServiceCollection services)
         {
             return services
+                .AddObjectStorage()
                 .AddApplicationDependencies()
                 .AddCrossCuttingDependencies()
                 .AddPersistanceDependencies();

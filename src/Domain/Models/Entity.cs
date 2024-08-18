@@ -1,4 +1,4 @@
-﻿using Michael.Net.Domain;
+﻿using Core.Domain;   
 
 namespace Domain.Models
 {

@@ -1,9 +1,9 @@
 ﻿using CrossCutting.Settings;
 using Domain.Models;
-using Michael.Net.Domain;
-using Michael.Net.Persistance.EntityFrameworkCore.Interceptors;
-using Michael.Net.Persistence;
+using Persistance.Interceptors;
 using Microsoft.EntityFrameworkCore;
+using Core.Domain;
+using Core.Persistence;
 
 namespace Persistence
 {

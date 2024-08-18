@@ -1,8 +1,5 @@
-﻿using Michael.Net.Extensions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Persistence;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {

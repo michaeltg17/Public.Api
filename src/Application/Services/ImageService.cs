@@ -1,15 +1,9 @@
 ﻿using Domain.Models;
-using System.Threading.Tasks;
-using System.IO;
-using System.Collections.Generic;
 using Persistence.Queries;
-using Michael.Net.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using System.Linq;
-using System;
 using Application.Exceptions;
-using System.Threading;
+using Core.Persistence;
 //using System.Transactions;
 
 namespace Application.Services

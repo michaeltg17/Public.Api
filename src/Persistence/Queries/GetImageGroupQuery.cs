@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Domain.Models;
-using Michael.Net.Persistence;
+using Core.Persistence;
 using System.Data;
 
 namespace Persistence.Queries
