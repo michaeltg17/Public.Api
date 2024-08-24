@@ -1,6 +1,8 @@
 ﻿using Api.Filters;
+using Api.Models.Requests;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Api.Controllers
 {
@@ -15,8 +17,15 @@ namespace Api.Controllers
         }
 
         [HttpGet("Get/{id}", Name = "TestController.Get")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Test Api")]
-        public Task Get(int id)
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Test Api")]
+        public Task Get(long id)
+        {
+            return Task.CompletedTask;
+        }
+
+        [HttpPost("Post/{id}", Name = "TestController.Post")]
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Test Api")]
+        public Task Post(long id, [FromQuery] string name, [FromQuery] DateTime date, [FromBody] TestPostRequest request)
         {
             return Task.CompletedTask;
         }

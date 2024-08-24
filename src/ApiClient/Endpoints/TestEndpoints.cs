@@ -1,4 +1,7 @@
-﻿
+﻿using Api.Models.Requests;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Json;
+
 namespace ApiClient.Endpoints
 {
     public class TestEndpoints(HttpClient httpClient, string baseRoute)
@@ -18,7 +21,7 @@ namespace ApiClient.Endpoints
             return httpClient.GetAsync($"{baseRoute}/GetOk");
         }
 
-        public Task<HttpResponseMessage> Get(int id)
+        public Task<HttpResponseMessage> Get(long id)
         {
             return Get((object)id);
         }
@@ -26,6 +29,24 @@ namespace ApiClient.Endpoints
         public Task<HttpResponseMessage> Get(object id)
         {
             return httpClient.GetAsync($"{baseRoute}/Get/{id}");
+        }
+
+        public Task<HttpResponseMessage> Post(long id, string name, DateTime date, TestPostRequest request)
+        {
+            return Post((object)id, name, date, request);
+        }
+
+        public Task<HttpResponseMessage> Post(object id, object name, object date, object? request)
+        {
+            var parameters = new Dictionary<string, string?>
+            {
+                { nameof(name), name.ToString() },
+                { nameof(date), date.ToString() }
+            };
+
+            var url = $"{baseRoute}/Post/{id}" + QueryString.Create(parameters);
+
+            return httpClient.PostAsJsonAsync(url, request);
         }
     }
 }

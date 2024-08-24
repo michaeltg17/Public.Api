@@ -122,7 +122,6 @@ namespace Api
                     {
                         Type = options.ClientErrorMapping[400].Link,
                         Title = "ValidationException",
-                        Status = (int)HttpStatusCode.BadRequest,
                         Detail = "Please check the errors property for additional details.",
                         Instance = actionContext.HttpContext.Request.Path
                     };

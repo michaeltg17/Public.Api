@@ -53,12 +53,35 @@ namespace IntegrationTests.Tests
         public async Task WhenBadRequest_ExpectedProblemDetails(string testEndpointsName)
         {
             //When
-            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Get("this has to be an int");//.Get(1);
+            var parameter = "this has to be a long";
+            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Get(parameter);
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithValidationException($"/{testEndpointsName}/Get/this%20has%20to%20be%20an%20int")
-                .WithError("id", "The value 'this has to be an int' is not valid.")
+                .WithValidationException($"/{testEndpointsName}/Get/this%20has%20to%20be%20a%20long")
+                .WithError("id", $"The value '{parameter}' is not valid.")
+                .Build();
+
+            var problemDetails = await response.To<ProblemDetails>();
+            problemDetails.Should().BeEquivalentTo(expected);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestMinimalApi), Skip = "Waiting for asp net core team answer")]
+        [Theory]
+        public async Task WhenComplexBadRequest_ExpectedProblemDetails(string testEndpointsName)
+        {
+            //When
+            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Post("a", 0, "b", null);
+
+            //Then
+            var expected = new ProblemDetailsBuilder()
+                .WithValidationException($"/{testEndpointsName}/Post/a")
+                .WithError("", $"A non-empty request body is required.")
+                .WithError("date", $"The value 'b' is not valid.")
+                .WithError("id", $"The value 'a' is not valid.")
+                .WithError("request", $"The request field is required.")
                 .Build();
 
             var problemDetails = await response.To<ProblemDetails>();

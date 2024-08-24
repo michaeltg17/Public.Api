@@ -63,7 +63,8 @@ namespace IntegrationTests
 
             builder.ConfigureServices(services =>
             {
-                services.AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.ResponseBody);
+                services.AddHttpLogging(options => 
+                    options.LoggingFields = HttpLoggingFields.RequestBody | HttpLoggingFields.ResponseBody);
                 services.AddTransient<IStartupFilter, TestStartupFilter>();
 
                 services.Configure<ApiSettings>(apiSettings =>
