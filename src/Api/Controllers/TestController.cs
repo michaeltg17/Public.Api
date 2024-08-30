@@ -6,9 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Api.Controllers
 {
-    [Route("TestController")]
+    [Route("TestControllerApi")]
     public class TestController(TestService testService) : ControllerBase
     {
+        const string NamePrefix = "TestControllerApi" + ".";
+
         [ServiceFilter<SampleFilter>]
         [HttpGet(nameof(GetOk), Name = nameof(GetOk))]
         public Task GetOk()
@@ -16,27 +18,27 @@ namespace Api.Controllers
             return Task.CompletedTask;
         }
 
-        [HttpGet("Get/{id}", Name = "TestController.Get")]
+        [HttpGet("Get/{id}", Name = NamePrefix + nameof(Get))]
         [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Test Api")]
         public Task Get(long id)
         {
             return Task.CompletedTask;
         }
 
-        [HttpPost("Post/{id}", Name = "TestController.Post")]
+        [HttpPost("Post/{id}", Name = NamePrefix + nameof(Post))]
         [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Test Api")]
         public Task Post(long id, [FromQuery] string name, [FromQuery] DateTime date, [FromBody] TestPostRequest request)
         {
             return Task.CompletedTask;
         }
 
-        [HttpPost(nameof(ThrowInternalServerError), Name = nameof(ThrowInternalServerError))]
+        [HttpPost(nameof(ThrowInternalServerError), Name = NamePrefix + nameof(ThrowInternalServerError))]
         public Task ThrowInternalServerError()
         {
             throw new Exception("Sensitive data");
         }
 
-        [HttpDelete(nameof(DeleteAllTestEntities), Name = nameof(DeleteAllTestEntities))]
+        [HttpDelete(nameof(DeleteAllTestEntities), Name = NamePrefix + nameof(DeleteAllTestEntities))]
         public Task DeleteAllTestEntities()
         {
             return testService.DeleteAllTestEntities();

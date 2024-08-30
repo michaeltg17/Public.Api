@@ -1,4 +1,5 @@
-﻿using Application.Services;
+﻿using Api.Extensions;
+using Application.Services;
 
 namespace Api.Endpoints
 {
@@ -13,7 +14,7 @@ namespace Api.Endpoints
             {
                 return await imageService.GetImage(id, cancellationToken);
             })
-            .WithName("GetImage")
+            .WithMinimalApiName("GetImage")
             .WithOpenApi();
         }
     }

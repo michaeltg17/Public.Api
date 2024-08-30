@@ -8,5 +8,12 @@
             builder.WithName("TestMinimalApi." + endpointName);
             return builder;
         }
+
+        public static TBuilder WithMinimalApiName<TBuilder>(this TBuilder builder, string endpointName)
+            where TBuilder : IEndpointConventionBuilder
+        {
+            builder.WithName("MinimalApi." + endpointName);
+            return builder;
+        }
     }
 }

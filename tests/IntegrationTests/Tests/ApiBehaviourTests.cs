@@ -10,7 +10,7 @@ namespace IntegrationTests.Tests
     [Collection(nameof(ApiCollection))]
     public class ApiBehaviourTests : Test
     {
-        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestControllerApi))]
         [InlineData(nameof(ApiClient.TestMinimalApi))]
         [Theory]
         public async Task WhenInternalServerError_ExpectedProblemDetails(string testEndpointsName)
@@ -47,7 +47,7 @@ namespace IntegrationTests.Tests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestControllerApi))]
         [InlineData(nameof(ApiClient.TestMinimalApi), Skip = "Waiting for asp net core team answer")]
         [Theory]
         public async Task WhenBadRequest_ExpectedProblemDetails(string testEndpointsName)
@@ -67,7 +67,7 @@ namespace IntegrationTests.Tests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestControllerApi))]
         [InlineData(nameof(ApiClient.TestMinimalApi), Skip = "Waiting for asp net core team answer")]
         [Theory]
         public async Task WhenComplexBadRequest_ExpectedProblemDetails(string testEndpointsName)

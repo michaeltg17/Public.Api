@@ -1,8 +1,8 @@
 ﻿namespace ApiClient.Endpoints
 {
-    public class ApiEndpoints(HttpClient httpClient)
+    public class ApiEndpoints(HttpClient httpClient, string baseRoute)
     {
-        static string BuildBasePath(int version = 1) => $"api/v{version}";
+        string BuildBasePath(int version = 1) => $"{baseRoute}/api/v{version}";
 
         public Task<HttpResponseMessage> GetImage(long id)
         {

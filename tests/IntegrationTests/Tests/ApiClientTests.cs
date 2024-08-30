@@ -14,7 +14,7 @@ namespace IntegrationTests.Tests
         public async Task WhenInternalServerError_ApiExceptionIsThrownWithExpectedProblemDetails()
         {
             //When
-            var response = await ApiClient.TestController.ThrowInternalServerError();
+            var response = await ApiClient.TestControllerApi.ThrowInternalServerError();
 
             //Then
             var expectedMessage =
@@ -34,7 +34,7 @@ namespace IntegrationTests.Tests
         public async Task WhenNoContent_ApiClientExceptionIsThrown()
         {
             //When
-            var response = await ApiClient.TestController.GetOk();
+            var response = await ApiClient.TestControllerApi.GetOk();
 
             //Then
             var func = response.To<ProblemDetails>;
