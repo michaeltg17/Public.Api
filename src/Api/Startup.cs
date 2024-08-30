@@ -14,6 +14,7 @@ using Api.Endpoints;
 using System.Net;
 using Api.Storage;
 using Asp.Versioning.Builder;
+using Api.Abstractions;
 
 namespace Api
 {
@@ -184,17 +185,23 @@ namespace Api
 
         static WebApplication MapEndpoints(this WebApplication app)
         {
-            var apiVersionSet = app.NewApiVersionSet()
-               .HasApiVersion(new ApiVersion(1))
-               .ReportApiVersions()
-               .Build();
+            var apiVersionSet = app
+                .NewApiVersionSet()
+                .HasApiVersion(new ApiVersion(1))
+                .ReportApiVersions()
+                .Build();
 
             var versionedGroup = app
                 .MapGroup("api/v{version:apiVersion}")
                 .WithApiVersionSet(apiVersionSet);
 
-            app.MapEndpoints(versionedGroup);
-            app.MapEndpoints(versionedGroup);
+            var testGroup = app.MapGroup("TestMinimalApi");
+
+            app
+                .MapEndpoints<IVersionedEndpoint>(versionedGroup)
+                .MapEndpoints<IEndpoint>(testGroup);
+
+            return app;
         }
     }
 }

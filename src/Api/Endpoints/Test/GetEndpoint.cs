@@ -8,7 +8,7 @@ namespace Api.Endpoints.Test
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app
-                .MapGet("TestMinimalApi/Get/{id}", (long id, CancellationToken cancellationToken) => Task.CompletedTask)
+                .MapGet("Get/{id}", (long id, CancellationToken cancellationToken) => Task.CompletedTask)
                 .WithName("TestMinimalApi.Get")
                 .WithOpenApi()
                 .AddEndpointFilter<ValidationFilter>();

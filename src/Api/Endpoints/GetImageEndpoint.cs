@@ -5,7 +5,7 @@ namespace Api.Endpoints
 {
     public class GetImageEndpoint : IVersionedEndpoint
     {
-        public void MapEndpoint(RouteGroupBuilder app)
+        public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapGet("Image/{id}", async (
                 ImageService imageService,

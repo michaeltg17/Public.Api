@@ -1,5 +1,5 @@
 ﻿namespace Api.Abstractions;
 
-public interface IVersionedEndpoint : IEndpoint<RouteGroupBuilder>
+public interface IVersionedEndpoint : IEndpoint
 {
 }

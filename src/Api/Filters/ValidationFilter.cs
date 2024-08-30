@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Api.Filters
 {
     public class ValidationFilter : IEndpointFilter
     {
+        [SuppressMessage("Style", "IDE0042:Deconstruct variable declaration", Justification = "")]
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
         {
             Dictionary<string, string[]> validationErrors = [];
