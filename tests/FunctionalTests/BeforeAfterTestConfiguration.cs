@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using FunctionalTests.Settings;
-using FunctionalTests.Tests;
 using Xunit.DependencyInjection;
 
 namespace FunctionalTests

@@ -10,8 +10,6 @@ using Api.Extensions;
 using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
-using Api.Endpoints;
-using System.Net;
 using Api.Storage;
 
 namespace Api
@@ -155,46 +153,30 @@ namespace Api
             return builder;
         }
 
-        static WebApplication Configure(this WebApplication webApplication)
+        static WebApplication Configure(this WebApplication app)
         {
             //Exception middleware first to catch exceptions
-            webApplication.UseExceptionHandler().UseStatusCodePages();
+            app.UseExceptionHandler().UseStatusCodePages();
 
-            webApplication.MapControllers();
+            app.MapControllers();
+            app.MapEndpoints();
 
-            webApplication.MapMinimalApi();
-
-            webApplication
+            app
                 .UseSwaggerIfDevelopment()
-                .UseObjectStorage();
-
-            webApplication
+                .UseObjectStorage()
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
                 .UseMiddleware<SampleMiddleware>()
                 .UseMiddleware<ValidationMiddleware>();
 
-            return webApplication;
+            return app;
         }
 
-        static WebApplication UseSwaggerIfDevelopment(this WebApplication webApplication)
+        static WebApplication UseSwaggerIfDevelopment(this WebApplication app)
         {
-            if (webApplication.Environment.IsDevelopment())
-                webApplication.UseSwagger().UseSwaggerUI();
-
-            return webApplication;
-        }
-
-
-
-        static WebApplication MapMinimalApi(this WebApplication webApplication)
-        {
-            var builder = webApplication.NewVersionedApi();
-
-            return webApplication
-                .MapTestEndpoints(builder)
-                .MapImageEndpoints(builder);
+            if (app.Environment.IsDevelopment()) app.UseSwagger().UseSwaggerUI();
+            return app;
         }
     }
 }
