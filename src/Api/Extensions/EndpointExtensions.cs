@@ -1,37 +1,30 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Api.Abstractions;
+﻿using Asp.Versioning;
+using Api.Endpoints.Test;
+using Api.Endpoints;
 
 namespace Api.Extensions;
 
 public static class EndpointExtensions
 {
-    public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
+    public static WebApplication MapEndpoints(this WebApplication app)
     {
-        var serviceDescriptors = assembly
-            .DefinedTypes
-            .Where(type => type is { IsAbstract: false, IsInterface: false } && type.IsAssignableTo(typeof(IEndpoint)))
-            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
-            .ToArray();
+        var apiVersionSet = app
+            .NewApiVersionSet()
+            .HasApiVersion(new ApiVersion(1))
+            .ReportApiVersions()
+            .Build();
+        var versionedGroup = app
+            .MapGroup("api/v{version:apiVersion}")
+            .WithApiVersionSet(apiVersionSet);
 
-        //Extension for add single or throw
-        services.TryAddEnumerable(serviceDescriptors);
+        GetImageEndpoint.Map(versionedGroup);
 
-        return services;
-    }
 
-    public static WebApplication MapEndpoints<T>(
-        this WebApplication app, 
-        IEndpointRouteBuilder? routeGroupBuilder = null) where T : IEndpoint
-    {
-        IEnumerable<T> endpoints = app.Services.GetRequiredService<IEnumerable<T>>();
+        var testGroup = app.MapGroup("TestMinimalApi");
 
-        IEndpointRouteBuilder builder = routeGroupBuilder is null ? app : routeGroupBuilder;
-
-        foreach (T endpoint in endpoints)
-        {
-            endpoint.MapEndpoint(builder);
-        }
+        GetEndpoint.Map(testGroup);
+        PostEndpoint.Map(testGroup);
+        ThrowInternalServerErrorEndpoint.Map(testGroup);
 
         return app;
     }

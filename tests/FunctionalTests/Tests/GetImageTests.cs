@@ -8,7 +8,7 @@ using Xunit;
 
 namespace FunctionalTests.Tests
 {
-    public class GetImageTests() : Test()
+    public class GetImageTests : Test
     {
         [Fact]
         public async Task GivenImageGroup_WhenGetImage_IsGot()

@@ -1,7 +1,7 @@
 ﻿using Xunit.Abstractions;
 using Serilog.Sinks.InMemory;
 
-namespace IntegrationTests.Tests
+namespace IntegrationTests
 {
     public abstract class Test : IDisposable
     {

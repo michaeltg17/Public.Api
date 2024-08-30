@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using IntegrationTests.Tests;
 using Xunit.DependencyInjection;
 
 namespace IntegrationTests

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace FunctionalTests.Tests
 {
-    public class DeleteImageGroupTests() : Test()
+    public class DeleteImageGroupTests : Test
     {
         [Fact]
         public async Task GivenImageGroup_WhenDelete_IsDeleted()

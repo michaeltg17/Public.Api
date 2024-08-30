@@ -10,11 +10,7 @@ using Api.Extensions;
 using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
-using Api.Endpoints;
-using System.Net;
 using Api.Storage;
-using Asp.Versioning.Builder;
-using Api.Abstractions;
 
 namespace Api
 {
@@ -180,27 +176,6 @@ namespace Api
         static WebApplication UseSwaggerIfDevelopment(this WebApplication app)
         {
             if (app.Environment.IsDevelopment()) app.UseSwagger().UseSwaggerUI();
-            return app;
-        }
-
-        static WebApplication MapEndpoints(this WebApplication app)
-        {
-            var apiVersionSet = app
-                .NewApiVersionSet()
-                .HasApiVersion(new ApiVersion(1))
-                .ReportApiVersions()
-                .Build();
-
-            var versionedGroup = app
-                .MapGroup("api/v{version:apiVersion}")
-                .WithApiVersionSet(apiVersionSet);
-
-            var testGroup = app.MapGroup("TestMinimalApi");
-
-            app
-                .MapEndpoints<IVersionedEndpoint>(versionedGroup)
-                .MapEndpoints<IEndpoint>(testGroup);
-
             return app;
         }
     }

@@ -1,13 +1,13 @@
-﻿using Api.Abstractions;
+﻿using Api.Extensions;
 using Api.Filters;
 using Api.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints.Test
 {
-    public class PostEndpoint : IEndpoint
+    public static class PostEndpoint
     {
-        public void MapEndpoint(IEndpointRouteBuilder app)
+        public static void Map(IEndpointRouteBuilder app)
         {
             app
                 .MapPost("Post/{id}",
@@ -16,7 +16,7 @@ namespace Api.Endpoints.Test
                     [FromQuery] DateTime date,
                     [FromBody] TestPostRequest request,
                     CancellationToken cancellationToken) => Task.CompletedTask)
-                .WithName("TestMinimalApi.Post")
+                .WithTestMinimalApiName("Post")
                 .WithOpenApi()
                 .AddEndpointFilter<ValidationFilter>();
         }

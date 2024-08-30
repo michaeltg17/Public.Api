@@ -1,14 +1,14 @@
-﻿using Api.Abstractions;
+﻿using Api.Extensions;
 
 namespace Api.Endpoints.Test
 {
-    public class ThrowInternalServerErrorEndpoint : IEndpoint
+    public static class ThrowInternalServerErrorEndpoint
     {
-        public void MapEndpoint(IEndpointRouteBuilder app)
+        public static void Map(IEndpointRouteBuilder app)
         {
             app
                 .MapPost("ThrowInternalServerError", _ => throw new Exception("Sensitive data"))
-                .WithName("TestMinimalApi.ThrowInternalServerError")
+                .WithTestMinimalApiName("ThrowInternalServerError")
                 .WithOpenApi();
         }
     }

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace FunctionalTests.Tests
 {
-    public class SaveImageGroupTests() : Test()
+    public class SaveImageGroupTests : Test
     {
         [Fact]
         public async Task GivenImage_WhenSaveImageGroup_IsSaved()

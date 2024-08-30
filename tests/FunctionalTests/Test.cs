@@ -1,6 +1,6 @@
 ﻿using FunctionalTests.Settings;
 
-namespace FunctionalTests.Tests
+namespace FunctionalTests
 {
     public abstract class Test
     {
