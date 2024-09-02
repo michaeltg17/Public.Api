@@ -9,16 +9,18 @@ namespace Api.Endpoints.Test
     {
         public static void Map(IEndpointRouteBuilder app)
         {
-            app
-                .MapPost("Post/{id}",
-                    (long id,
-                    [FromQuery] string name,
-                    [FromQuery] DateTime date,
-                    [FromBody] TestPostRequest request,
-                    CancellationToken cancellationToken) => Task.CompletedTask)
-                .WithTestMinimalApiName("Post")
-                .WithOpenApi()
-                .AddEndpointFilter<ValidationFilter>();
+            app.MapPost("Post/{id}", (
+                long id,
+                [FromQuery] string name,
+                [FromQuery] DateTime date,
+                [FromBody] TestPostRequest request,
+                CancellationToken cancellationToken) => 
+            {
+                return Task.CompletedTask;
+            })
+            .WithTestMinimalApiName("Post")
+            .WithOpenApi()
+            .AddEndpointFilter<ValidationFilter>();
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿using Api.Extensions;
 using Application.Services;
 
-namespace Api.Endpoints
+namespace Api.Endpoints.ImageGroup
 {
-    public static class GetImageEndpoint
+    public static class DeleteImageGroupV2Endpoint
     {
         public static void Map(IEndpointRouteBuilder app)
         {
-            app.MapGet("Image/{id}", async (
+            app.MapDelete("ImageGroup/{id}", (
                 ImageService imageService,
                 long id,
                 CancellationToken cancellationToken) =>
             {
-                return await imageService.GetImage(id, cancellationToken);
+                return imageService.DeleteImageGroup(id);
             })
-            .WithMinimalApiName("GetImage")
+            .WithMinimalApiName("DeleteImageGroup")
             .WithOpenApi();
         }
     }

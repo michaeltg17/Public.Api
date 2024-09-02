@@ -6,10 +6,12 @@ namespace Api.Endpoints.Test
     {
         public static void Map(IEndpointRouteBuilder app)
         {
-            app
-                .MapPost("ThrowInternalServerError", _ => throw new Exception("Sensitive data"))
-                .WithTestMinimalApiName("ThrowInternalServerError")
-                .WithOpenApi();
+            app.MapPost("ThrowInternalServerError", () =>
+            {
+                throw new Exception("Sensitive data");
+            })
+            .WithTestMinimalApiName("ThrowInternalServerError")
+            .WithOpenApi();
         }
     }
 }
