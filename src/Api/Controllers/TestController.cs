@@ -1,4 +1,5 @@
-﻿using Api.Filters;
+﻿using Api.Abstractions;
+using Api.Filters;
 using Api.Models.Requests;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace Api.Controllers
         const string NamePrefix = "TestControllerApi" + ".";
 
         [ServiceFilter<SampleFilter>]
-        [HttpGet(nameof(GetOk), Name = nameof(GetOk))]
+        [HttpGet(nameof(GetOk), Name = NamePrefix + nameof(GetOk))]
         public Task GetOk()
         {
             return Task.CompletedTask;

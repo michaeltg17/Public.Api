@@ -2,33 +2,37 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Services;
 using Domain.Models;
 using Asp.Versioning;
+using Api.Abstractions;
 
 namespace Api.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/{NamePrefix}/[controller]")]
     [ApiVersion(1), ApiVersion(2)]
     public class ImageGroupController(ImageService imageService) : ControllerBase
     {
-        [HttpGet("{id}", Name = nameof(GetImageGroup))]
+        const string ApiName = "ControllerApi";
+        const string NamePrefix = ApiName + '.';
+
+        [HttpGet("{id}", Name = NamePrefix + nameof(GetImageGroup))]
         public async Task<ImageGroup> GetImageGroup(long id, CancellationToken cancellationToken)
         {
             return await imageService.GetImageGroup(id, cancellationToken);
         }
 
-        [HttpPost(Name = nameof(SaveImageGroup))]
+        [HttpPost(Name = NamePrefix + nameof(SaveImageGroup))]
         public async Task<ActionResult<ImageGroup>> SaveImageGroup(IFormFile file)
         {
             var imageGroup = await imageService.SaveImageGroup(file.FileName, () => file.OpenReadStream());
             return CreatedAtAction(nameof(GetImageGroup), new { imageGroup.Id }, imageGroup);
         }
 
-        [HttpDelete("{id}", Name = nameof(DeleteImageGroup))]
+        [HttpDelete("{id}", Name = NamePrefix + nameof(DeleteImageGroup))]
         public Task DeleteImageGroup(long id)
         {
             return imageService.DeleteImageGroup(id);
         }
 
-        [HttpDelete(Name = nameof(DeleteImageGroupV2)), MapToApiVersion(2)]
+        [HttpDelete(Name = NamePrefix + nameof(DeleteImageGroupV2)), MapToApiVersion(2)]
         public Task DeleteImageGroupV2(long id)
         {
             return imageService.DeleteImageGroup(id);
