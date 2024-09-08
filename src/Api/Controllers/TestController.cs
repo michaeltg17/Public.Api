@@ -1,5 +1,4 @@
-﻿using Api.Abstractions;
-using Api.Filters;
+﻿using Api.Filters;
 using Api.Models.Requests;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;

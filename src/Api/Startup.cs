@@ -11,6 +11,7 @@ using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Storage;
+using Microsoft.AspNetCore.Routing;
 
 namespace Api
 {
@@ -169,6 +170,18 @@ namespace Api
                 .UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
                 .UseMiddleware<SampleMiddleware>()
                 .UseMiddleware<ValidationMiddleware>();
+
+            app.Lifetime.ApplicationStarted.Register(() =>
+            {
+                var logger = app.Services.GetRequiredService<ILogger<Program>>();
+                var endpoints = app.Services.GetRequiredService<EndpointDataSource>().Endpoints;
+
+                logger.LogInformation("Available Endpoints:");
+                foreach (var endpoint in endpoints)
+                {
+                    logger.LogInformation($"{endpoint.DisplayName}");
+                }
+            });
 
             return app;
         }

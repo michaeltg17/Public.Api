@@ -5,11 +5,8 @@ using Api.Abstractions;
 
 namespace Api.Controllers
 {
-    [Route("ControllerApi/api/v{version:apiVersion}/[controller]")]
-    public class ImageController(ImageService imageService) : ControllerBase
+    public class ImageController(ImageService imageService) : ControllerBaseCustom
     {
-        const string NamePrefix = "ControllerApi" + ".";
-
         [HttpGet("{id}", Name = NamePrefix + nameof(GetImage))]
         public Task<Image> GetImage(long id, CancellationToken cancellationToken)
         {

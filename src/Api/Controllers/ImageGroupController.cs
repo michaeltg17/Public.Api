@@ -6,13 +6,9 @@ using Api.Abstractions;
 
 namespace Api.Controllers
 {
-    [Route("api/v{version:apiVersion}/{NamePrefix}/[controller]")]
     [ApiVersion(1), ApiVersion(2)]
-    public class ImageGroupController(ImageService imageService) : ControllerBase
+    public class ImageGroupController(ImageService imageService) : ControllerBaseCustom
     {
-        const string ApiName = "ControllerApi";
-        const string NamePrefix = ApiName + '.';
-
         [HttpGet("{id}", Name = NamePrefix + nameof(GetImageGroup))]
         public async Task<ImageGroup> GetImageGroup(long id, CancellationToken cancellationToken)
         {
