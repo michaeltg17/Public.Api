@@ -171,17 +171,7 @@ namespace Api
                 .UseMiddleware<SampleMiddleware>()
                 .UseMiddleware<ValidationMiddleware>();
 
-            app.Lifetime.ApplicationStarted.Register(() =>
-            {
-                var logger = app.Services.GetRequiredService<ILogger<Program>>();
-                var endpoints = app.Services.GetRequiredService<EndpointDataSource>().Endpoints;
-
-                logger.LogInformation("Available Endpoints:");
-                foreach (var endpoint in endpoints)
-                {
-                    logger.LogInformation($"{endpoint.DisplayName}");
-                }
-            });
+            app.LogEndpoints();
 
             return app;
         }
