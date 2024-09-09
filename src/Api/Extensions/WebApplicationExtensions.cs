@@ -1,4 +1,7 @@
-﻿namespace Api.Extensions
+﻿using Api.Exceptions;
+using CrossCutting.Logging;
+
+namespace Api.Extensions
 {
     public static class WebApplicationExtensions
     {
@@ -12,8 +15,8 @@
                 foreach (var endpoint in endpoints)
                 {
                     var httpMethod = endpoint.Metadata.GetRequiredMetadata<HttpMethodMetadata>().HttpMethods[0];
-                    var route = endpoint.RoutePattern.RawText;
-                    logger.LogInformation($"{{route}} - {{httpMethod}}", route, httpMethod);
+                    var route = endpoint.RoutePattern.RawText ?? throw new ApiException("Route pattern cannot be null.");
+                    Log.Endpoint(logger, route, httpMethod);
                 }
             });
 

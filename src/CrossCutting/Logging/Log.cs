@@ -15,5 +15,8 @@ namespace CrossCutting.Logging
 
         [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "{filterName} finished on {actionName}.")]
         public static partial void FilterFinished(ILogger logger, string filterName, string? actionName);
+
+        [LoggerMessage(EventId = 5, Level = LogLevel.Information, Message = "{route} - {httpMethod}")]
+        public static partial void Endpoint(ILogger logger, string route, string httpMethod);
     }
 }

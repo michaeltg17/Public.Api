@@ -21,7 +21,7 @@ namespace Api.Extensions
                 httpContext.Response.StatusCode = exception switch
                 {
                     NotFoundException => (int)HttpStatusCode.NotFound,
-                    ApiException => (int)HttpStatusCode.BadRequest,
+                    AppException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 
