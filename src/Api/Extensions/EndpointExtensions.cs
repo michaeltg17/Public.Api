@@ -34,7 +34,7 @@ public static class EndpointExtensions
             .Build();
 
         return app
-            .MapGroup("api/v{version:apiVersion}")
+            .MapGroup("api/v{version:apiVersion}/MinimalApi")
             .WithApiVersionSet(apiVersionSet);
     }
 }

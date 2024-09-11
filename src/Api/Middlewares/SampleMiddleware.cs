@@ -6,9 +6,9 @@ namespace Api.Middlewares
     {
         public async Task InvokeAsync(HttpContext context)
         {
-            Log.MiddlewareStarted(logger, nameof(SampleMiddleware));
+            logger.LogMiddlewareStarted(nameof(SampleMiddleware));
             await next.Invoke(context);
-            Log.MiddlewareFinished(logger, nameof(SampleMiddleware));
+            logger.LogMiddlewareFinished(nameof(SampleMiddleware));
         }
     }
 }

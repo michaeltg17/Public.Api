@@ -7,9 +7,9 @@ namespace Api.Filters
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            Log.FilterStarted(logger, nameof(SampleFilter), context.ActionDescriptor.DisplayName);
+            logger.LogFilterStarted(nameof(SampleFilter), context.ActionDescriptor.DisplayName);
             await next();
-            Log.FilterFinished(logger, nameof(SampleFilter), context.ActionDescriptor.DisplayName);
+            logger.LogFilterFinished(nameof(SampleFilter), context.ActionDescriptor.DisplayName);
         }
     }
 }

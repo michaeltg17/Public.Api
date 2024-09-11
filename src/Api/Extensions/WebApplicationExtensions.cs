@@ -16,7 +16,7 @@ namespace Api.Extensions
                 {
                     var httpMethod = endpoint.Metadata.GetRequiredMetadata<HttpMethodMetadata>().HttpMethods[0];
                     var route = endpoint.RoutePattern.RawText ?? throw new ApiException("Route pattern cannot be null.");
-                    Log.Endpoint(logger, route, httpMethod);
+                    logger.LogEndpoint(route, httpMethod);
                 }
             });
 
