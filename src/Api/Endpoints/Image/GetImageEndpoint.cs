@@ -1,19 +1,20 @@
-﻿using Application.Services;
+﻿using Api.Extensions;
+using Application.Services;
 
-namespace Api.Endpoints
+namespace Api.Endpoints.Image
 {
     public static class GetImageEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
         {
-            app.MapGet("Image/{id}", async (
+            app.MapGet("Image/{id}", (
                 ImageService imageService,
                 long id,
                 CancellationToken cancellationToken) =>
             {
-                return await imageService.GetImage(id, cancellationToken);
+                return imageService.GetImage(id, cancellationToken);
             })
-            .WithName("GetImage")
+            .WithMinimalApiName("GetImage")
             .WithOpenApi();
         }
     }

@@ -10,17 +10,17 @@ namespace IntegrationTests.Tests
     [Collection(nameof(ApiCollection))]
     public class ApiBehaviourTests : Test
     {
-        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestControllerApi))]
         [InlineData(nameof(ApiClient.TestMinimalApi))]
         [Theory]
-        public async Task WhenInternalServerError_ExpectedProblemDetails(string testEndpointsName)
+        public async Task WhenInternalServerError_ExpectedProblemDetails(string apiType)
         {
             //When
-            var response = await ApiClient.GetTestEndpoints(testEndpointsName).ThrowInternalServerError();
+            var response = await ApiClient.GetTestEndpoints(apiType).ThrowInternalServerError();
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithInternalServerError($"/{testEndpointsName}/ThrowInternalServerError")
+                .WithInternalServerError($"/{apiType}/ThrowInternalServerError")
                 .Build();
 
             var responseAsString = (await response.Content.ReadAsStringAsync()).ToLowerInvariant();
@@ -47,18 +47,18 @@ namespace IntegrationTests.Tests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestControllerApi))]
         [InlineData(nameof(ApiClient.TestMinimalApi), Skip = "Waiting for asp net core team answer")]
         [Theory]
-        public async Task WhenBadRequest_ExpectedProblemDetails(string testEndpointsName)
+        public async Task WhenBadRequest_ExpectedProblemDetails(string apiType)
         {
             //When
             var parameter = "this has to be a long";
-            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Get(parameter);
+            var response = await ApiClient.GetTestEndpoints(apiType).Get(parameter);
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithValidationException($"/{testEndpointsName}/Get/this%20has%20to%20be%20a%20long")
+                .WithValidationException($"/{apiType}/Get/this%20has%20to%20be%20a%20long")
                 .WithError("id", $"The value '{parameter}' is not valid.")
                 .Build();
 
@@ -67,17 +67,17 @@ namespace IntegrationTests.Tests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [InlineData(nameof(ApiClient.TestController))]
+        [InlineData(nameof(ApiClient.TestControllerApi))]
         [InlineData(nameof(ApiClient.TestMinimalApi), Skip = "Waiting for asp net core team answer")]
         [Theory]
-        public async Task WhenComplexBadRequest_ExpectedProblemDetails(string testEndpointsName)
+        public async Task WhenComplexBadRequest_ExpectedProblemDetails(string apiType)
         {
             //When
-            var response = await ApiClient.GetTestEndpoints(testEndpointsName).Post("a", 0, "b", null);
+            var response = await ApiClient.GetTestEndpoints(apiType).Post("a", 0, "b", null);
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithValidationException($"/{testEndpointsName}/Post/a")
+                .WithValidationException($"/{apiType}/Post/a")
                 .WithError("", $"A non-empty request body is required.")
                 .WithError("date", $"The value 'b' is not valid.")
                 .WithError("id", $"The value 'a' is not valid.")

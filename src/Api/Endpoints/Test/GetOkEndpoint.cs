@@ -3,17 +3,16 @@ using Api.Filters;
 
 namespace Api.Endpoints.Test
 {
-    public static class GetEndpoint
+    public static class GetOkEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
         {
-            app.MapGet("Get/{id}", (
-                long id, 
+            app.MapGet("GetOk", (
                 CancellationToken cancellationToken) =>
             {
                 return Task.CompletedTask;
             })
-            .WithTestMinimalApiName("Get")
+            .WithTestMinimalApiName("GetOk")
             .WithOpenApi()
             .AddEndpointFilter<ValidationFilter>();
         }

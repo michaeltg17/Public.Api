@@ -11,6 +11,7 @@ using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Storage;
+using Microsoft.AspNetCore.Routing;
 
 namespace Api
 {
@@ -169,6 +170,8 @@ namespace Api
                 .UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
                 .UseMiddleware<SampleMiddleware>()
                 .UseMiddleware<ValidationMiddleware>();
+
+            app.LogEndpoints();
 
             return app;
         }
