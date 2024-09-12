@@ -7,7 +7,7 @@ namespace Api.Endpoints.Test
     {
         public static void Map(IEndpointRouteBuilder app)
         {
-            app.MapGet("Get", (
+            app.MapGet("GetOk", (
                 CancellationToken cancellationToken) =>
             {
                 return Task.CompletedTask;

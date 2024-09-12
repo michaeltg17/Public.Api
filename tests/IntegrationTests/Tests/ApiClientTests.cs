@@ -10,11 +10,13 @@ namespace IntegrationTests.Tests
     [Collection(nameof(ApiCollection))]
     public class ApiClientTests : Test
     {
-        [Fact]
-        public async Task WhenInternalServerError_ApiExceptionIsThrownWithExpectedProblemDetails()
+        [InlineData(nameof(ApiClient.TestControllerApi))]
+        [InlineData(nameof(ApiClient.TestMinimalApi))]
+        [Theory]
+        public async Task WhenInternalServerError_ApiExceptionIsThrownWithExpectedProblemDetails(string apiType)
         {
             //When
-            var response = await ApiClient.TestControllerApi.ThrowInternalServerError();
+            var response = await ApiClient.GetTestEndpoints(apiType).ThrowInternalServerError();
 
             //Then
             var expectedMessage =
@@ -23,18 +25,20 @@ namespace IntegrationTests.Tests
                 "  \"title\": \"InternalServerError\",\r\n" +
                 "  \"status\": 500,\r\n" +
                 "  \"detail\": \"Internal server error. Please contact the API support.\",\r\n" +
-                "  \"instance\": \"/TestController/ThrowInternalServerError\"\r\n" +
+                "  \"instance\": \"/" + apiType + "/ThrowInternalServerError\"\r\n" +
                 "}";
 
             var func = response.To<ImageGroup>;
             await func.Should().ThrowAsync<ApiException>().WithMessage(expectedMessage);
         }
 
-        [Fact]
-        public async Task WhenNoContent_ApiClientExceptionIsThrown()
+        [InlineData(nameof(ApiClient.TestControllerApi))]
+        [InlineData(nameof(ApiClient.TestMinimalApi))]
+        [Theory]
+        public async Task WhenNoContent_ApiClientExceptionIsThrown(string apiType)
         {
             //When
-            var response = await ApiClient.TestControllerApi.GetOk();
+            var response = await ApiClient.GetTestEndpoints(apiType).GetOk();
 
             //Then
             var func = response.To<ProblemDetails>;

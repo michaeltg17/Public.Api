@@ -20,6 +20,7 @@ public static class EndpointExtensions
 
         var testGroup = app.MapGroup("TestMinimalApi");
         GetEndpoint.Map(testGroup);
+        GetOkEndpoint.Map(testGroup);
         PostEndpoint.Map(testGroup);
         ThrowInternalServerErrorEndpoint.Map(testGroup);
 
