@@ -16,13 +16,13 @@ namespace Core.Testing.Builders
             return this;
         }
 
-        public ProblemDetailsBuilder WithNotFoundException(string instance, string entity, long id)
+        public ProblemDetailsBuilder WithNotFoundException(string apiType, string entity, long id)
         {
             Item.Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5";
             Item.Title = "NotFoundException";
             Item.Status = (int)HttpStatusCode.NotFound;
             Item.Detail = $"{entity} with id '{id}' was not found.";
-            Item.Instance = "/api/v1" + instance;
+            Item.Instance = $"/api/v1/{apiType}/{entity}/{id}";
 
             return this;
         }

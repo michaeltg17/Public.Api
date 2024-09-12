@@ -20,7 +20,8 @@ namespace Api.Endpoints.ImageGroup
                 return Results.Created(locationUri, imageGroup);
             })
             .WithMinimalApiName("SaveImageGroup")
-            .WithOpenApi();
+            .WithOpenApi()
+            .DisableAntiforgery();
         }
     }
 }

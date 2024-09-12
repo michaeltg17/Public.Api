@@ -10,23 +10,23 @@ namespace ApiClient
         public TestEndpoints TestControllerApi { get; } = new(httpClient, nameof(TestControllerApi));
         public TestEndpoints TestMinimalApi { get; } = new(httpClient, nameof(TestMinimalApi));
 
-        public ApiEndpoints GetApiEndpoints(string name)
+        public ApiEndpoints GetApiEndpoints(string apiType)
         {
-            return name switch
+            return apiType switch
             {
                 nameof(ControllerApi) => ControllerApi,
                 nameof(MinimalApi) => MinimalApi,
-                _ => throw new ArgumentException($"Name '{name}' is not valid.")
+                _ => throw new ArgumentException($"Api type '{apiType}' is not valid.")
             };
         }
 
-        public TestEndpoints GetTestEndpoints(string name)
+        public TestEndpoints GetTestEndpoints(string apiType)
         {
-            return name switch
+            return apiType switch
             {
                 nameof(TestControllerApi) => TestControllerApi,
                 nameof(TestMinimalApi) => TestMinimalApi,
-                _ => throw new ArgumentException($"Name '{name}' is not valid.")
+                _ => throw new ArgumentException($"Api type '{apiType}' is not valid.")
             };
         }
 

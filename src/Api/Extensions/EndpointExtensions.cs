@@ -11,6 +11,7 @@ public static class EndpointExtensions
     {
         var v1Group = app.MapGroupWithVersion(1);
         GetImageEndpoint.Map(v1Group);
+        GetImageGroupEndpoint.Map(v1Group);
         SaveImageGroupEndpoint.Map(v1Group);
         DeleteImageGroupEndpoint.Map(v1Group);
 
