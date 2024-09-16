@@ -9,20 +9,20 @@ public static class EndpointExtensions
 {
     public static WebApplication MapEndpoints(this WebApplication app)
     {
-        var v1Group = app.MapGroupWithVersion(1);
-        GetImageEndpoint.Map(v1Group);
-        GetImageGroupEndpoint.Map(v1Group);
-        SaveImageGroupEndpoint.Map(v1Group);
-        DeleteImageGroupEndpoint.Map(v1Group);
+        var v1 = app.MapGroupWithVersion(1);
+        GetImageEndpoint.Map(v1);
+        GetImageGroupEndpoint.Map(v1);
+        SaveImageGroupEndpoint.Map(v1);
+        DeleteImageGroupEndpoint.Map(v1);
 
-        var v2Group = app.MapGroupWithVersion(2);
-        DeleteImageGroupV2Endpoint.Map(v2Group);
+        var v2 = app.MapGroupWithVersion(2);
+        DeleteImageGroupV2Endpoint.Map(v2);
 
-        var testGroup = app.MapGroup("TestMinimalApi");
-        GetEndpoint.Map(testGroup);
-        GetOkEndpoint.Map(testGroup);
-        PostEndpoint.Map(testGroup);
-        ThrowInternalServerErrorEndpoint.Map(testGroup);
+        var test = app.MapGroup("TestMinimalApi");
+        GetEndpoint.Map(test);
+        GetOkEndpoint.Map(test);
+        PostEndpoint.Map(test);
+        ThrowInternalServerErrorEndpoint.Map(test);
 
         return app;
     }
