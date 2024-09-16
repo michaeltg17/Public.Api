@@ -39,17 +39,4 @@ public static class EndpointExtensions
             .MapGroup("api/v{version:apiVersion}/MinimalApi")
             .WithApiVersionSet(apiVersionSet);
     }
-
-    static RouteGroupBuilder MapGroupWithVersion(this IEndpointRouteBuilder app, int version)
-    {
-        var apiVersionSet = app
-            .NewApiVersionSet()
-            .HasApiVersion(new ApiVersion(version))
-            .ReportApiVersions()
-            .Build();
-
-        return app
-            .MapGroup("api/v{version:apiVersion}/MinimalApi")
-            .WithApiVersionSet(apiVersionSet);
-    }
 }
