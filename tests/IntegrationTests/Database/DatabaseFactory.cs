@@ -51,7 +51,13 @@ namespace IntegrationTests.Database
             var parameters = new ContainersListParameters() { All = true };
             var containers = await client.Containers.ListContainersAsync(parameters);
             var container = containers.SingleOrDefault(c => c.Names.Contains("/" + ContainerName));
-            return container != null;
+            if (container != null)
+            {
+                await client.Containers.StartContainerAsync(container!.ID, new ContainerStartParameters());
+                return true;
+            }
+            
+            return false;
         }
 
         async Task<MsSqlContainer> CreateContainer()
