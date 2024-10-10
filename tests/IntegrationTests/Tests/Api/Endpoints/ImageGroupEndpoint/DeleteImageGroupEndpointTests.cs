@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace IntegrationTests.Tests
+namespace IntegrationTests.Tests.Api.Endpoints.ImageGroupEndpoint
 {
     [Collection(nameof(ApiCollection))]
-    public class DeleteImageGroupTests : Test
+    public class DeleteImageGroupEndpointTests : Test
     {
         [InlineData(nameof(ApiClient.ControllerApi), 1)]
         [InlineData(nameof(ApiClient.ControllerApi), 2)]

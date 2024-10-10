@@ -4,39 +4,49 @@ using SpreadCheetah;
 
 namespace Application.Services
 {
-    internal class ExcelExportService(AppDbContext db)
+    public class ExcelExportService(AppDbContext db)
     {
-        public async Task<byte[]> Export(string tableName)
+        public async Task<byte[]> Export(string tableName, CancellationToken ct)
         {
-            //Try do the same with dapper
-            //Fix sql injection
-            var query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = {tableName}";
-            var columns = await db.Set<object>().FromSqlRaw(query).ToListAsync();
+            var query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = {tableName}";
+            var columns = await db.Set<object>().FromSqlRaw(query, tableName).ToListAsync(ct);
 
-            query = $"SELECT * FROM {tableName}";
-            var rows = await db.Set<object>().FromSqlRaw(query).ToListAsync();
+            query = "SELECT * FROM {tableName}";
+            var rows = await db.Set<object>().FromSqlRaw(query, tableName).ToListAsync(ct);
 
             using var stream = new MemoryStream();
-            using var spreadsheet = await Spreadsheet.CreateNewAsync(stream);
-            await spreadsheet.StartWorksheetAsync(tableName);
+            using var spreadsheet = await Spreadsheet.CreateNewAsync(stream, cancellationToken: ct);
+            await spreadsheet.StartWorksheetAsync(tableName, token: ct);
 
-            // Cells are inserted row by row.
-            var row = new List<Cell>();
-            foreach(var @object in rows)
+            // Insert the column headers
+            var headerRow = new List<Cell>();
+            foreach (var column in columns)
             {
-                row.Add()
+                headerRow.Add(new Cell());
             }
+            await spreadsheet.AddRowAsync(headerRow, ct);
+
+            // Insert the data rows
+            foreach (var rowObject in rows)
             {
-                new Cell("Answer to the ultimate question:"),
-                new Cell(42)
-            };
+                var dataRow = new List<Cell>();
 
-            // Rows are inserted from top to bottom.
-            await spreadsheet.AddRowAsync(row);
+                // Use reflection to get property values from the row
+                var properties = rowObject.GetType().GetProperties();
+                foreach (var column in columns)
+                {
+                    // Find the property corresponding to the column
+                    //var property = //properties.FirstOrDefault(p => p.Name.Equals(column, StringComparison.OrdinalIgnoreCase));
+                    //var value = property != null ? property.GetValue(rowObject)?.ToString() : string.Empty;
 
-            // Remember to call Finish before disposing.
-            // This is important to properly finalize the XLSX file.
-            await spreadsheet.FinishAsync();
+                    dataRow.Add(new Cell());
+                }
+
+                await spreadsheet.AddRowAsync(dataRow, ct);
+            }
+
+            await spreadsheet.FinishAsync(ct);
+            return stream.ToArray();
         }
     }
 }
