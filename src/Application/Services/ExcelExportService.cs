@@ -24,7 +24,7 @@ namespace Application.Services
             var row = new List<Cell>();
             foreach(var @object in rows)
             {
-                row.Add()
+                row.Add();
             }
             {
                 new Cell("Answer to the ultimate question:"),
