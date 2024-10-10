@@ -9,7 +9,7 @@ namespace Application.Services
         public async Task<byte[]> Export(string tableName, CancellationToken ct)
         {
             var query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = {tableName}";
-            var columns = await db.Set<object>().FromSqlRaw(query, tableName).ToListAsync(ct);
+            var columns = await db.Set<dynamic>().FromSqlRaw(query, tableName).ToListAsync(ct);
 
             query = "SELECT * FROM {tableName}";
             var rows = await db.Set<object>().FromSqlRaw(query, tableName).ToListAsync(ct);
