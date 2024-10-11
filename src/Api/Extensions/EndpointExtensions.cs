@@ -2,6 +2,7 @@
 using Api.Endpoints.Test;
 using Api.Endpoints.Image;
 using Api.Endpoints.ImageGroup;
+using Api.Endpoints.Export;
 
 namespace Api.Extensions;
 

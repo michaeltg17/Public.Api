@@ -2,8 +2,7 @@
 using Persistence;
 using SpreadCheetah;
 using Dapper;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
+using static Application.Extensions.SpreadCheetahExtensions;
 
 namespace Application.Services
 {
@@ -21,15 +20,15 @@ namespace Application.Services
             //var query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @TableName";
             //var columns = (await db.Database.GetDbConnection().QueryAsync<string>(query, new { TableName = tableName })).ToList();
 
-            var query = $"SELECT * FROM {tableName}";
-            var rows = await db.Database.GetDbConnection().QueryAsync(query);
+            var query = "SELECT * FROM {tableName}";
+            var rows = (await db.Database.GetDbConnection().QueryAsync(query, tableName)).Cast<IDictionary<string, object>>();
 
             using var stream = new MemoryStream();
             using var spreadsheet = await Spreadsheet.CreateNewAsync(stream, cancellationToken: ct);
             await spreadsheet.StartWorksheetAsync(tableName, token: ct);
 
             //Columns
-            var firstRow = rows.First() as IDictionary<string, object>;
+            var firstRow = rows.First();
             var columns = firstRow!.Keys;
             var headerRow = new List<Cell>();
             foreach (var column in columns)
@@ -39,14 +38,14 @@ namespace Application.Services
             await spreadsheet.AddRowAsync(headerRow, ct);
 
             //Rows
-            foreach (IDictionary<string, object> row in rows)
+            foreach (var row in rows)
             {
                 var dataRow = new List<Cell>();
 
                 foreach (var column in columns)
                 {
                     row.TryGetValue(column, out object? value);
-                    dataRow.Add(new Cell(value));
+                    dataRow.Add(CreateCell(value));
                 }
 
                 await spreadsheet.AddRowAsync(dataRow, ct);

@@ -10,7 +10,7 @@
             }
             catch(BadHttpRequestException exception)
             {
-                var x = exception.InnerException;
+                _ = exception.InnerException;
                 throw;
             }
         }
