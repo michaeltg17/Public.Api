@@ -1,7 +1,7 @@
 ﻿using IntegrationTests.Settings;
 using Testcontainers.MsSql;
 
-namespace IntegrationTests.Database
+namespace IntegrationTests.Infrastructure
 {
     public class Database(ITestSettings testSettings, MsSqlContainer? sqlServerContainer) : IAsyncDisposable
     {

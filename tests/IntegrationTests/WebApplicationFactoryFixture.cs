@@ -15,7 +15,7 @@ using WebStartup.Middleware;
 using Microsoft.AspNetCore.HttpLogging;
 using CrossCutting.Settings;
 using IntegrationTests.Settings;
-using IntegrationTests.Database;
+using IntegrationTests.Infrastructure;
 
 namespace IntegrationTests
 {
@@ -24,7 +24,7 @@ namespace IntegrationTests
     {
         public ITestOutputHelper TestOutputHelper { get; set; } = default!;
         public InMemorySink InMemorySink { get; set; } = default!;
-        Database.Database Database { get; set; } = default!;
+        Database? Database { get; set; }
 
         public async Task InitializeAsync()
         {
@@ -69,7 +69,7 @@ namespace IntegrationTests
 
                 services.Configure<ApiSettings>(apiSettings =>
                 {
-                    apiSettings.SqlServerConnectionString = Database.ConnectionString;
+                    apiSettings.SqlServerConnectionString = Database!.ConnectionString;
                     //apiSettings.Url = "http://localhost";
                 });
 
@@ -85,7 +85,7 @@ namespace IntegrationTests
 
         public async new Task DisposeAsync()
         {
-            await Database.DisposeAsync();
+            if (Database != null) await Database.DisposeAsync();
             await base.DisposeAsync();
         }
     }
