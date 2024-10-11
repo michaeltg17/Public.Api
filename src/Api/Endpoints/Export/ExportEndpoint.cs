@@ -1,7 +1,7 @@
 ﻿using Api.Extensions;
 using Application.Services;
 
-namespace Api.Endpoints.Image
+namespace Api.Endpoints.Export
 {
     public static class ExportEndpoint
     {

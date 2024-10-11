@@ -6,10 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Api.Controllers
 {
-    [Route("TestControllerApi")]
+    [Route($"{ApiType}")]
     public class TestController(TestService testService) : ControllerBase
     {
-        const string NamePrefix = "TestControllerApi" + ".";
+        const string ApiType = "TestControllerApi";
+        const string NamePrefix = ApiType + ".";
 
         [ServiceFilter<SampleFilter>]
         [HttpGet(nameof(GetOk), Name = NamePrefix + nameof(GetOk))]

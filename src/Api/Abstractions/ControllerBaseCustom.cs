@@ -2,7 +2,7 @@
 
 namespace Api.Abstractions
 {
-    [Route("api/v{version:apiVersion}/" + ApiType + "/[controller]")]
+    [Route("api/v{version:apiVersion}" + $"/{ApiType}/[controller]")]
     public class ControllerBaseCustom : ControllerBase
     {
         private protected const string ApiType = "ControllerApi";
