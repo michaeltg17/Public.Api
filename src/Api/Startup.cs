@@ -2,7 +2,6 @@
 using Api.Middlewares;
 using CrossCutting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
 using Persistence;
 using Serilog;
 using System.Text.Json.Serialization;
@@ -11,7 +10,6 @@ using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Storage;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Api.Swagger;
 
 namespace Api
