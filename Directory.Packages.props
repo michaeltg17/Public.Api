@@ -1,5 +1,6 @@
 <Project>
   <ItemGroup>
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
     <PackageVersion Include="AutoFixture.Idioms" Version="4.18.1" />
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
@@ -31,12 +32,12 @@
     <PackageVersion Include="Serilog.Sinks.InMemory.Assertions" Version="0.11.0" />
     <PackageVersion Include="Serilog.Sinks.Map" Version="2.0.0" />
     <PackageVersion Include="Serilog.Sinks.XUnit" Version="3.0.5" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.3" />
     <PackageVersion Include="Serilog.Expressions" Version="5.0.0" />
     <PackageVersion Include="Testcontainers.MsSql" Version="3.10.0" />
     <PackageVersion Include="TxFileManager" Version="1.5.0.1" />
     <PackageVersion Include="xunit" Version="2.9.2" />
-    <PackageVersion Include="Xunit.DependencyInjection" Version="9.4.0" />
+    <PackageVersion Include="Xunit.DependencyInjection" Version="9.5.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
     <PackageVersion Include="AutoFixture.Xunit2" Version="4.18.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />

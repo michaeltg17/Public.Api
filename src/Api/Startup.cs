@@ -11,6 +11,8 @@ using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Storage;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Api.Swagger;
 
 namespace Api
 {
@@ -76,8 +78,14 @@ namespace Api
                     options.ReportApiVersions = true;
                     options.DefaultApiVersion = new ApiVersion(1);
                     options.AssumeDefaultVersionWhenUnspecified = true;
+                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
                 })
                 .AddMvc()
+                .AddApiExplorer(options =>
+                {
+                    options.GroupNameFormat = "'v'V";
+                    options.SubstituteApiVersionInUrl = true;
+                })
                 .Services;
         }
 
@@ -138,16 +146,9 @@ namespace Api
         {
             if (builder.Environment.IsDevelopment())
             {
+                builder.Services.ConfigureOptions<SwaggerGenOptionsConfigurator>();
                 builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen(options =>
-                {
-                    options.SwaggerDoc("v1", new OpenApiInfo
-                    {
-                        Version = "v1",
-                        Title = "Public API",
-                        Description = "A showcase API"
-                    });
-                });
+                builder.Services.AddSwaggerGen();
             }
 
             return builder;
@@ -177,7 +178,22 @@ namespace Api
 
         static WebApplication UseSwaggerIfDevelopment(this WebApplication app)
         {
-            if (app.Environment.IsDevelopment()) app.UseSwagger().UseSwaggerUI();
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    var descriptions = app.DescribeApiVersions();
+
+                    foreach(var description in descriptions)
+                    {
+                        var url = $"/swagger/{description.GroupName}/swagger.json";
+                        var name = description.GroupName.ToUpperInvariant();
+
+                        options.SwaggerEndpoint(url, name);
+                    }
+                });
+            }
             return app;
         }
     }
