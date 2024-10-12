@@ -11,7 +11,6 @@ using Application;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Api.Storage;
-using Microsoft.AspNetCore.Routing;
 
 namespace Api
 {

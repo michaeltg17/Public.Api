@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Net;
 using Xunit;
 
 namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
@@ -9,12 +10,14 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
         [InlineData("Images")]
         [InlineData("ImageGroups")]
         [Theory]
-        public async Task ExportTableNameWorks(string tableName)
+        public async Task ExportWorks(string tableName)
         {
             //When
-            var file = (await ApiClient.MinimalApi.Export(tableName)).Content.ReadAsByteArrayAsync();
+            var response = await ApiClient.MinimalApi.Export(tableName);
 
             //Then
+            response.StatusCode.Should().BeOneOf(HttpStatusCode.OK);
+            var file = await response.Content.ReadAsByteArrayAsync();
             file.Should().NotBeNull();
         }
     }

@@ -18,7 +18,7 @@ public static class EndpointExtensions
         ExportEndpoint.Map(v1);
 
         var v2 = app.MapGroupWithVersion(2);
-        DeleteImageGroupV2Endpoint.Map(v2);
+        //DeleteImageGroupV2Endpoint.Map(v2);
 
         var test = app.MapGroup("TestMinimalApi");
         GetEndpoint.Map(test);
