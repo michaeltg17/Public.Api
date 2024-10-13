@@ -145,7 +145,6 @@ namespace Api
             if (builder.Environment.IsDevelopment())
             {
                 builder.Services.ConfigureOptions<SwaggerGenOptionsConfigurator>();
-                builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
             }
 

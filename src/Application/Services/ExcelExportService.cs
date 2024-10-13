@@ -4,12 +4,37 @@ using SpreadCheetah;
 using static Application.Extensions.SpreadCheetahExtensions;
 using System.Data.Common;
 using System.Data;
+using Core.Extensions;
 
 namespace Application.Services
 {
     public class ExcelExportService(AppDbContext dbContext)
     {
         public async Task<byte[]> Export(string tableName, CancellationToken ct)
+        {
+            var (columns, rows) = await GetData(tableName, ct);
+
+            using var stream = new MemoryStream();
+            using var spreadsheet = await Spreadsheet.CreateNewAsync(stream, cancellationToken: ct);
+            await spreadsheet.StartWorksheetAsync(tableName, token: ct);
+
+            //Add columns
+            var columnsRow = columns.Select(c => new Cell(c)).ToList();
+            await spreadsheet.AddRowAsync(columnsRow, ct);
+
+            //Add rows
+            rows.ForEach(async row =>
+            {
+                var dataRow = row.Select(value => CreateCell(value)).ToList();
+                await spreadsheet.AddRowAsync(dataRow, ct);
+            });
+
+            await spreadsheet.FinishAsync(ct);
+            return stream.ToArray();
+        }
+
+        async Task<(IEnumerable<string> columns, IEnumerable<IEnumerable<object?>> rows)> GetData(
+            string tableName, CancellationToken ct)
         {
             var connection = dbContext.Database.GetDbConnection();
             DbProviderFactory factory = DbProviderFactories.GetFactory(connection)!;
@@ -35,31 +60,7 @@ namespace Application.Services
                 rows.Add(row);
             }
 
-            using var stream = new MemoryStream();
-            using var spreadsheet = await Spreadsheet.CreateNewAsync(stream, cancellationToken: ct);
-            await spreadsheet.StartWorksheetAsync(tableName, token: ct);
-
-            //Columns
-            var columnsRow = new List<Cell>();
-            foreach (var column in columns)
-            {
-                columnsRow.Add(new Cell(column));
-            }
-            await spreadsheet.AddRowAsync(columnsRow, ct);
-
-            //Rows
-            foreach (var row in rows)
-            {
-                var dataRow = new List<Cell>();
-                foreach (var value in row)
-                {
-                    dataRow.Add(CreateCell(value));
-                }
-                await spreadsheet.AddRowAsync(columnsRow, ct);
-            }
-
-            await spreadsheet.FinishAsync(ct);
-            return stream.ToArray();
+            return (columns, rows);
         }
     }
 }

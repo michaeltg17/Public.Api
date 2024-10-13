@@ -12,7 +12,9 @@ namespace Api.Endpoints.Export
                 string tableName,
                 CancellationToken cancellationToken) =>
             {
-                return Results.File(await excelExportService.Export(tableName, cancellationToken));
+                var fileContent = await excelExportService.Export(tableName, cancellationToken);
+                const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                return Results.File(fileContent, contentType, tableName);
             })
             .WithMinimalApiName("Export")
             .WithOpenApi();
