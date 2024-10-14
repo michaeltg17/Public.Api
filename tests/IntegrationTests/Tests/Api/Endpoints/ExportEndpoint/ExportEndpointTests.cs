@@ -16,9 +16,12 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
             var response = await ApiClient.MinimalApi.Export(tableName);
 
             //Then
+            var fileName = $"{tableName}.xlsx";
             response.StatusCode.Should().BeOneOf(HttpStatusCode.OK);
+            response.Content.Headers.ContentDisposition!.FileName.Should().Be(fileName);
             var file = await response.Content.ReadAsByteArrayAsync();
-            file.Should().NotBeNull();
+            var expectedFile = File.ReadAllBytes(GetTestFilePath(fileName));
+            file.Should().BeEquivalentTo(expectedFile);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Api.Endpoints.Export
             {
                 var fileContent = await excelExportService.Export(tableName, cancellationToken);
                 const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                return Results.File(fileContent, contentType, tableName);
+                return Results.File(fileContent, contentType, $"{tableName}.xlsx");
             })
             .WithMinimalApiName("Export")
             .WithOpenApi();

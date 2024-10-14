@@ -1,5 +1,6 @@
 ﻿using Xunit.Abstractions;
 using Serilog.Sinks.InMemory;
+using Core.Testing.Helpers;
 
 namespace IntegrationTests
 {
@@ -14,6 +15,11 @@ namespace IntegrationTests
             WebApplicationFactoryFixture.TestOutputHelper = TestOutputHelper;
             WebApplicationFactoryFixture.InMemorySink = new InMemorySink();
             ApiClient = new(WebApplicationFactoryFixture.CreateClient());
+        }
+
+        public string GetTestFilePath(string fileName)
+        {
+            return Path.Combine(AppContext.BaseDirectory, TestFileHelper.GetNamespaceAsPath(GetType()), fileName);
         }
 
         public void Dispose()
