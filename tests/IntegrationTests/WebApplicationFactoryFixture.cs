@@ -11,7 +11,6 @@ using Serilog.Events;
 using Serilog.Sinks.InMemory;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
-using WebStartup.Middleware;
 using Microsoft.AspNetCore.HttpLogging;
 using CrossCutting.Settings;
 using IntegrationTests.Settings;

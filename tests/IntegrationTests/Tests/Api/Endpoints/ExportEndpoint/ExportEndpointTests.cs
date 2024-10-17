@@ -13,16 +13,22 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
         [Theory]
         public async Task ExportWorks(string tableName)
         {
+            //Given
+            //add data
+            
             //When
             var response = await ApiClient.MinimalApi.Export(tableName);
 
             //Then
-            var fileName = $"{tableName}.xlsx";
             response.StatusCode.Should().BeOneOf(HttpStatusCode.OK);
+
+            var fileName = $"{tableName}.xlsx";
             response.Content.Headers.ContentDisposition!.FileName.Should().Be(fileName);
+
             var file = await response.Content.ReadAsByteArrayAsync();
             await TestFileHelper.OpenFile(file, fileName);
-            var expectedFile = await File.ReadAllBytesAsync(GetTestFilePath(fileName));
+            var expectedFilePath = TestFileHelper.GetTestFilePath(GetType(), fileName);
+            var expectedFile = await File.ReadAllBytesAsync(expectedFilePath);
             file.Should().BeEquivalentTo(expectedFile);
         }
     }
