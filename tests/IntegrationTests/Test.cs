@@ -17,10 +17,7 @@ namespace IntegrationTests
             ApiClient = new(WebApplicationFactoryFixture.CreateClient());
         }
 
-        public string GetTestFilePath(string fileName)
-        {
-            return Path.Combine(AppContext.BaseDirectory, TestFileHelper.GetNamespaceAsPath(GetType()), fileName);
-        }
+        public string GetTestFilePath(string fileName) => TestFileHelper.GetTestFilePath(GetType(), fileName);
 
         public void Dispose()
         {

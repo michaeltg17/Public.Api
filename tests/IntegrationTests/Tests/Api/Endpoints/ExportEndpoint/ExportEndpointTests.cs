@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Core.Testing.Helpers;
+using FluentAssertions;
 using System.Net;
 using Xunit;
 
@@ -20,7 +21,8 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
             response.StatusCode.Should().BeOneOf(HttpStatusCode.OK);
             response.Content.Headers.ContentDisposition!.FileName.Should().Be(fileName);
             var file = await response.Content.ReadAsByteArrayAsync();
-            var expectedFile = File.ReadAllBytes(GetTestFilePath(fileName));
+            await TestFileHelper.OpenFile(file, fileName);
+            var expectedFile = await File.ReadAllBytesAsync(GetTestFilePath(fileName));
             file.Should().BeEquivalentTo(expectedFile);
         }
     }
