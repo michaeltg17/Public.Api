@@ -45,10 +45,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Tests\Api\Endpoints\ExportEndpoint\imagegroups.xlsx">
+	  <None Update="Tests\Api\Endpoints\ExportEndpoint\ImageGroups.xlsx">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Tests\Api\Endpoints\ExportEndpoint\images.xlsx">
+	  <None Update="Tests\Api\Endpoints\ExportEndpoint\Images.xlsx">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

@@ -4,7 +4,6 @@ using Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Dapper;
 
 namespace IntegrationTests
 {
@@ -28,13 +27,10 @@ namespace IntegrationTests
 
         Task<int> DeleteEntitiesFromDb()
         {
-            var sql = "TRUNCATE TABLE Images; TRUNCATE TABLE ImageGroups;";
-            return DbContext.Database.GetDbConnection().ExecuteAsync(sql);
-
-            //return Task.WhenAll(
-            //    DbContext.Images.ExecuteDeleteAsync(),
-            //    DbContext.ImageGroups.ExecuteDeleteAsync()
-            //    );
+            var sql = 
+                "DELETE FROM Images;" +
+                "DELETE FROM ImageGroups;";
+            return DbContext.Database.ExecuteSqlRawAsync(sql);
         }
 
         async Task IAsyncLifetime.DisposeAsync()

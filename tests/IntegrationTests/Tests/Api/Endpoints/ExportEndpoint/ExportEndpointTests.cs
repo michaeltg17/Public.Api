@@ -1,4 +1,5 @@
-﻿using Core.Testing.Helpers;
+﻿using Core.Testing.Extensions;
+using Core.Testing.Helpers;
 using FluentAssertions;
 using System.Net;
 using Xunit;
@@ -14,13 +15,14 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
         public async Task ExportWorks(string tableName)
         {
             //Given
-            //add data
-            
+            const string imagePath = @"Images\didi.jpeg";
+            await ApiClient.MinimalApi.SaveImageGroup(imagePath).EnsureSuccessStatusCode();
+
             //When
             var response = await ApiClient.MinimalApi.Export(tableName);
 
             //Then
-            response.StatusCode.Should().BeOneOf(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var fileName = $"{tableName}.xlsx";
             response.Content.Headers.ContentDisposition!.FileName.Should().Be(fileName);
