@@ -30,8 +30,8 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
             response.Content.Headers.ContentDisposition!.FileName.Should().Be(fileName);
 
             var file = await response.Content.ReadAsByteArrayAsync();
-            ValidateExcel
-            await TestFileHelper.OpenFile(file, fileName);
+            //ValidateExcel
+            //await TestFileHelper.OpenFile(file, fileName);
             var expectedFilePath = TestFileHelper.GetTestFilePath(GetType(), fileName);
             var expectedFile = await File.ReadAllBytesAsync(expectedFilePath);
             file.Should().BeEquivalentTo(expectedFile);
