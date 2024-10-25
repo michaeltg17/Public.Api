@@ -1,4 +1,4 @@
-﻿using IntegrationTests.Database;
+﻿using IntegrationTests.Infrastructure;
 using IntegrationTests.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

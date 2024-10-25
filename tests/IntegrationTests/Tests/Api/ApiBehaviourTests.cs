@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using ApiClient.Extensions;
 
-namespace IntegrationTests.Tests
+namespace IntegrationTests.Tests.Api
 {
     [Collection(nameof(ApiCollection))]
     public class ApiBehaviourTests : Test

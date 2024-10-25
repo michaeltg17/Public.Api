@@ -5,7 +5,7 @@ using Domain.Models;
 using ApiClient.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IntegrationTests.Tests
+namespace IntegrationTests.Tests.ApiClient
 {
     [Collection(nameof(ApiCollection))]
     public class ApiClientTests : Test

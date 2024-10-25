@@ -3,10 +3,10 @@ using Xunit;
 using Serilog.Sinks.InMemory.Assertions;
 using Serilog.Events;
 
-namespace IntegrationTests.Tests
+namespace IntegrationTests.Tests.Api.Filters
 {
     [Collection(nameof(ApiCollection))]
-    public class SampleMiddlewareTests : Test
+    public class SampleFilterTests : Test
     {
         [Fact]
         public async Task LogsExpectedMessages()
@@ -15,8 +15,8 @@ namespace IntegrationTests.Tests
             await ApiClient.TestControllerApi.GetOk();
 
             //Then
-            ValidateMessage("{middlewareName} started.");
-            ValidateMessage("{middlewareName} finished.");
+            ValidateMessage("{filterName} started on {actionName}.");
+            ValidateMessage("{filterName} finished on {actionName}.");
 
             void ValidateMessage(string message)
             {
@@ -25,8 +25,11 @@ namespace IntegrationTests.Tests
                     .HaveMessage(message)
                     .Appearing().Once()
                     .WithLevel(LogEventLevel.Information)
-                    .WithProperty("middlewareName")
-                    .WithValue("SampleMiddleware");
+                    .WithProperty("filterName")
+                    .WithValue("SampleFilter")
+                    .And
+                    .WithProperty("actionName")
+                    .WithValue("Api.Controllers.TestController.GetOk (Api)");
             }
         }
     }

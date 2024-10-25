@@ -6,45 +6,44 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace IntegrationTests.Tests
+namespace IntegrationTests.Tests.Api.Endpoints.ImageGroupEndpoint
 {
     [Collection(nameof(ApiCollection))]
-    public class GetImageTests : Test
+    public class GetImageGroupEndpointTests : Test
     {
         [InlineData(nameof(ApiClient.ControllerApi))]
         [InlineData(nameof(ApiClient.MinimalApi))]
         [Theory]
-        public async Task GivenImageGroup_WhenGetImage_IsGot(string apiType)
+        public async Task GivenImageGroup_WhenSaveAndGetImageGroup_IsGot(string apiType)
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
             var imageGroup = await ApiClient.GetApiEndpoints(apiType).SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
-            var image = await ApiClient.GetApiEndpoints(apiType).GetImage(imageGroup.Images.First().Id).To<Image>();
+            var response = await ApiClient.GetApiEndpoints(apiType).GetImageGroup(imageGroup.Id);
+            var imageGroup2 = await response.To<ImageGroup>();
 
             //Then
-            var uploadedImageBytes = File.ReadAllBytes(imagePath);
-            var downloadedImageBytes = await ApiClient.HttpClient.GetByteArrayAsync(image!.Url);
-
-            uploadedImageBytes.Should().BeEquivalentTo(downloadedImageBytes);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            imageGroup.Should().BeEquivalentTo(imageGroup2);
+            imageGroup.Images.Should().HaveCount(3);
         }
 
         [InlineData(nameof(ApiClient.ControllerApi))]
         [InlineData(nameof(ApiClient.MinimalApi))]
         [Theory]
-        public async Task WhenGetNonexistentImage_ExpectedProblemDetails(string apiType)
+        public async Task WhenGetNonexistentImageGroup_ExpectedProblemDetails(string apiType)
         {
             //When
-            var response = await ApiClient.GetApiEndpoints(apiType).GetImage(id: 600);
+            var response = await ApiClient.GetApiEndpoints(apiType).GetImageGroup(id: 600);
 
             //Then
             var expected = new ProblemDetailsBuilder()
-                .WithNotFoundException(apiType, "Image", 600)
+                .WithNotFoundException(apiType, "ImageGroup", 600)
                 .Build();
 
-            var problemDetails = await response.To<ProblemDetails>();
-            problemDetails.Should().BeEquivalentTo(expected);
+            (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }

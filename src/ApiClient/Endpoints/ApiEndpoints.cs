@@ -47,5 +47,10 @@
         {
             return httpClient.DeleteAsync($"{BuildBasePath(version)}/ImageGroup/{id}");
         }
+
+        public Task<HttpResponseMessage> Export(string tableName)
+        {
+            return httpClient.GetAsync($"{BuildBasePath()}/Export/{tableName}");
+        }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.SqlServer.Dac;
 using Testcontainers.MsSql;
 using Xunit.Sdk;
 
-namespace IntegrationTests.Database
+namespace IntegrationTests.Infrastructure
 {
     internal class DatabaseFactory(IMessageSink messageSink, ITestSettings testSettings) : IFactory<Database>
     {
@@ -51,7 +51,15 @@ namespace IntegrationTests.Database
             var parameters = new ContainersListParameters() { All = true };
             var containers = await client.Containers.ListContainersAsync(parameters);
             var container = containers.SingleOrDefault(c => c.Names.Contains("/" + ContainerName));
-            return container != null;
+            if (container != null)
+            {
+                if (container.State != "running")
+                    await client.Containers.StartContainerAsync(container!.ID, new ContainerStartParameters());
+
+                return true;
+            }
+            
+            return false;
         }
 
         async Task<MsSqlContainer> CreateContainer()

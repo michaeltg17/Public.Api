@@ -3,6 +3,7 @@
   <ItemGroup>
     <PackageReference Include="AutoFixture" />
     <PackageReference Include="AutoFixture.Idioms" />
+    <PackageReference Include="FluentAssertions" />
   </ItemGroup>
 
   <ItemGroup>

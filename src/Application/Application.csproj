@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="SimMetrics.Net" />
+    <PackageReference Include="SpreadCheetah" />
   </ItemGroup>
 
 </Project>

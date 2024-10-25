@@ -2,6 +2,7 @@
 using Api.Endpoints.Test;
 using Api.Endpoints.Image;
 using Api.Endpoints.ImageGroup;
+using Api.Endpoints.Export;
 
 namespace Api.Extensions;
 
@@ -14,6 +15,7 @@ public static class EndpointExtensions
         GetImageGroupEndpoint.Map(v1);
         SaveImageGroupEndpoint.Map(v1);
         DeleteImageGroupEndpoint.Map(v1);
+        ExportEndpoint.Map(v1);
 
         var v2 = app.MapGroupWithVersion(2);
         DeleteImageGroupV2Endpoint.Map(v2);
