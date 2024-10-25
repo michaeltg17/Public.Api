@@ -1,7 +1,7 @@
-﻿using ClosedXML.Excel;
+﻿using ApiClient.Extensions;
+using ClosedXML.Excel;
 using Core.Extensions;
-using Core.Testing.Extensions;
-using Core.Testing.Helpers;
+using Domain.Models;
 using FluentAssertions;
 using System.Net;
 using Xunit;
@@ -18,7 +18,7 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
         {
             //Given
             const string imagePath = @"Images\didi.jpeg";
-            await ApiClient.MinimalApi.SaveImageGroup(imagePath).EnsureSuccessStatusCode();
+            var imageGroup = await ApiClient.MinimalApi.SaveImageGroup(imagePath).To<ImageGroup>();
 
             //When
             var response = await ApiClient.MinimalApi.Export(tableName);
@@ -29,32 +29,37 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
             var fileName = $"{tableName}.xlsx";
             response.Content.Headers.ContentDisposition!.FileName.Should().Be(fileName);
 
-            var file = await response.Content.ReadAsByteArrayAsync();
-            //ValidateExcel
-            //await TestFileHelper.OpenFile(file, fileName);
-            var expectedFilePath = TestFileHelper.GetTestFilePath(GetType(), fileName);
-            var expectedFile = await File.ReadAllBytesAsync(expectedFilePath);
-            file.Should().BeEquivalentTo(expectedFile);
+            var file = await response.Content.ReadAsStreamAsync();
+            ValidateExcel(file, ImageGroupColumms, imageGroup);
         }
 
-        static void ValidateExcel<T>(Stream file, IEnumerable<T> entities) where T : notnull
+        static void ValidateExcel<T>(Stream file, string[] columnNames, params T[] entities) where T : notnull
         {
             using var workbook = new XLWorkbook(file);
             var worksheet = workbook.Worksheets.Single();
 
-            typeof(T)
-                .GetProperties()
-                .Select(p => p.Name)
-                .For((columnIndex, columnName) => worksheet.Cell(1, columnIndex).Value.Should().Be(columnName));
+            columnNames.For((i, columnName) => worksheet.Cell(1, i + 1).Value.Should().Be(columnName));
 
-            entities.ForEach(entity => 
+            entities.For((rowIndex, entity) => 
             {
                 entity
                     .GetType()
                     .GetProperties()
-                    .Select(p => p.GetValue(entity))
-                    .For((rowIndex, value) => worksheet.Cell(1, rowIndex).Value.Should().Be(value));
+                    .Join(columnNames, p => p.Name, c => c, (p, c) => new { Name = c, Value = p.GetValue(c).ToString() })
+                    .For((columnIndex, column) => worksheet.Cell(rowIndex, columnIndex + 1).Value.Should().Be(column.Value));
             });
         }
+
+        readonly string[] ImageGroupColumms = [
+            nameof(ImageGroup.Id),
+            nameof(ImageGroup.Guid),
+            nameof(ImageGroup.Name),
+            nameof(ImageGroup.Type),
+            nameof(ImageGroup.CreatedBy),
+            nameof(ImageGroup.CreatedOn),
+            nameof(ImageGroup.ModifiedBy),
+            nameof(ImageGroup.ModifiedOn),
+            nameof(ImageGroup.IsTest),
+        ];
     }
 }
