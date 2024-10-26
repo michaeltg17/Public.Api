@@ -3,6 +3,7 @@ using ClosedXML.Excel;
 using Core.Extensions;
 using Domain.Models;
 using FluentAssertions;
+using MoreLinq;
 using System.Net;
 using Xunit;
 
@@ -38,15 +39,32 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
             using var workbook = new XLWorkbook(file);
             var worksheet = workbook.Worksheets.Single();
 
-            columnNames.For((i, columnName) => worksheet.Cell(1, i + 1).Value.Should().Be(columnName));
+            columnNames.For(1, (i, columnName) => worksheet.Cell(1, i).Value.ToString().Should().Be(columnName));
 
-            entities.For((rowIndex, entity) => 
+            //entities.For(2, (rowIndex, entity) => 
+            //{
+            //    entity
+            //        .GetType()
+            //        .GetProperties()
+            //        .Join(columnNames, p => p.Name, c => c, (p, c) => new { Name = c, Value = p.GetValue(entity) })
+            //        .For(1, (columnIndex, column) => worksheet.Cell(rowIndex, columnIndex).Value.Should().Be(column.Value));
+            //});
+
+            entities.For(2, (rowIndex, entity) =>
             {
-                entity
-                    .GetType()
-                    .GetProperties()
-                    .Join(columnNames, p => p.Name, c => c, (p, c) => new { Name = c, Value = p.GetValue(c).ToString() })
-                    .For((columnIndex, column) => worksheet.Cell(rowIndex, columnIndex + 1).Value.Should().Be(column.Value));
+                columnNames
+                    .Join(
+                        entity.GetType().GetProperties(),
+                        c => c, 
+                        p => p.Name, 
+                        (c, p) => new { Name = c, Type = p.PropertyType, Value = p.GetValue(entity) })
+                    .For(1, (columnIndex, column) => worksheet.Cell(rowIndex, columnIndex).Value.Should().Be(column.Value));
+
+                //entity
+                //    .GetType()
+                //    .GetProperties()
+                //    .Join(columnNames, p => p.Name, c => c, (p, c) => new { Name = c, Value = p.GetValue(entity) })
+                //    .For(1, (columnIndex, column) => worksheet.Cell(rowIndex, columnIndex).Value.Should().Be(column.Value));
             });
         }
 

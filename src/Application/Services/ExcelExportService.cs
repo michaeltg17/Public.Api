@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Persistence;
 using SpreadCheetah;
-using static Application.Extensions.SpreadCheetahExtensions;
 using System.Data.Common;
 using System.Data;
-using Core.Extensions;
+using MoreLinq;
+using Application.Extensions;
 
 namespace Application.Services
 {
@@ -25,7 +25,7 @@ namespace Application.Services
             //Add rows
             rows.ForEach(async row =>
             {
-                var dataRow = row.Select(value => CreateCell(value)).ToList();
+                var dataRow = row.Select(value => value.ToCell()).ToList();
                 await spreadsheet.AddRowAsync(dataRow, ct);
             });
 

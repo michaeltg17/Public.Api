@@ -5,7 +5,7 @@ namespace Application.Extensions
 {
     internal static class SpreadCheetahExtensions
     {
-        internal static Cell CreateCell(object? @object) => @object switch
+        internal static Cell ToCell(this object? @object) => @object switch
         {
             Guid guidValue => new Cell(guidValue.ToString()),
             string stringValue => new Cell(stringValue),
