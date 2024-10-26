@@ -6,6 +6,7 @@ using FluentAssertions;
 using MoreLinq;
 using System.Net;
 using Xunit;
+using IntegrationTests.Extensions;
 
 namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
 {
@@ -39,16 +40,7 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
             using var workbook = new XLWorkbook(file);
             var worksheet = workbook.Worksheets.Single();
 
-            columnNames.For(1, (i, columnName) => worksheet.Cell(1, i).Value.ToString().Should().Be(columnName));
-
-            //entities.For(2, (rowIndex, entity) => 
-            //{
-            //    entity
-            //        .GetType()
-            //        .GetProperties()
-            //        .Join(columnNames, p => p.Name, c => c, (p, c) => new { Name = c, Value = p.GetValue(entity) })
-            //        .For(1, (columnIndex, column) => worksheet.Cell(rowIndex, columnIndex).Value.Should().Be(column.Value));
-            //});
+            columnNames.For(1, (i, columnName) => worksheet.Cell(1, i).GetValue<string>().Should().Be(columnName));
 
             entities.For(2, (rowIndex, entity) =>
             {
@@ -58,13 +50,11 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
                         c => c, 
                         p => p.Name, 
                         (c, p) => new { Name = c, Type = p.PropertyType, Value = p.GetValue(entity) })
-                    .For(1, (columnIndex, column) => worksheet.Cell(rowIndex, columnIndex).Value.Should().Be(column.Value));
-
-                //entity
-                //    .GetType()
-                //    .GetProperties()
-                //    .Join(columnNames, p => p.Name, c => c, (p, c) => new { Name = c, Value = p.GetValue(entity) })
-                //    .For(1, (columnIndex, column) => worksheet.Cell(rowIndex, columnIndex).Value.Should().Be(column.Value));
+                    .For(1, (columnIndex, column) => worksheet
+                        .Cell(rowIndex, columnIndex)
+                        .GetValue(column.Type)
+                        .Should()
+                        .Be(column.Value));
             });
         }
 
