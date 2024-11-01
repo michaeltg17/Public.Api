@@ -7,6 +7,8 @@ using MoreLinq;
 using System.Net;
 using Xunit;
 using IntegrationTests.Extensions;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
 {
@@ -85,12 +87,20 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
         {
             using var workbook = new XLWorkbook(file);
             var worksheet = workbook.Worksheets.Single();
+            var usedCells = new Dictionary<int, int>();
 
-            //Validate columns
-            columns.For(1, (i, columnName) => worksheet.Cell(1, i).GetValue<string>().Should().Be(columnName));
+            //Validate columns+
+            var columnIndex = 1;
+            for (; columnIndex <= columns.Count(); columnIndex++)
+            {
+                worksheet.Cell(1, columnIndex).GetValue<string>().Should().Be(columnName);
+            }
+            var x = columnIndex + 1;
+            //columns.For(columnIndex, (i, columnName) => worksheet.Cell(1, i).GetValue<string>().Should().Be(columnName));
 
             //Validate rows
-            entities.For(2, (rowIndex, entity) =>
+            var rowIndex = 2;
+            entities.For(rowIndex, (rowIndex, entity) =>
             {
                 //Join ordered columns with values
                 var columnsWithValue = columns
@@ -107,9 +117,33 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
                     .GetValue(c.Type)
                     .Should()
                     .Be(c.Value));
-
-                //Validate other cells are empty
             });
+
+            ValidateEmptyCells(worksheet, columnIndex, rowIndex);
+        }
+
+        static void ValidateEmptyCells(IXLWorksheet worksheet, int lastColumnWithData, int lastRowWithData)
+        {
+            worksheet.LastRowUsed().Should().NotBeNull();
+
+            var lastRowUsed = worksheet.LastRowUsed()!.RowNumber();
+            var lastColumnUsed = worksheet.LastColumnUsed()!.ColumnNumber();
+
+            for (int row = 1; row <= lastRowUsed; row++)
+            {
+                //Check columns from lastColumnWithData + 1
+                for (int col = lastColumnWithData + 1; col <= lastColumnUsed; col++)
+                {
+                    worksheet.Cell(row, col).IsEmpty().Should().BeTrue();
+                    if (row == lastRowWithData) break;
+                }
+
+                //Check columns from first one starting from lastRowWithData
+                for (int col = 1; col <= lastColumnUsed; col++)
+                {
+                    worksheet.Cell(row, col).IsEmpty().Should().BeTrue();
+                }
+            }
         }
     }
 }
