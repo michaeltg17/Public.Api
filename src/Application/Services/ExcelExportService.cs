@@ -3,7 +3,6 @@ using Persistence;
 using SpreadCheetah;
 using System.Data.Common;
 using System.Data;
-using MoreLinq;
 using Application.Extensions;
 
 namespace Application.Services
@@ -12,29 +11,34 @@ namespace Application.Services
     {
         public async Task<byte[]> Export(string tableName, CancellationToken ct)
         {
-            var (columns, rows) = await GetData(tableName, ct);
+            var reader = await ExecuteQuery(tableName, ct);
 
+            //Create Excel
             using var stream = new MemoryStream();
             using var spreadsheet = await Spreadsheet.CreateNewAsync(stream, cancellationToken: ct);
             await spreadsheet.StartWorksheetAsync(tableName, token: ct);
 
             //Add columns
-            var columnsRow = columns.Select(c => new Cell(c)).ToList();
+            var columnsRow = reader.GetColumnSchema().Select(c => new Cell(c.ColumnName)).ToList();
             await spreadsheet.AddRowAsync(columnsRow, ct);
 
             //Add rows
-            rows.ForEach(async row =>
+            while (await reader.ReadAsync(ct))
             {
-                var dataRow = row.Select(value => value.ToCell()).ToList();
-                await spreadsheet.AddRowAsync(dataRow, ct);
-            });
+                var row = new List<Cell>();
+                for (var i = 0; i < reader.FieldCount; i++)
+                {
+                    var value = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                    row.Add(value.ToCell());
+                }
+                await spreadsheet.AddRowAsync(row, ct);
+            }
 
             await spreadsheet.FinishAsync(ct);
             return stream.ToArray();
         }
 
-        async Task<(IEnumerable<string> columns, IEnumerable<IEnumerable<object?>> rows)> GetData(
-            string tableName, CancellationToken ct)
+        async Task<DbDataReader> ExecuteQuery(string tableName, CancellationToken ct)
         {
             var connection = dbContext.Database.GetDbConnection();
             DbProviderFactory factory = DbProviderFactories.GetFactory(connection)!;
@@ -45,22 +49,7 @@ namespace Application.Services
             command.CommandText = "SELECT * FROM " + sanitizedTableName;
 
             await connection.OpenAsync(ct);
-            using var reader = await command.ExecuteReaderAsync(ct);
-            var columns = reader.GetColumnSchema().Select(c => c.ColumnName).ToList();
-
-            var rows = new List<List<object?>>();
-            while (await reader.ReadAsync(ct))
-            {
-                var row = new List<object?>();
-                for (var i = 0; i < reader.FieldCount; i++)
-                {
-                    var value = reader.IsDBNull(i) ? null : reader.GetValue(i);
-                    row.Add(value);
-                }
-                rows.Add(row);
-            }
-
-            return (columns, rows);
+            return await command.ExecuteReaderAsync(ct);
         }
     }
 }
