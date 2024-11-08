@@ -8,20 +8,13 @@ namespace Core.Extensions
 
         public static IEnumerable<T> For<T>(this IEnumerable<T> items, int i, Action<int, T> action)
         {
-            var index = new IndexWrapper { Value = i };
-
             items.ForEach(item =>
             {
-                action(index.Value, item);
-                index.Value++;
+                action(i, item);
+                i++;
             });
 
             return items;
-        }
-
-        class IndexWrapper
-        {
-            public int Value;
         }
     }
 }
