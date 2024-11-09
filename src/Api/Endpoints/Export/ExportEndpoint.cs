@@ -1,5 +1,6 @@
 ﻿using Api.Extensions;
 using Application.Services;
+using MimeMapping;
 
 namespace Api.Endpoints.Export
 {
@@ -13,7 +14,7 @@ namespace Api.Endpoints.Export
                 CancellationToken cancellationToken) =>
             {
                 var fileContent = await excelExportService.Export(tableName, cancellationToken);
-                const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                const string contentType = KnownMimeTypes.Xlsx;
                 return Results.File(fileContent, contentType, $"{tableName}.xlsx");
             })
             .WithMinimalApiName("Export")

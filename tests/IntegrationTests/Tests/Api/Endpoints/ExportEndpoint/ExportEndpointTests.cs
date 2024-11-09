@@ -7,6 +7,7 @@ using MoreLinq;
 using System.Net;
 using Xunit;
 using IntegrationTests.Extensions;
+using MimeMapping;
 
 namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
 {
@@ -72,11 +73,17 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
             IEnumerable<string> columnNames,
             IEnumerable<T> entities) where T : notnull
         {
+            //Validate response status code
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
+            //Validate file name
             var fileName = $"{tableName}.xlsx";
             response.Content.Headers.ContentDisposition!.FileName.Should().Be(fileName);
 
+            //Validate MIME
+            response.Content.Headers.ContentType!.MediaType.Should().Be(KnownMimeTypes.Xlsx);
+
+            //Validate excel content
             var file = await response.Content.ReadAsStreamAsync();
             ValidateExcel(file, columnNames, entities);
         }

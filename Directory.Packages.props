@@ -8,6 +8,9 @@
     <PackageVersion Include="EPPlus" Version="7.3.2" />
     <PackageVersion Include="FluentValidation" Version="11.10.0" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
+    <PackageVersion Include="MimeMapping" Version="3.0.1" />
+    <PackageVersion Include="MimeTypes" Version="2.5.2" />
+    <PackageVersion Include="MimeTypesMap" Version="1.0.8" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="morelinq" Version="4.3.0" />
     <PackageVersion Include="SpreadCheetah" Version="1.19.0" />
