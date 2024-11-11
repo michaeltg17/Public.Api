@@ -4,12 +4,14 @@ using SpreadCheetah;
 using System.Data.Common;
 using System.Data;
 using Application.Extensions;
+using File = Application.Models.Responses.File;
+using MimeMapping;
 
 namespace Application.Services
 {
     public class ExcelExportService(AppDbContext dbContext)
     {
-        public async Task<byte[]> Export(string tableName, CancellationToken ct)
+        public async Task<File> Export(string tableName, CancellationToken ct)
         {
             var reader = await ExecuteQuery(tableName, ct);
 
@@ -35,7 +37,13 @@ namespace Application.Services
             }
 
             await spreadsheet.FinishAsync(ct);
-            return stream.ToArray();
+
+            return new File
+            {
+                Content = stream.ToArray(),
+                ContentType = KnownMimeTypes.Xlsx,
+                Name = $"{tableName}.xlsx"
+            };
         }
 
         async Task<DbDataReader> ExecuteQuery(string tableName, CancellationToken ct)
