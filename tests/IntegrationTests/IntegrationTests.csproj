@@ -12,6 +12,7 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="Microsoft.SqlServer.DacFx" />
 		<PackageReference Include="Microsoft.TestPlatform.TestHost" />
+		<PackageReference Include="MimeMapping" />
 		<PackageReference Include="Public.Database.Dacpac">
 			<GeneratePathProperty>true</GeneratePathProperty>
 		</PackageReference>

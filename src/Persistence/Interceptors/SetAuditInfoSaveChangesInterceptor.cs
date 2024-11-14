@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Core.Extensions;
 using Core.Domain;
+using MoreLinq;
 
 namespace Persistance.Interceptors
 {
