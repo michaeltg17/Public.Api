@@ -4,6 +4,7 @@ using ApiClient.Extensions;
 using Domain.Models;
 using ApiClient.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Core.Testing.Validators;
 
 namespace IntegrationTests.Tests.ApiClient
 {
@@ -20,6 +21,7 @@ namespace IntegrationTests.Tests.ApiClient
 
             //Then
             var problemDetails = await response.To<ProblemDetails>();
+            var traceId = Validator.ValidateTraceId(problemDetails);
 
             var expectedMessage = $$"""
                 {
@@ -28,7 +30,7 @@ namespace IntegrationTests.Tests.ApiClient
                   "status": 500,
                   "detail": "Internal server error. Please contact the API support.",
                   "instance": "/{{apiType}}/ThrowInternalServerError",
-                  "traceId": "{{problemDetails.Extensions["traceId"]}}"
+                  "traceId": "{{traceId}}"
                 }
                 """;
 

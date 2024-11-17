@@ -1,5 +1,7 @@
 ﻿using ApiClient.Extensions;
+using Core.Testing;
 using Core.Testing.Builders;
+using Core.Testing.Extensions;
 using Core.Testing.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -42,11 +44,15 @@ namespace IntegrationTests.Tests.Api.Endpoints.ImageGroupEndpoint
             var response = await ApiClient.GetApiEndpoints(apiType).DeleteImageGroup(id: 600);
 
             //Then
+            var problemDetails = await response.To<ProblemDetails>();
+            var traceId = problemDetails.GetTraceId();
+            TraceIdValidator.IsValid(traceId).Should().BeTrue();
+
             var expected = new ProblemDetailsBuilder()
+                .WithTraceId(traceId)
                 .WithNotFoundException(apiType, "ImageGroup", 600)
                 .Build();
 
-            var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

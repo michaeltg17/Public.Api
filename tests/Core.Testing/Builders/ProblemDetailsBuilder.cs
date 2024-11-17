@@ -7,6 +7,14 @@ namespace Core.Testing.Builders
 {
     public class ProblemDetailsBuilder : BuilderWithNew<ProblemDetailsBuilder, ProblemDetails>
     {
+        public ProblemDetailsBuilder() { Item.Extensions = new Dictionary<string, object?>(); }
+
+        public ProblemDetailsBuilder WithTraceId(string traceId)
+        {
+            Item.Extensions.Add("traceId", traceId);
+            return this;
+        }
+
         public ProblemDetailsBuilder WithNotFound()
         {
             Item.Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5";
@@ -34,7 +42,7 @@ namespace Core.Testing.Builders
             Item.Status = (int)HttpStatusCode.BadRequest;
             Item.Detail = "Please check the errors property for additional details.";
             Item.Instance = instance;
-            Item.Extensions = new Dictionary<string, object?>() { { "errors", null } };
+            Item.Extensions.Add("errors", null);
 
             return this;
         }
