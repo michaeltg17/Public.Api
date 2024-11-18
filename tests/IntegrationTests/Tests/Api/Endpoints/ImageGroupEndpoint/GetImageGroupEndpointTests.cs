@@ -1,11 +1,7 @@
 ﻿using ApiClient.Extensions;
-using Core.Testing;
-using Core.Testing.Builders;
-using Core.Testing.Extensions;
 using Core.Testing.Models;
 using Core.Testing.Validators;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
@@ -43,7 +39,7 @@ namespace IntegrationTests.Tests.Api.Endpoints.ImageGroupEndpoint
             var response = await ApiClient.GetApiEndpoints(apiType).GetImageGroup(id);
 
             //Then
-            await Validator.ValidateNotFoundException(response, apiType, "ImageGroup", id);
+            await ProblemDetailsValidator.ValidateNotFoundException(response, apiType, "ImageGroup", id);
         }
     }
 }

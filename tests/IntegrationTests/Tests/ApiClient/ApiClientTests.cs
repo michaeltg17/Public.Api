@@ -21,7 +21,7 @@ namespace IntegrationTests.Tests.ApiClient
 
             //Then
             var problemDetails = await response.To<ProblemDetails>();
-            var traceId = Validator.ValidateTraceId(problemDetails);
+            var traceId = ProblemDetailsValidator.ValidateTraceId(problemDetails);
 
             var expectedMessage = $$"""
                 {

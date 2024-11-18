@@ -7,7 +7,7 @@ using System.Net;
 
 namespace Core.Testing.Validators
 {
-    public static class Validator
+    public static class ProblemDetailsValidator
     {
         public static string ValidateTraceId(ProblemDetails problemDetails)
         {
