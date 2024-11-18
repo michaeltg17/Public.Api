@@ -1,9 +1,7 @@
 ﻿using ApiClient.Extensions;
-using Core.Testing.Builders;
 using Core.Testing.Models;
+using Core.Testing.Validators;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using Xunit;
 
 namespace FunctionalTests.Tests
@@ -34,18 +32,12 @@ namespace FunctionalTests.Tests
         [Theory]
         public async Task GivenUnexistingImage_WhenGetImage_ExpectedProblemDetails(string apiType)
         {
-            //Given
             //When
+            const long id = 600;
             var response = await ApiClient.GetApiEndpoints(apiType).GetImage(id: 600);
 
             //Then
-            var expected = new ProblemDetailsBuilder()
-                .WithNotFoundException(apiType, "Image", 600)
-                .Build();
-
-            var problemDetails = await response.To<ProblemDetails>();
-            problemDetails.Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            await ProblemDetailsValidator.ValidateNotFoundException(response, apiType, "Image", id);
         }
     }
 }

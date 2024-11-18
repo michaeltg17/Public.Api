@@ -1,8 +1,7 @@
 ﻿using ApiClient.Extensions;
-using Core.Testing.Builders;
 using Core.Testing.Models;
+using Core.Testing.Validators;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
@@ -36,15 +35,11 @@ namespace IntegrationTests.Tests.Api.Endpoints.ImageGroupEndpoint
         public async Task WhenGetNonexistentImageGroup_ExpectedProblemDetails(string apiType)
         {
             //When
-            var response = await ApiClient.GetApiEndpoints(apiType).GetImageGroup(id: 600);
+            const long id = 600;
+            var response = await ApiClient.GetApiEndpoints(apiType).GetImageGroup(id);
 
             //Then
-            var expected = new ProblemDetailsBuilder()
-                .WithNotFoundException(apiType, "ImageGroup", 600)
-                .Build();
-
-            (await response.To<ProblemDetails>()).Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            await ProblemDetailsValidator.ValidateNotFoundException(response, apiType, "ImageGroup", id);
         }
     }
 }

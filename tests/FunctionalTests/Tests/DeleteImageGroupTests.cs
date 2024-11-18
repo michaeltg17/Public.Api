@@ -1,8 +1,7 @@
 ﻿using ApiClient.Extensions;
-using Core.Testing.Builders;
 using Core.Testing.Models;
+using Core.Testing.Validators;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
@@ -35,18 +34,12 @@ namespace FunctionalTests.Tests
         [Theory]
         public async Task GivenUnexistingImageGroup_WhenDeleteImageGroup_ExpectedProblemDetails(string apiType)
         {
-            //Given
             //When
-            var response = await ApiClient.GetApiEndpoints(apiType).DeleteImageGroup(id: 600);
+            const long id = 600;
+            var response = await ApiClient.GetApiEndpoints(apiType).DeleteImageGroup(id);
 
             //Then
-            var expected = new ProblemDetailsBuilder()
-                .WithNotFoundException(apiType, "ImageGroup", 600)
-                .Build();
-
-            var problemDetails = await response.To<ProblemDetails>();
-            problemDetails.Should().BeEquivalentTo(expected);
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            await ProblemDetailsValidator.ValidateNotFoundException(response, apiType, "ImageGroup", id);
         }
     }
 }

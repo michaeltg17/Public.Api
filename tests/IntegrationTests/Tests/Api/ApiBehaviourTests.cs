@@ -4,6 +4,8 @@ using Core.Testing.Builders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using ApiClient.Extensions;
+using Core.Testing.Extensions;
+using Core.Testing;
 
 namespace IntegrationTests.Tests.Api
 {
@@ -19,14 +21,18 @@ namespace IntegrationTests.Tests.Api
             var response = await ApiClient.GetTestEndpoints(apiType).ThrowInternalServerError();
 
             //Then
+            var problemDetails = await response.To<ProblemDetails>();
+            var traceId = problemDetails.GetTraceId();
+            TraceIdValidator.IsValid(traceId).Should().BeTrue();
+
             var expected = new ProblemDetailsBuilder()
+                .WithTraceId(traceId)
                 .WithInternalServerError($"/{apiType}/ThrowInternalServerError")
                 .Build();
 
             var responseAsString = (await response.Content.ReadAsStringAsync()).ToLowerInvariant();
             responseAsString.Should().NotContain("Sensitive data".ToLowerInvariant());
             responseAsString.Should().NotContain("Exception".ToLowerInvariant());
-            var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
@@ -38,11 +44,15 @@ namespace IntegrationTests.Tests.Api
             var response = await ApiClient.RequestUnexistingRoute();
 
             //Then
+            var problemDetails = await response.To<ProblemDetails>();
+            var traceId = problemDetails.GetTraceId();
+            TraceIdValidator.IsValid(traceId).Should().BeTrue();
+
             var expected = new ProblemDetailsBuilder()
+                .WithTraceId(traceId)
                 .WithNotFound()
                 .Build();
 
-            var problemDetails = await response.To<ProblemDetails>();
             problemDetails.Should().BeEquivalentTo(expected);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
