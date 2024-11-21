@@ -103,7 +103,7 @@ namespace IntegrationTests.Tests.Api.Endpoints.ExportEndpoint
                 //Join ordered columns with values
                 var columnsWithValue = columns
                     .Join(
-                        entity.GetType().GetProperties(),
+                        typeof(T).GetProperties(),
                         c => c,
                         p => p.Name,
                         (c, p) => new { Name = c, Type = p.PropertyType, Value = p.GetValue(entity) });
