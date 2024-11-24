@@ -16,6 +16,7 @@ public static class EndpointExtensions
         SaveImageGroupEndpoint.Map(v1);
         DeleteImageGroupEndpoint.Map(v1);
         ExportEndpoint.Map(v1);
+        CreateCustomerEndpoint.Map(v1);
 
         var v2 = app.MapGroupWithVersion(2);
         DeleteImageGroupV2Endpoint.Map(v2);

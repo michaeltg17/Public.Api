@@ -1,4 +1,7 @@
-﻿namespace ApiClient.Endpoints
+﻿using Application.Models.Requests;
+using System.Net.Http.Json;
+
+namespace ApiClient.Endpoints
 {
     public class ApiEndpoints(HttpClient httpClient, string apiType)
     {
@@ -51,6 +54,11 @@
         public Task<HttpResponseMessage> Export(string tableName)
         {
             return httpClient.GetAsync($"{BuildBasePath()}/Export/{tableName}");
+        }
+
+        public Task<HttpResponseMessage> CreateCustomer(CreateCustomerRequest request)
+        {
+            return httpClient.PostAsJsonAsync($"{BuildBasePath()}/Customer", request);
         }
     }
 }

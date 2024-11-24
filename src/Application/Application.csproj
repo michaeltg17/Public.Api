@@ -7,10 +7,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Requests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MimeMapping" />
     <PackageReference Include="SimMetrics.Net" />
     <PackageReference Include="SpreadCheetah" />

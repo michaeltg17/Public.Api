@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Domain.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {
@@ -82,6 +83,6 @@ namespace Domain.ValueObjects
         [GeneratedRegex(@"^\d{13,19}$")]
         private static partial Regex ValidCardNumberRegex();
 
-        public CreditCard() => throw new InvalidOperationException("Use the parameterized constructor to create a CreditCard.");
+        public CreditCard() => throw new InvalidConstructorException();
     }
 }

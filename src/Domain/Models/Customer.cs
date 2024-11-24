@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using Domain.ValueObjects;
 
 namespace Domain.Models
 {
     public class Customer : Entity
     {
-        public required string Name { get; set; }
-        public required string Address { get; set; }
-        public required string Email { get; set; }
-        public required string Phone { get; set; }
-
-        public string? CountryCode { get; set; }
+        public required Name FirstName { get; set; }
+        public required Name LastName { get; set; }
+        public required Address Address { get; set; }
+        public required Email Email { get; set; }
+        public required Phone Phone { get; set; }
     }
 }
