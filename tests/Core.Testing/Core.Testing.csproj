@@ -4,6 +4,7 @@
     <PackageReference Include="AutoFixture" />
     <PackageReference Include="AutoFixture.Idioms" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {
-    public readonly record struct Phone
+    public readonly partial record struct Phone
     {
         public string Number { get; }
 
@@ -20,10 +20,13 @@ namespace Domain.ValueObjects
                 return false;
 
             // Simple regex for phone number validation (international and local formats)
-            var phoneRegex = new Regex(@"^\+?[1-9]\d{1,14}$");
+            var phoneRegex = PhoneRegex();
             return phoneRegex.IsMatch(number);
         }
 
         public Phone() => throw new InvalidConstructorException();
+
+        [GeneratedRegex(@"^\+?[1-9]\d{1,14}$")]
+        private static partial Regex PhoneRegex();
     }
 }

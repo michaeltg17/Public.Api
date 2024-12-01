@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
         public Name(string value)
         {
             Value = string.IsNullOrWhiteSpace(value)
-                ? throw new ArgumentException($"Invalid name. Was: '{value}'", nameof(Value))
+                ? throw new ArgumentException($"Invalid name. Was: '{value}'", nameof(value))
                 : value;
         }
 

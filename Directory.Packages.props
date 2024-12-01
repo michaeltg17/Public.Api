@@ -14,7 +14,7 @@
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="morelinq" Version="4.3.0" />
     <PackageVersion Include="SpreadCheetah" Version="1.19.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.1.0" />
     <PackageVersion Include="SimMetrics.Net" Version="1.0.5" />
     <PackageVersion Include="Flurl" Version="4.0.0" />
     <PackageVersion Include="Dapper" Version="2.1.44" />

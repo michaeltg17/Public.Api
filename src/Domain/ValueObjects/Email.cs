@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {
-    public readonly record struct Email
+    public readonly partial record struct Email
     {
         public string Address { get; }
 
@@ -20,10 +20,13 @@ namespace Domain.ValueObjects
                 return false;
 
             // Simple regex for email validation
-            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            var emailRegex = EmailRegex();
             return emailRegex.IsMatch(email);
         }
 
         public Email() => throw new InvalidConstructorException();
+
+        [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
+        private static partial Regex EmailRegex();
     }
 }

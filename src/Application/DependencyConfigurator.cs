@@ -7,9 +7,11 @@ namespace Application
     {
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection services)
         {
-            services.AddScoped<ExcelExportService>();
-            services.AddScoped<ImageService>();
-            services.AddScoped<TestService>();
+            services
+                .AddScoped<ExcelExportService>()
+                .AddScoped<ImageService>()
+                .AddScoped<TestService>()
+                .AddScoped<CustomerService>();
 
             return services;
         }

@@ -1,12 +1,8 @@
 ﻿using ApiClient.Extensions;
 using Application.Models.Requests;
+using AutoFixture;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace IntegrationTests.Tests.Api.Endpoints.CustomerEndpoint
@@ -18,19 +14,15 @@ namespace IntegrationTests.Tests.Api.Endpoints.CustomerEndpoint
         public async Task CustomerIsCreated()
         {
             //Given
-            var request = new CreateCustomerRequest()
-            {
-
-            };
+            var request = new Fixture().Create<CreateCustomerRequest>();
 
             //When
             var response = await ApiClient.MinimalApi.CreateCustomer(request);
-            var imageGroup = await response.To<ImageGroup>();
+            var id = await response.To<long>();
 
             //Then
-            var imageGroup2 = await ApiClient.GetApiEndpoints(apiType).GetImageGroup(imageGroup.Id).To<ImageGroup>();
-            imageGroup.Should().BeEquivalentTo(imageGroup2);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
+            id.Should().Be(1);
         }
     }
 }

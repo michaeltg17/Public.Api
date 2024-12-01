@@ -2,7 +2,7 @@
 using Application.Models.Requests;
 using Application.Services;
 
-namespace Api.Endpoints.ImageGroup
+namespace Api.Endpoints.Customer
 {
     public static class CreateCustomerEndpoint
     {
