@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistence.Scaffold.Configurations
+namespace Persistence.Configurations
 {
     public class UserConfiguration : EntityConfiguration<User>
     {

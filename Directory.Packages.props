@@ -8,13 +8,13 @@
     <PackageVersion Include="EPPlus" Version="7.3.2" />
     <PackageVersion Include="FluentValidation" Version="11.11.0" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-    <PackageVersion Include="MimeMapping" Version="3.0.1" />
+    <PackageVersion Include="MimeMapping" Version="3.1.0" />
     <PackageVersion Include="MimeTypes" Version="2.5.2" />
     <PackageVersion Include="MimeTypesMap" Version="1.0.8" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="morelinq" Version="4.3.0" />
     <PackageVersion Include="SpreadCheetah" Version="1.19.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.1.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     <PackageVersion Include="SimMetrics.Net" Version="1.0.5" />
     <PackageVersion Include="Flurl" Version="4.0.0" />
     <PackageVersion Include="Dapper" Version="2.1.44" />
@@ -35,16 +35,16 @@
     <PackageVersion Include="Serilog.Sinks.InMemory" Version="0.11.0" />
     <PackageVersion Include="Serilog.Sinks.InMemory.Assertions" Version="0.11.0" />
     <PackageVersion Include="Serilog.Sinks.Map" Version="2.0.0" />
-    <PackageVersion Include="Serilog.Sinks.XUnit" Version="3.0.5" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageVersion Include="Serilog.Sinks.XUnit" Version="3.0.19" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageVersion Include="Serilog.Expressions" Version="5.0.0" />
-    <PackageVersion Include="Testcontainers.MsSql" Version="4.0.0" />
+    <PackageVersion Include="Testcontainers.MsSql" Version="4.1.0" />
     <PackageVersion Include="TxFileManager" Version="1.5.0.1" />
     <PackageVersion Include="xunit" Version="2.9.2" />
     <PackageVersion Include="Xunit.DependencyInjection" Version="9.7.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0" />
     <PackageVersion Include="AutoFixture.Xunit2" Version="4.18.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
-    <PackageVersion Include="FluentAssertions" Version="6.12.2" />
+    <PackageVersion Include="FluentAssertions" Version="7.0.0" />
   </ItemGroup>
 </Project>
