@@ -2,7 +2,9 @@
 
 [![Build Status](https://dev.azure.com/MichaelTrullasGarcia/Public/_apis/build/status%2FPublic.Api%20-%20Build?branchName=main)](https://dev.azure.com/MichaelTrullasGarcia/Public/_build/latest?definitionId=3&branchName=main)
 
-Sample API for testing/fun/learning purposes using good architecture and tests
+.NET 8, ASP.NET Core Api + Tests template of my recommended architecture for a successful, dev efficient and scalable solution. 
+
+See the new template here [dotnet-api-template](https://github.com/michaeltg17/dotnet-api-template)
 
 API:
 - ASP.NET Core
