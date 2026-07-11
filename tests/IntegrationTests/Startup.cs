@@ -27,7 +27,7 @@ namespace IntegrationTests
             var testSettings = new Dictionary<string, string?>
             {
                 {"KeepAliveDatabase", "true"},
-                {"ShouldDeployDacpac", "false"},
+                {"ShouldDeployDacpac", "true"},
                 {"EnableSqlLogging", "false"}
             };
 
