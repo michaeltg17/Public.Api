@@ -3,7 +3,7 @@
 
 .NET 8, ASP.NET Core Api + Tests template of my recommended architecture for a successful, dev efficient and scalable solution. 
 
-I'm not working anymore in this project.
+I'm not working in this project anymore.
 
 See the new template here [Template.Api](https://github.com/michaeltg17/Template.Api)
 
