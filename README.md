@@ -1,10 +1,11 @@
 # Public.Api
-
 [![Build Status](https://dev.azure.com/MichaelTrullasGarcia/Public/_apis/build/status%2FPublic.Api%20-%20Build?branchName=main)](https://dev.azure.com/MichaelTrullasGarcia/Public/_build/latest?definitionId=3&branchName=main)
 
 .NET 8, ASP.NET Core Api + Tests template of my recommended architecture for a successful, dev efficient and scalable solution. 
 
-See the new template here [dotnet-api-template](https://github.com/michaeltg17/dotnet-api-template)
+I'm not working anymore in this project.
+
+See the new template here [Template.Api](https://github.com/michaeltg17/Template.Api)
 
 API:
 - ASP.NET Core
